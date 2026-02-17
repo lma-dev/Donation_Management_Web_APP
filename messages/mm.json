@@ -1,0 +1,19 @@
+{
+  "home": {
+    "title": "Spring "
+  },
+  "auth": {
+    "login": {
+      "title": "အက်ဒမင် လော့ဂ်အင်",
+      "description": "ဆက်လက်ဆောင်ရွက်ရန် သင့်အထောက်အထားများကို ထည့်သွင်းပါ။",
+      "email": "အီးမေးလ်",
+      "emailPlaceholder": "admin@example.com",
+      "password": "စကားဝှက်",
+      "passwordPlaceholder": "စကားဝှက်ကို ထည့်သွင်းပါ",
+      "submit": "ဝင်ရောက်မည်",
+      "submitting": "ဝင်ရောက်နေသည်...",
+      "forgotPassword": "စကားဝှက် မေ့သွားပါသလား?",
+      "error": "အီးမေးလ် သို့မဟုတ် စကားဝှက် မှားယွင်းနေပါသည်။"
+    }
+  }
+}

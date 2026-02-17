@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Enums
+
+enum Role {
+  ADMIN
+  USER
+}
+
+// NextAuth Prisma Adapter compatible models
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts          Account[]
+  sessions          Session[]
+  incomingDonations IncomingDonation[]
+  fundDistributions FundDistribution[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// Domain models
+
+model Campaign {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  isActive    Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  incomingDonations    IncomingDonation[]
+  fundDistributions    FundDistribution[]
+  monthlyExchangeRates MonthlyExchangeRate[]
+}
+
+model IncomingDonation {
+  id                 String   @id @default(cuid())
+  campaignId         String
+  userId             String
+  donorName          String
+  originalAmount     Decimal
+  originalCurrency   String
+  exchangeRate       Decimal
+  convertedAmountMMK Decimal
+  note               String?
+  donatedAt          DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
+
+  @@index([campaignId])
+  @@index([userId])
+}
+
+model FundDistribution {
+  id            String   @id @default(cuid())
+  campaignId    String
+  userId        String
+  recipient     String
+  amountMMK     Decimal
+  note          String?
+  distributedAt DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id])
+  user     User     @relation(fields: [userId], references: [id])
+
+  @@index([campaignId])
+  @@index([userId])
+}
+
+model MonthlyExchangeRate {
+  id           String  @id @default(cuid())
+  campaignId   String
+  month        Int
+  year         Int
+  fromCurrency String
+  toCurrency   String
+  rate         Decimal
+
+  campaign Campaign @relation(fields: [campaignId], references: [id])
+
+  @@unique([campaignId, month, year, fromCurrency, toCurrency])
+  @@index([campaignId])
+}

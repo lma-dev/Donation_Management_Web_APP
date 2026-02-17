@@ -1,0 +1,19 @@
+{
+  "home": {
+    "title": "Spring Liberation Rose"
+  },
+  "auth": {
+    "login": {
+      "title": "管理者ログイン",
+      "description": "続行するには認証情報を入力してください。",
+      "email": "メールアドレス",
+      "emailPlaceholder": "admin@example.com",
+      "password": "パスワード",
+      "passwordPlaceholder": "パスワードを入力",
+      "submit": "ログイン",
+      "submitting": "ログイン中...",
+      "forgotPassword": "パスワードをお忘れですか？",
+      "error": "メールアドレスまたはパスワードが正しくありません。"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "home": {
+    "title": "Spring Liberation Rose"
+  },
+  "auth": {
+    "login": {
+      "title": "Admin Login",
+      "description": "Please enter your credentials to continue.",
+      "email": "Email",
+      "emailPlaceholder": "admin@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "submit": "Sign In",
+      "submitting": "Signing In...",
+      "forgotPassword": "Forgot password?",
+      "error": "Invalid email or password."
+    }
+  }
+}
