@@ -8,6 +8,7 @@ type KpiCardProps = {
   value: string;
   icon: LucideIcon;
   highlighted?: boolean;
+  className?: string;
 };
 
 export function KpiCard({
@@ -15,6 +16,7 @@ export function KpiCard({
   value,
   icon: Icon,
   highlighted,
+  className,
 }: KpiCardProps) {
   return (
     <Card>
@@ -26,7 +28,7 @@ export function KpiCard({
       </CardHeader>
       <CardContent>
         <p
-          className={`text-right text-2xl font-bold tabular-nums ${highlighted ? "text-primary" : ""}`}
+          className={`text-right text-2xl font-bold tabular-nums ${className ?? (highlighted ? "text-primary" : "")}`}
         >
           {value}
         </p>

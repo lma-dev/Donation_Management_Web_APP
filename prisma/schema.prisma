@@ -139,6 +139,69 @@ model MonthlyExchangeRate {
   @@index([campaignId])
 }
 
+// Donation Places (master data)
+
+model DonationPlace {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  note      String?
+  isActive  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  distributionRecords DistributionRecord[]
+}
+
+// Monthly Donation Overview
+
+model MonthlyOverview {
+  id           String   @id @default(cuid())
+  year         Int
+  month        Int // 1–12
+  exchangeRate Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  supporterDonations  SupporterDonation[]
+  distributionRecords DistributionRecord[]
+
+  @@unique([year, month])
+}
+
+model SupporterDonation {
+  id                String @id @default(cuid())
+  monthlyOverviewId String
+  name              String
+  amount            BigInt
+  currency          String // JPY | MMK
+  kyatAmount        BigInt
+
+  createdAt DateTime @default(now())
+
+  monthlyOverview MonthlyOverview @relation(fields: [monthlyOverviewId], references: [id], onDelete: Cascade)
+
+  @@index([monthlyOverviewId])
+}
+
+model DistributionRecord {
+  id                String  @id @default(cuid())
+  monthlyOverviewId String
+  donationPlaceId   String?
+  recipient         String
+  amountMMK         BigInt
+  remarks           String?
+
+  createdAt DateTime @default(now())
+
+  monthlyOverview MonthlyOverview @relation(fields: [monthlyOverviewId], references: [id], onDelete: Cascade)
+  donationPlace   DonationPlace?  @relation(fields: [donationPlaceId], references: [id])
+
+  @@index([monthlyOverviewId])
+  @@index([donationPlaceId])
+}
+
 // Yearly Donation Summary
 
 model YearlySummary {

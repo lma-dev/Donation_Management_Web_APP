@@ -3,6 +3,7 @@ import {
   CalendarRange,
   CalendarDays,
   Users,
+  MapPin,
   Settings,
   type LucideIcon,
 } from "lucide-react";
@@ -24,7 +25,7 @@ export const navigation: NavSection[] = [
     items: [
       {
         label: "Monthly Overview",
-        href: "/dashboard",
+        href: "/dashboard/monthly",
         icon: CalendarDays,
       },
       {
@@ -41,6 +42,11 @@ export const navigation: NavSection[] = [
         label: "User Management",
         href: "/user-management",
         icon: Users,
+      },
+      {
+        label: "Donation Places",
+        href: "/donation-place-management",
+        icon: MapPin,
       },
     ],
   },

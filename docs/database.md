@@ -89,6 +89,61 @@ erDiagram
         decimal rate
     }
 
+    DonationPlace {
+        string id PK
+        string name UK
+        string note
+        boolean isActive
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    MonthlyOverview {
+        string id PK
+        int year
+        int month
+        float exchangeRate
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    SupporterDonation {
+        string id PK
+        string monthlyOverviewId FK
+        string name
+        bigint amount
+        string currency
+        bigint kyatAmount
+        datetime createdAt
+    }
+
+    DistributionRecord {
+        string id PK
+        string monthlyOverviewId FK
+        string donationPlaceId FK
+        string recipient
+        bigint amountMMK
+        string remarks
+        datetime createdAt
+    }
+
+    YearlySummary {
+        string id PK
+        int fiscalYear UK
+        decimal totalCollected
+        decimal totalDonated
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    MonthlyRecord {
+        string id PK
+        string yearId FK
+        string month
+        decimal collectedAmount
+        decimal donatedAmount
+    }
+
     %% Auth Relationships
     User ||--o{ Account : "has many"
     User ||--o{ Session : "has many"
@@ -100,4 +155,12 @@ erDiagram
     Campaign ||--o{ IncomingDonation : "receives"
     Campaign ||--o{ FundDistribution : "distributes"
     Campaign ||--o{ MonthlyExchangeRate : "has rates"
+
+    %% Monthly Overview Relationships
+    MonthlyOverview ||--o{ SupporterDonation : "has many"
+    MonthlyOverview ||--o{ DistributionRecord : "has many"
+    DonationPlace ||--o{ DistributionRecord : "distributes to"
+
+    %% Yearly Summary Relationships
+    YearlySummary ||--o{ MonthlyRecord : "has many"
 ```
