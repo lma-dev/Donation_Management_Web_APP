@@ -28,11 +28,13 @@ function SidebarHeader({
     <div
       className={cn(
         "flex h-16 items-center border-b border-border px-4",
-        collapsed ? "justify-center" : "justify-between"
+        collapsed ? "justify-center" : "justify-between",
       )}
     >
       {!collapsed && (
-        <span className="text-lg font-bold tracking-tight">SLR</span>
+        <span className="text-lg font-bold tracking-tight">
+          Spring Liberation Rose
+        </span>
       )}
       <Button
         variant="ghost"
@@ -69,7 +71,7 @@ function DesktopSidebar({ collapsed, onToggle }: SidebarProps) {
     <aside
       className={cn(
         "hidden h-screen flex-col border-r border-border bg-sidebar text-sidebar-foreground transition-[width] duration-200 ease-in-out lg:flex",
-        collapsed ? "w-18" : "w-60"
+        collapsed ? "w-18" : "w-60",
       )}
     >
       <SidebarHeader collapsed={collapsed} onToggle={onToggle} />
@@ -87,7 +89,9 @@ function MobileSidebar({
       <SheetContent side="left" className="w-60 p-0" showCloseButton={false}>
         <SheetTitle className="sr-only">Navigation menu</SheetTitle>
         <div className="flex h-16 items-center justify-between border-b border-border px-4">
-          <span className="text-lg font-bold tracking-tight">SLR</span>
+          <span className="text-lg font-bold tracking-tight">
+            Spring Liberation Rose
+          </span>
           <Button
             variant="ghost"
             size="icon"

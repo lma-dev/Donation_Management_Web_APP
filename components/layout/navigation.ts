@@ -5,6 +5,7 @@ import {
   Users,
   MapPin,
   Settings,
+  ScrollText,
   type LucideIcon,
 } from "lucide-react";
 
@@ -53,6 +54,11 @@ export const navigation: NavSection[] = [
   {
     title: "System",
     items: [
+      {
+        label: "Activity Logs",
+        href: "/activity-logs",
+        icon: ScrollText,
+      },
       {
         label: "Application Settings",
         href: "/dashboard/settings",

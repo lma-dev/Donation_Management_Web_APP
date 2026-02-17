@@ -31,6 +31,7 @@ model User {
   sessions          Session[]
   incomingDonations IncomingDonation[]
   fundDistributions FundDistribution[]
+  activityLogs      ActivityLog[]
 }
 
 model Account {
@@ -227,4 +228,29 @@ model MonthlyRecord {
 
   @@unique([yearId, month])
   @@index([yearId])
+}
+
+// Activity Logs
+
+model ActivityLog {
+  id          String   @id @default(cuid())
+  timestamp   DateTime @default(now())
+  userId      String?
+  userName    String
+  userRole    String
+  actionType  String
+  actionLabel String
+  details     String
+  ipAddress   String?
+  status      String   @default("Success")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([timestamp])
+  @@index([actionType])
+  @@index([status])
 }
