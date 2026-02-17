@@ -138,3 +138,30 @@ model MonthlyExchangeRate {
   @@unique([campaignId, month, year, fromCurrency, toCurrency])
   @@index([campaignId])
 }
+
+// Yearly Donation Summary
+
+model YearlySummary {
+  id             String   @id @default(cuid())
+  fiscalYear     Int      @unique
+  totalCollected Decimal  @default(0)
+  totalDonated   Decimal  @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  monthlyRecords MonthlyRecord[]
+}
+
+model MonthlyRecord {
+  id              String  @id @default(cuid())
+  yearId          String
+  month           String
+  collectedAmount Decimal @default(0)
+  donatedAmount   Decimal @default(0)
+
+  yearlySummary YearlySummary @relation(fields: [yearId], references: [id], onDelete: Cascade)
+
+  @@unique([yearId, month])
+  @@index([yearId])
+}
