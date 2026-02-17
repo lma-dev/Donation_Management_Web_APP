@@ -1,8 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { PageContent } from "@/components/layout/PageContent";
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-6">
+    <PageContent
+      title="Dashboard"
+      description="Overview of donations, campaigns, and distributions."
+    >
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[
           { title: "Total Donations", value: "--" },
@@ -33,6 +37,6 @@ export default function DashboardPage() {
           </p>
         </CardContent>
       </Card>
-    </div>
+    </PageContent>
   );
 }

@@ -51,7 +51,7 @@ export function LoginForm() {
       return;
     }
 
-    router.push("/");
+    router.push("/dashboard");
     router.refresh();
   }
 
@@ -63,15 +63,12 @@ export function LoginForm() {
           <Wallet className="h-6 w-6" />
         </div>
         <h1 className="text-xl font-semibold tracking-tight">
-          Donation Tracker
+          Spring Liberation Rose
         </h1>
-        <p className="text-sm text-muted-foreground">
-          Monthly Balance Management
-        </p>
       </div>
 
       {/* Login Card */}
-      <Card className="w-full max-w-[420px] shadow-sm">
+      <Card className="w-full max-w-105 shadow-sm">
         <CardHeader className="text-center">
           <CardTitle className="text-lg">{t("title")}</CardTitle>
           <CardDescription>{t("description")}</CardDescription>
@@ -127,11 +124,7 @@ export function LoginForm() {
               </div>
             </div>
 
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isLoading}
-            >
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

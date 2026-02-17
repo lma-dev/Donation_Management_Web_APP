@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Plus, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { PageContent } from "@/components/layout/PageContent";
 import { UserSearch } from "@/components/user/UserSearch";
 import { UserTable } from "@/components/user/UserTable";
 import { UserForm } from "@/components/user/UserForm";
@@ -105,23 +106,16 @@ export default function UserManagementPage() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Page Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">
-            User Management
-          </h1>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Manage user accounts, roles, and permissions.
-          </p>
-        </div>
+    <PageContent
+      title="User Management"
+      description="Manage user accounts, roles, and permissions."
+      actions={
         <Button onClick={handleRegister} className="w-full sm:w-auto">
           <Plus />
           Register User
         </Button>
-      </div>
-
+      }
+    >
       {/* Search */}
       <UserSearch value={search} onChange={setSearch} />
 
@@ -193,6 +187,6 @@ export default function UserManagementPage() {
         user={deletingUser}
         onConfirm={handleDeleteConfirm}
       />
-    </div>
+    </PageContent>
   );
 }
