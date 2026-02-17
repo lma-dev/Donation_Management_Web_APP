@@ -162,5 +162,23 @@ erDiagram
     DonationPlace ||--o{ DistributionRecord : "distributes to"
 
     %% Yearly Summary Relationships
+    ActivityLog {
+        string id PK
+        datetime timestamp
+        string userId FK
+        string userName
+        string userRole
+        string actionType
+        string actionLabel
+        string details
+        string ipAddress
+        string status
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    %% Activity Log Relationships
+    User ||--o{ ActivityLog : "has many"
+
     YearlySummary ||--o{ MonthlyRecord : "has many"
 ```
