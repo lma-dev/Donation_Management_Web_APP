@@ -9,7 +9,11 @@
       "Bash(npm run build:*)",
       "Bash(curl:*)",
       "Bash(python3:*)",
-      "Bash(npx next build:*)"
+      "Bash(npx next build:*)",
+      "Bash(npx tsc:*)",
+      "Bash(ls:*)",
+      "Bash(npm install:*)",
+      "Bash(pnpm add:*)"
     ]
   }
 }

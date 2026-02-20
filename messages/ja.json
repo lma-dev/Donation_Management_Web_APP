@@ -15,5 +15,271 @@
       "forgotPassword": "パスワードをお忘れですか？",
       "error": "メールアドレスまたはパスワードが正しくありません。"
     }
+  },
+  "navigation": {
+    "appName": "Spring Liberation Rose",
+    "expandSidebar": "サイドバーを展開",
+    "collapseSidebar": "サイドバーを折りたたむ",
+    "openMenu": "メニューを開く",
+    "closeSidebar": "サイドバーを閉じる",
+    "navigationMenu": "ナビゲーションメニュー",
+    "toggleTheme": "テーマ切替",
+    "sections": {
+      "dashboard": "ダッシュボード",
+      "management": "管理",
+      "system": "システム"
+    },
+    "items": {
+      "dashboard": "ダッシュボード",
+      "monthlyOverview": "月次概要",
+      "yearlyOverview": "年次概要",
+      "userManagement": "ユーザー管理",
+      "donationPlaces": "寄付先",
+      "activityLogs": "アクティビティログ",
+      "applicationSettings": "アプリ設定"
+    },
+    "userMenu": {
+      "profile": "プロフィール",
+      "logout": "ログアウト"
+    }
+  },
+  "common": {
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "edit": "編集",
+    "saveChanges": "変更を保存",
+    "create": "作成",
+    "export": "エクスポート",
+    "add": "追加",
+    "total": "合計",
+    "previousPage": "前のページ",
+    "nextPage": "次のページ",
+    "showing": "{from} ～ {to} / {total} 件の{item}",
+    "somethingWentWrong": "エラーが発生しました",
+    "exportExcel": "Excelでエクスポート",
+    "exportPdf": "PDFでエクスポート",
+    "exportJson": "JSONでエクスポート",
+    "days": "日"
+  },
+  "months": {
+    "january": "1月",
+    "february": "2月",
+    "march": "3月",
+    "april": "4月",
+    "may": "5月",
+    "june": "6月",
+    "july": "7月",
+    "august": "8月",
+    "september": "9月",
+    "october": "10月",
+    "november": "11月",
+    "december": "12月"
+  },
+  "dashboard": {
+    "title": "ダッシュボード",
+    "description": "寄付、キャンペーン、配布の概要。",
+    "totalUsers": "総ユーザー数",
+    "monthlyTrend": "月別寄付推移",
+    "collected": "収集額",
+    "donated": "寄付額",
+    "distributionByPlace": "配布先別内訳",
+    "noChartData": "データがまだありません。"
+  },
+  "activityLogs": {
+    "title": "システムアクティビティログ",
+    "description": "すべての管理操作、システム更新、セキュリティイベントを監視・監査します。データは90日間保持されます。",
+    "exportCsv": "CSVエクスポート",
+    "refresh": "更新",
+    "searchPlaceholder": "ユーザー名で検索...",
+    "allUsers": "全ユーザー",
+    "allActions": "全アクション",
+    "clearAll": "すべてクリア",
+    "actionTypes": {
+      "added": "追加",
+      "updated": "更新",
+      "deleted": "削除",
+      "login": "ログイン",
+      "loginFailed": "ログイン失敗",
+      "changedPassword": "パスワード変更",
+      "export": "エクスポート",
+      "system": "システム"
+    },
+    "table": {
+      "timestamp": "日時",
+      "user": "ユーザー",
+      "action": "アクション",
+      "details": "詳細",
+      "ipAddress": "IPアドレス",
+      "status": "ステータス"
+    },
+    "empty": "アクティビティログが見つかりません",
+    "emptyDescription": "フィルターを調整するか、後ほど再確認してください。",
+    "summary": {
+      "totalLogs": "総ログ数（30日間）",
+      "criticalEvents": "重要イベント",
+      "activeUsersToday": "本日のアクティブユーザー",
+      "retentionLeft": "保持残日数"
+    }
+  },
+  "monthlyOverview": {
+    "title": "月次概要",
+    "description": "{year}年{month}の寄付概要",
+    "exchangeRate": "為替レート",
+    "jpyEquals": "1 JPY =",
+    "mmk": "MMK",
+    "createTitle": "月次概要の作成 — {year}年{month}",
+    "exchangeRateLabel": "為替レート（JPY → MMK）",
+    "exchangeRatePlaceholder": "例: 32.5",
+    "carryOverLabel": "繰越金（MMK）",
+    "previousBalance": "前月の残高: {amount} MMK",
+    "createOverview": "概要を作成",
+    "kpi": {
+      "carryOver": "繰越金",
+      "totalCollected": "総集金額",
+      "totalDonated": "総寄付額",
+      "remainingBalance": "残高"
+    },
+    "supporters": {
+      "title": "支援者からの寄付",
+      "addEntry": "エントリー追加",
+      "name": "名前",
+      "amount": "金額",
+      "currency": "通貨",
+      "kyats": "チャット（MMK）",
+      "empty": "支援者の寄付はまだありません",
+      "dialogTitle": "支援者寄付の追加",
+      "dialogDescription": "支援者からの新しい寄付エントリーを追加します。",
+      "kyatAmount": "チャット金額（MMK）",
+      "addDonation": "寄付を追加"
+    },
+    "distribution": {
+      "title": "寄付配布",
+      "addEntry": "エントリー追加",
+      "place": "配布先",
+      "amountMmk": "金額（MMK）",
+      "remarks": "備考",
+      "empty": "配布記録はまだありません",
+      "dialogTitle": "配布記録の追加",
+      "dialogDescription": "受取先への寄付配布を記録します。",
+      "donationPlace": "寄付先",
+      "selectPlace": "寄付先を選択...",
+      "searchPlaces": "寄付先を検索...",
+      "noPlaceFound": "寄付先が見つかりません。",
+      "remarksOptional": "備考（任意）",
+      "remarksPlaceholder": "任意のメモ",
+      "addDistribution": "配布を追加"
+    }
+  },
+  "yearlyOverview": {
+    "title": "年次概要",
+    "description": "{year}年度の寄付サマリー",
+    "empty": "年次データがありません。まず月次概要データを追加してください。",
+    "fy": "FY {year}",
+    "kpi": {
+      "totalCollected": "総集金額",
+      "totalDonated": "総寄付額",
+      "remainingBalance": "残高"
+    },
+    "breakdown": {
+      "title": "月別内訳",
+      "month": "月",
+      "collected": "集金額",
+      "donated": "寄付額",
+      "balance": "残高",
+      "annualTotal": "年間合計"
+    }
+  },
+  "donationPlaces": {
+    "title": "寄付先",
+    "description": "配布記録用の寄付先を管理します。",
+    "addPlace": "寄付先を追加",
+    "searchPlaceholder": "寄付先を検索...",
+    "table": {
+      "name": "名前",
+      "note": "メモ",
+      "status": "ステータス",
+      "updated": "更新日",
+      "actions": "操作"
+    },
+    "active": "有効",
+    "inactive": "無効",
+    "empty": "寄付先が見つかりません",
+    "emptyDescription": "新しい寄付先を追加して始めましょう。",
+    "form": {
+      "addTitle": "寄付先の追加",
+      "editTitle": "寄付先の編集",
+      "addDescription": "新しい寄付先の詳細を入力してください。",
+      "editDescription": "寄付先の詳細を更新してください。",
+      "nameLabel": "名前",
+      "namePlaceholder": "場所名を入力",
+      "noteLabel": "メモ",
+      "notePlaceholder": "任意のメモ",
+      "activeLabel": "有効"
+    },
+    "deleteTitle": "寄付先を削除しますか？",
+    "deleteDescription": "{name} を完全に削除します。この操作は取り消せません。"
+  },
+  "userManagement": {
+    "title": "ユーザー管理",
+    "description": "ユーザーアカウント、役割、権限を管理します。",
+    "registerUser": "ユーザー登録",
+    "searchPlaceholder": "ユーザーを検索...",
+    "table": {
+      "name": "名前",
+      "email": "メール",
+      "role": "役割",
+      "memberSince": "登録日",
+      "actions": "操作"
+    },
+    "empty": "ユーザーが見つかりません",
+    "emptyDescription": "新しいユーザーを登録して始めましょう。",
+    "form": {
+      "registerTitle": "ユーザー登録",
+      "updateTitle": "ユーザー更新",
+      "registerDescription": "新しいユーザーの詳細を入力してください。",
+      "updateDescription": "ユーザーの詳細を更新してください。",
+      "nameLabel": "名前",
+      "namePlaceholder": "フルネームを入力",
+      "emailLabel": "メールアドレス",
+      "emailPlaceholder": "user@gmail.com",
+      "memberSinceLabel": "登録日",
+      "passwordLabel": "パスワード",
+      "passwordPlaceholderNew": "パスワードを入力",
+      "passwordPlaceholderEdit": "変更しない場合は空白",
+      "showPassword": "パスワードを表示",
+      "hidePassword": "パスワードを非表示",
+      "confirmPasswordLabel": "パスワード確認",
+      "confirmPasswordPlaceholder": "パスワードを再入力",
+      "passwordsMatch": "パスワードが一致しています",
+      "passwordsMismatch": "パスワードが一致しません"
+    },
+    "deleteTitle": "ユーザーを削除しますか？",
+    "deleteDescription": "{name} を完全に削除します。この操作は取り消せません。",
+    "passwordRules": {
+      "minLength": "8文字以上",
+      "hasUppercase": "大文字1つ以上",
+      "hasLowercase": "小文字1つ以上",
+      "hasNumber": "数字1つ以上",
+      "hasSpecialChar": "特殊文字1つ以上"
+    }
+  },
+  "profile": {
+    "title": "プロフィール",
+    "description": "あなたのアカウント情報。",
+    "unnamedUser": "名前未設定",
+    "email": "メールアドレス",
+    "role": "役割",
+    "memberSince": "登録日"
+  },
+  "settings": {
+    "title": "アプリ設定",
+    "description": "アプリケーションの設定を変更します。",
+    "language": {
+      "title": "言語",
+      "description": "インターフェースの表示言語を選択してください。",
+      "en": "English",
+      "ja": "日本語",
+      "mm": "မြန်မာ"
+    }
   }
 }

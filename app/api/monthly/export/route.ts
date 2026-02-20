@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateMonthlyExportFile } from "@/features/monthly-overview/export";
 import { MonthlyOverviewError } from "@/features/monthly-overview/error";
+import { logAction } from "@/lib/activity-log";
 
 export async function GET(request: NextRequest) {
   try {
@@ -10,6 +11,12 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get("type");
 
     const result = await generateMonthlyExportFile({ year, month, type });
+
+    await logAction({
+      actionType: "Export",
+      actionLabel: "Monthly Data Exported",
+      details: `Exported monthly data for ${year}-${month} as ${type?.toUpperCase() ?? "file"}`,
+    });
 
     return new NextResponse(new Uint8Array(result.buffer), {
       status: 200,

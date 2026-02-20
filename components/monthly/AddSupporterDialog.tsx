@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import {
   Dialog,
@@ -33,6 +34,8 @@ export function AddSupporterDialog({
   exchangeRate,
   onSubmit,
 }: AddSupporterDialogProps) {
+  const t = useTranslations("monthlyOverview.supporters");
+  const tc = useTranslations("common");
   const { data: session } = useSession();
   const userName = session?.user?.name ?? "";
   const [name, setName] = useState(userName);
@@ -79,14 +82,14 @@ export function AddSupporterDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Add Supporter Donation</DialogTitle>
+          <DialogTitle>{t("dialogTitle")}</DialogTitle>
           <DialogDescription>
-            Add a new donation entry from a supporter.
+            {t("dialogDescription")}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="supporter-name">Name</Label>
+            <Label htmlFor="supporter-name">{t("name")}</Label>
             <Input
               id="supporter-name"
               value={name}
@@ -95,7 +98,7 @@ export function AddSupporterDialog({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="supporter-amount">Amount</Label>
+            <Label htmlFor="supporter-amount">{t("amount")}</Label>
             <Input
               id="supporter-amount"
               type="number"
@@ -107,7 +110,7 @@ export function AddSupporterDialog({
             />
           </div>
           <div className="space-y-2">
-            <Label>Currency</Label>
+            <Label>{t("currency")}</Label>
             <div className="flex gap-2">
               <Button
                 type="button"
@@ -129,7 +132,7 @@ export function AddSupporterDialog({
           </div>
           <div className="bg-muted rounded-md p-3">
             <div className="text-muted-foreground flex items-center justify-between text-sm">
-              <span>Kyat Amount (MMK)</span>
+              <span>{t("kyatAmount")}</span>
               <span className="text-foreground text-lg font-semibold tabular-nums">
                 {new Intl.NumberFormat("en-US").format(kyatPreview)}
               </span>
@@ -148,14 +151,14 @@ export function AddSupporterDialog({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              {tc("cancel")}
             </Button>
             <Button
               type="submit"
               disabled={isSubmitting || !name.trim() || numericAmount <= 0}
             >
               {isSubmitting && <Loader2 className="size-4 animate-spin" />}
-              Add Donation
+              {t("addDonation")}
             </Button>
           </DialogFooter>
         </form>

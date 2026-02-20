@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import {
   ArrowDownToLine,
   ArrowUpFromLine,
@@ -25,28 +26,29 @@ export function MonthlyKpiCards({
   totalDonated,
   remainingBalance,
 }: MonthlyKpiCardsProps) {
+  const t = useTranslations("monthlyOverview.kpi");
   const balance = Number(remainingBalance);
   const isNegative = balance < 0;
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <KpiCard
-        title="Carry Over"
+        title={t("carryOver")}
         value={formatCurrency(carryOver)}
         icon={CalendarArrowDown}
       />
       <KpiCard
-        title="Total Collected"
+        title={t("totalCollected")}
         value={formatCurrency(totalCollected)}
         icon={ArrowDownToLine}
       />
       <KpiCard
-        title="Total Donated"
+        title={t("totalDonated")}
         value={formatCurrency(totalDonated)}
         icon={ArrowUpFromLine}
       />
       <KpiCard
-        title="Remaining Balance"
+        title={t("remainingBalance")}
         value={formatCurrency(remainingBalance)}
         icon={Wallet}
         highlighted

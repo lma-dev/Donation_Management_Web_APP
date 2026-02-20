@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import { SidebarItem } from "./SidebarItem";
 import type { NavSection } from "./navigation";
@@ -10,6 +11,8 @@ type SidebarSectionProps = {
 };
 
 export function SidebarSection({ section, collapsed }: SidebarSectionProps) {
+  const t = useTranslations("navigation");
+
   return (
     <div className="space-y-1">
       <p
@@ -18,7 +21,7 @@ export function SidebarSection({ section, collapsed }: SidebarSectionProps) {
           collapsed && "sr-only"
         )}
       >
-        {section.title}
+        {t(section.titleKey)}
       </p>
       <div className="space-y-0.5">
         {section.items.map((item) => (

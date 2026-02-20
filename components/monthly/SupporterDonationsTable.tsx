@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import {
   Table,
   TableBody,
@@ -29,23 +30,26 @@ export function SupporterDonationsTable({
   totalCollected,
   onAddClick,
 }: SupporterDonationsTableProps) {
+  const t = useTranslations("monthlyOverview.supporters");
+  const tc = useTranslations("common");
+
   return (
     <Card className="gap-0 py-0">
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Donations from Supporters</CardTitle>
+        <CardTitle>{t("title")}</CardTitle>
         <Button size="sm" onClick={onAddClick} className="gap-1">
           <Plus className="size-4" />
-          Add Entry
+          {t("addEntry")}
         </Button>
       </CardHeader>
       <CardContent className="p-0">
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead className="w-[200px]">Name</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
-              <TableHead className="text-center">Currency</TableHead>
-              <TableHead className="text-right">Kyats (MMK)</TableHead>
+              <TableHead className="w-[200px]">{t("name")}</TableHead>
+              <TableHead className="text-right">{t("amount")}</TableHead>
+              <TableHead className="text-center">{t("currency")}</TableHead>
+              <TableHead className="text-right">{t("kyats")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -55,7 +59,7 @@ export function SupporterDonationsTable({
                   colSpan={4}
                   className="text-muted-foreground text-center"
                 >
-                  No supporter donations yet
+                  {t("empty")}
                 </TableCell>
               </TableRow>
             ) : (
@@ -77,7 +81,7 @@ export function SupporterDonationsTable({
             <TableFooter>
               <TableRow>
                 <TableCell colSpan={3} className="font-bold">
-                  Total
+                  {tc("total")}
                 </TableCell>
                 <TableCell className="text-right font-bold tabular-nums">
                   {formatAmount(totalCollected)}

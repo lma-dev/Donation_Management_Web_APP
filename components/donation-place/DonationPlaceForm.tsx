@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { CircleAlert, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,6 +30,8 @@ export function DonationPlaceForm({
   place,
   onSubmit,
 }: DonationPlaceFormProps) {
+  const t = useTranslations("donationPlaces.form");
+  const tc = useTranslations("common");
   const isEditing = place !== null;
 
   const [name, setName] = useState("");
@@ -59,7 +62,7 @@ export function DonationPlaceForm({
         isActive,
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
+      setError(err instanceof Error ? err.message : tc("somethingWentWrong"));
     } finally {
       setSubmitting(false);
     }
@@ -70,23 +73,23 @@ export function DonationPlaceForm({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? "Edit Donation Place" : "Add Donation Place"}
+            {isEditing ? t("editTitle") : t("addTitle")}
           </DialogTitle>
           <DialogDescription>
             {isEditing
-              ? "Update the donation place details below."
-              : "Fill in the details to add a new donation place."}
+              ? t("editDescription")
+              : t("addDescription")}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="place-name">
-              Name <span className="text-destructive">*</span>
+              {t("nameLabel")} <span className="text-destructive">*</span>
             </Label>
             <Input
               id="place-name"
-              placeholder="Enter place name"
+              placeholder={t("namePlaceholder")}
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -94,10 +97,10 @@ export function DonationPlaceForm({
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="place-note">Note</Label>
+            <Label htmlFor="place-note">{t("noteLabel")}</Label>
             <Input
               id="place-note"
-              placeholder="Optional note"
+              placeholder={t("notePlaceholder")}
               value={note}
               onChange={(e) => setNote(e.target.value)}
             />
@@ -112,7 +115,7 @@ export function DonationPlaceForm({
               className="accent-primary size-4 rounded"
             />
             <Label htmlFor="place-active" className="cursor-pointer">
-              Active
+              {t("activeLabel")}
             </Label>
           </div>
 
@@ -130,11 +133,11 @@ export function DonationPlaceForm({
               onClick={() => onOpenChange(false)}
               disabled={submitting}
             >
-              Cancel
+              {tc("cancel")}
             </Button>
             <Button type="submit" disabled={submitting}>
               {submitting && <Loader2 className="animate-spin" />}
-              {isEditing ? "Save Changes" : "Create"}
+              {isEditing ? tc("saveChanges") : tc("create")}
             </Button>
           </DialogFooter>
         </form>

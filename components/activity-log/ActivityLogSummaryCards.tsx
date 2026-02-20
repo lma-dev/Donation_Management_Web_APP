@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { FileText, AlertTriangle, Users, Clock } from "lucide-react";
 import { KpiCard } from "@/components/yearly/KpiCard";
 import type { ActivityLogSummary } from "@/features/activity-log/types";
@@ -13,6 +14,8 @@ export function ActivityLogSummaryCards({
   summary,
   isLoading,
 }: ActivityLogSummaryCardsProps) {
+  const t = useTranslations("activityLogs.summary");
+  const tc = useTranslations("common");
   if (isLoading || !summary) {
     return (
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -29,25 +32,25 @@ export function ActivityLogSummaryCards({
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       <KpiCard
-        title="Total Logs (30 days)"
+        title={t("totalLogs")}
         value={summary.totalLogs30Days.toLocaleString()}
         icon={FileText}
       />
       <KpiCard
-        title="Critical Events"
+        title={t("criticalEvents")}
         value={summary.criticalEvents.toLocaleString()}
         icon={AlertTriangle}
         highlighted={summary.criticalEvents > 0}
         className={summary.criticalEvents > 0 ? "text-red-600 dark:text-red-400" : ""}
       />
       <KpiCard
-        title="Active Users Today"
+        title={t("activeUsersToday")}
         value={summary.activeUsersToday.toLocaleString()}
         icon={Users}
       />
       <KpiCard
-        title="Retention Left"
-        value={`${summary.retentionDaysLeft} days`}
+        title={t("retentionLeft")}
+        value={`${summary.retentionDaysLeft} ${tc("days")}`}
         icon={Clock}
       />
     </div>

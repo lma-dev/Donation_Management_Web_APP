@@ -15,5 +15,271 @@
       "forgotPassword": "Forgot password?",
       "error": "Invalid email or password."
     }
+  },
+  "navigation": {
+    "appName": "Spring Liberation Rose",
+    "expandSidebar": "Expand sidebar",
+    "collapseSidebar": "Collapse sidebar",
+    "openMenu": "Open menu",
+    "closeSidebar": "Close sidebar",
+    "navigationMenu": "Navigation menu",
+    "toggleTheme": "Toggle theme",
+    "sections": {
+      "dashboard": "Dashboard",
+      "management": "Management",
+      "system": "System"
+    },
+    "items": {
+      "dashboard": "Dashboard",
+      "monthlyOverview": "Monthly Overview",
+      "yearlyOverview": "Yearly Overview",
+      "userManagement": "User Management",
+      "donationPlaces": "Donation Places",
+      "activityLogs": "Activity Logs",
+      "applicationSettings": "Application Settings"
+    },
+    "userMenu": {
+      "profile": "Profile",
+      "logout": "Logout"
+    }
+  },
+  "common": {
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "saveChanges": "Save Changes",
+    "create": "Create",
+    "export": "Export",
+    "add": "Add",
+    "total": "Total",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "showing": "Showing {from} to {to} of {total} {item}",
+    "somethingWentWrong": "Something went wrong",
+    "exportExcel": "Export as Excel",
+    "exportPdf": "Export as PDF",
+    "exportJson": "Export as JSON",
+    "days": "days"
+  },
+  "months": {
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "description": "Overview of donations, campaigns, and distributions.",
+    "totalUsers": "Total Users",
+    "monthlyTrend": "Monthly Donation Trend",
+    "collected": "Collected",
+    "donated": "Donated",
+    "distributionByPlace": "Distribution by Place",
+    "noChartData": "No data available yet."
+  },
+  "activityLogs": {
+    "title": "System Activity Logs",
+    "description": "Monitor and audit all administrative actions, system updates, and security events. Data is retained for 90 days.",
+    "exportCsv": "Export CSV",
+    "refresh": "Refresh",
+    "searchPlaceholder": "Search by user name...",
+    "allUsers": "All Users",
+    "allActions": "All Actions",
+    "clearAll": "Clear All",
+    "actionTypes": {
+      "added": "Added",
+      "updated": "Updated",
+      "deleted": "Deleted",
+      "login": "Login",
+      "loginFailed": "Login Failed",
+      "changedPassword": "Changed Password",
+      "export": "Export",
+      "system": "System"
+    },
+    "table": {
+      "timestamp": "Timestamp",
+      "user": "User",
+      "action": "Action",
+      "details": "Details",
+      "ipAddress": "IP Address",
+      "status": "Status"
+    },
+    "empty": "No activity logs found",
+    "emptyDescription": "Try adjusting your filters or check back later.",
+    "summary": {
+      "totalLogs": "Total Logs (30 days)",
+      "criticalEvents": "Critical Events",
+      "activeUsersToday": "Active Users Today",
+      "retentionLeft": "Retention Left"
+    }
+  },
+  "monthlyOverview": {
+    "title": "Monthly Overview",
+    "description": "Donation overview for {month} {year}",
+    "exchangeRate": "Exchange Rate",
+    "jpyEquals": "1 JPY =",
+    "mmk": "MMK",
+    "createTitle": "Create Monthly Overview — {month} {year}",
+    "exchangeRateLabel": "Exchange Rate (JPY to MMK)",
+    "exchangeRatePlaceholder": "e.g. 32.5",
+    "carryOverLabel": "Carry Over (MMK)",
+    "previousBalance": "Previous month remaining balance: {amount} MMK",
+    "createOverview": "Create Overview",
+    "kpi": {
+      "carryOver": "Carry Over",
+      "totalCollected": "Total Collected",
+      "totalDonated": "Total Donated",
+      "remainingBalance": "Remaining Balance"
+    },
+    "supporters": {
+      "title": "Donations from Supporters",
+      "addEntry": "Add Entry",
+      "name": "Name",
+      "amount": "Amount",
+      "currency": "Currency",
+      "kyats": "Kyats (MMK)",
+      "empty": "No supporter donations yet",
+      "dialogTitle": "Add Supporter Donation",
+      "dialogDescription": "Add a new donation entry from a supporter.",
+      "kyatAmount": "Kyat Amount (MMK)",
+      "addDonation": "Add Donation"
+    },
+    "distribution": {
+      "title": "Donation Distribution",
+      "addEntry": "Add Entry",
+      "place": "Place",
+      "amountMmk": "Amount (MMK)",
+      "remarks": "Remarks",
+      "empty": "No distribution records yet",
+      "dialogTitle": "Add Distribution Record",
+      "dialogDescription": "Record a donation distribution to a recipient.",
+      "donationPlace": "Donation Place",
+      "selectPlace": "Select a donation place...",
+      "searchPlaces": "Search donation places...",
+      "noPlaceFound": "No donation place found.",
+      "remarksOptional": "Remarks (optional)",
+      "remarksPlaceholder": "Optional notes",
+      "addDistribution": "Add Distribution"
+    }
+  },
+  "yearlyOverview": {
+    "title": "Yearly Overview",
+    "description": "Donation summary for fiscal year {year}",
+    "empty": "No yearly data available. Add monthly overview data to get started.",
+    "fy": "FY {year}",
+    "kpi": {
+      "totalCollected": "Total Collected",
+      "totalDonated": "Total Donated",
+      "remainingBalance": "Remaining Balance"
+    },
+    "breakdown": {
+      "title": "Monthly Breakdown",
+      "month": "Month",
+      "collected": "Collected",
+      "donated": "Donated",
+      "balance": "Balance",
+      "annualTotal": "Annual Total"
+    }
+  },
+  "donationPlaces": {
+    "title": "Donation Places",
+    "description": "Manage donation places for distribution records.",
+    "addPlace": "Add Place",
+    "searchPlaceholder": "Search donation places...",
+    "table": {
+      "name": "Name",
+      "note": "Note",
+      "status": "Status",
+      "updated": "Updated",
+      "actions": "Actions"
+    },
+    "active": "Active",
+    "inactive": "Inactive",
+    "empty": "No donation places found",
+    "emptyDescription": "Get started by adding a new donation place.",
+    "form": {
+      "addTitle": "Add Donation Place",
+      "editTitle": "Edit Donation Place",
+      "addDescription": "Fill in the details to add a new donation place.",
+      "editDescription": "Update the donation place details below.",
+      "nameLabel": "Name",
+      "namePlaceholder": "Enter place name",
+      "noteLabel": "Note",
+      "notePlaceholder": "Optional note",
+      "activeLabel": "Active"
+    },
+    "deleteTitle": "Delete Donation Place?",
+    "deleteDescription": "This will permanently delete {name}. This action cannot be undone."
+  },
+  "userManagement": {
+    "title": "User Management",
+    "description": "Manage user accounts, roles, and permissions.",
+    "registerUser": "Register User",
+    "searchPlaceholder": "Search users...",
+    "table": {
+      "name": "Name",
+      "email": "Gmail",
+      "role": "Role",
+      "memberSince": "Member Since",
+      "actions": "Actions"
+    },
+    "empty": "No users found",
+    "emptyDescription": "Get started by registering a new user.",
+    "form": {
+      "registerTitle": "Register User",
+      "updateTitle": "Update User",
+      "registerDescription": "Fill in the details to register a new user.",
+      "updateDescription": "Update the user details below.",
+      "nameLabel": "Name",
+      "namePlaceholder": "Enter full name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "user@gmail.com",
+      "memberSinceLabel": "Member Since",
+      "passwordLabel": "Password",
+      "passwordPlaceholderNew": "Enter password",
+      "passwordPlaceholderEdit": "Leave blank to keep current",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "confirmPasswordLabel": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm password",
+      "passwordsMatch": "Passwords match",
+      "passwordsMismatch": "Passwords do not match"
+    },
+    "deleteTitle": "Delete User?",
+    "deleteDescription": "This will permanently delete {name}. This action cannot be undone.",
+    "passwordRules": {
+      "minLength": "At least 8 characters",
+      "hasUppercase": "One uppercase letter",
+      "hasLowercase": "One lowercase letter",
+      "hasNumber": "One number",
+      "hasSpecialChar": "One special character"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "description": "Your account information.",
+    "unnamedUser": "Unnamed User",
+    "email": "Email",
+    "role": "Role",
+    "memberSince": "Member Since"
+  },
+  "settings": {
+    "title": "Application Settings",
+    "description": "Configure application preferences.",
+    "language": {
+      "title": "Language",
+      "description": "Select your preferred language for the interface.",
+      "en": "English",
+      "ja": "日本語",
+      "mm": "မြန်မာ"
+    }
   }
 }

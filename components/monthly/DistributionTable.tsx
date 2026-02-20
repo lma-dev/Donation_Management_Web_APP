@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import {
   Table,
   TableBody,
@@ -29,22 +30,25 @@ export function DistributionTable({
   totalDonated,
   onAddClick,
 }: DistributionTableProps) {
+  const t = useTranslations("monthlyOverview.distribution");
+  const tc = useTranslations("common");
+
   return (
     <Card className="gap-0 py-0">
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>Donation Distribution</CardTitle>
+        <CardTitle>{t("title")}</CardTitle>
         <Button size="sm" onClick={onAddClick} className="gap-1">
           <Plus className="size-4" />
-          Add Entry
+          {t("addEntry")}
         </Button>
       </CardHeader>
       <CardContent className="p-0">
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead className="w-[200px]">Recipient</TableHead>
-              <TableHead className="text-right">Amount (MMK)</TableHead>
-              <TableHead>Remarks</TableHead>
+              <TableHead className="w-50">{t("place")}</TableHead>
+              <TableHead className="text-right">{t("amountMmk")}</TableHead>
+              <TableHead>{t("remarks")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -54,7 +58,7 @@ export function DistributionTable({
                   colSpan={3}
                   className="text-muted-foreground text-center"
                 >
-                  No distribution records yet
+                  {t("empty")}
                 </TableCell>
               </TableRow>
             ) : (
@@ -64,7 +68,10 @@ export function DistributionTable({
                   <TableCell className="text-right tabular-nums">
                     {formatAmount(d.amountMMK)}
                   </TableCell>
-                  <TableCell className="text-muted-foreground">
+                  <TableCell
+                    className="text-muted-foreground max-w-50 truncate"
+                    title={d.remarks ?? undefined}
+                  >
                     {d.remarks ?? "—"}
                   </TableCell>
                 </TableRow>
@@ -74,7 +81,7 @@ export function DistributionTable({
           {distributions.length > 0 && (
             <TableFooter>
               <TableRow>
-                <TableCell className="font-bold">Total</TableCell>
+                <TableCell className="font-bold">{tc("total")}</TableCell>
                 <TableCell className="text-right font-bold tabular-nums">
                   {formatAmount(totalDonated)}
                 </TableCell>

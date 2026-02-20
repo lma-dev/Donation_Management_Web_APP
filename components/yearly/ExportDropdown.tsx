@@ -14,6 +14,7 @@ import {
   FileJson,
   Loader2,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type ExportDropdownProps = {
   onExport: (type: "excel" | "pdf" | "json") => void;
@@ -21,6 +22,8 @@ type ExportDropdownProps = {
 };
 
 export function ExportDropdown({ onExport, isExporting }: ExportDropdownProps) {
+  const t = useTranslations("common");
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -30,21 +33,21 @@ export function ExportDropdown({ onExport, isExporting }: ExportDropdownProps) {
           ) : (
             <Download className="size-4" />
           )}
-          Export
+          {t("export")}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => onExport("excel")}>
           <FileSpreadsheet className="size-4" />
-          Export as Excel
+          {t("exportExcel")}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => onExport("pdf")}>
           <FileText className="size-4" />
-          Export as PDF
+          {t("exportPdf")}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => onExport("json")}>
           <FileJson className="size-4" />
-          Export as JSON
+          {t("exportJson")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -12,10 +12,23 @@ export async function fetchMonthlyOverview(
   return res.json();
 }
 
+export async function fetchPreviousMonthBalance(
+  year: number,
+  month: number,
+): Promise<string> {
+  const res = await fetch(
+    `/api/monthly/previous-balance?year=${year}&month=${month}`,
+  );
+  if (!res.ok) return "0";
+  const data = await res.json();
+  return data.balance ?? "0";
+}
+
 export async function createMonthlyOverview(data: {
   year: number;
   month: number;
   exchangeRate: number;
+  carryOver: number;
 }) {
   const res = await fetch("/api/monthly", {
     method: "POST",

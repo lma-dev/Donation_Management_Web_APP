@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateExportFile } from "@/features/yearly-summary/export";
 import { YearlySummaryError } from "@/features/yearly-summary/error";
+import { logAction } from "@/lib/activity-log";
 
 export async function GET(request: NextRequest) {
   try {
@@ -9,6 +10,12 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get("type");
 
     const result = await generateExportFile({ year, type });
+
+    await logAction({
+      actionType: "Export",
+      actionLabel: "Yearly Data Exported",
+      details: `Exported yearly summary for ${year} as ${type?.toUpperCase() ?? "file"}`,
+    });
 
     return new NextResponse(new Uint8Array(result.buffer), {
       status: 200,

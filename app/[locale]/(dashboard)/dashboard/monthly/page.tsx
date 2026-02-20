@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Loader2 } from "lucide-react";
 import { PageContent } from "@/components/layout/PageContent";
 import { MonthSelector } from "@/components/monthly/MonthSelector";
@@ -16,23 +17,25 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-const MONTH_NAMES = [
+const MONTH_KEYS = [
   "",
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
+] as const;
 
 export default function MonthlyOverviewPage() {
+  const t = useTranslations("monthlyOverview");
+  const tm = useTranslations("months");
   const {
     selectedYear,
     setSelectedYear,
@@ -42,6 +45,7 @@ export default function MonthlyOverviewPage() {
     isLoading,
     error,
     isNotFound,
+    previousBalance,
     handleCreateOverview,
     handleAddSupporter,
     handleAddDistribution,
@@ -52,12 +56,13 @@ export default function MonthlyOverviewPage() {
   const [supporterDialogOpen, setSupporterDialogOpen] = useState(false);
   const [distributionDialogOpen, setDistributionDialogOpen] = useState(false);
 
-  const monthName = MONTH_NAMES[selectedMonth] ?? "";
+  const monthKey = MONTH_KEYS[selectedMonth] ?? "";
+  const monthName = monthKey ? tm(monthKey) : "";
 
   return (
     <PageContent
-      title="Monthly Overview"
-      description={`Donation overview for ${monthName} ${selectedYear}`}
+      title={t("title")}
+      description={t("description", { month: monthName, year: selectedYear })}
       actions={
         <div className="flex items-center gap-2">
           <MonthSelector
@@ -83,6 +88,7 @@ export default function MonthlyOverviewPage() {
         <CreateMonthlyForm
           year={selectedYear}
           month={selectedMonth}
+          previousBalance={previousBalance}
           onSubmit={handleCreateOverview}
         />
       ) : error ? (
@@ -95,13 +101,13 @@ export default function MonthlyOverviewPage() {
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium">
-                Exchange Rate
+                {t("exchangeRate")}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex items-center gap-2">
                 <Label className="text-muted-foreground shrink-0 text-sm">
-                  1 JPY =
+                  {t("jpyEquals")}
                 </Label>
                 <Input
                   type="number"
@@ -109,7 +115,7 @@ export default function MonthlyOverviewPage() {
                   readOnly
                   className="w-32"
                 />
-                <span className="text-muted-foreground text-sm">MMK</span>
+                <span className="text-muted-foreground text-sm">{t("mmk")}</span>
               </div>
             </CardContent>
           </Card>

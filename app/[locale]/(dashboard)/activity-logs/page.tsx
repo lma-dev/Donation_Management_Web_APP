@@ -1,10 +1,10 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Download, RefreshCw, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageContent } from "@/components/layout/PageContent";
-import { ActivityLogSearch } from "@/components/activity-log/ActivityLogSearch";
 import { ActivityLogFilters } from "@/components/activity-log/ActivityLogFilters";
 import { ActivityLogTable } from "@/components/activity-log/ActivityLogTable";
 import { ActivityLogSummaryCards } from "@/components/activity-log/ActivityLogSummaryCards";
@@ -13,6 +13,8 @@ import { exportActivityLogsCsv } from "@/features/activity-log/api-client";
 import { PAGE_SIZE } from "@/features/activity-log/atoms";
 
 export default function ActivityLogsPage() {
+  const t = useTranslations("activityLogs");
+  const tc = useTranslations("common");
   const {
     logs,
     total,
@@ -45,8 +47,8 @@ export default function ActivityLogsPage() {
 
   return (
     <PageContent
-      title="System Activity Logs"
-      description="Monitor and audit all administrative actions, system updates, and security events. Data is retained for 90 days."
+      title={t("title")}
+      description={t("description")}
       actions={
         <div className="flex items-center gap-2">
           <Button
@@ -55,28 +57,27 @@ export default function ActivityLogsPage() {
             onClick={() => exportActivityLogsCsv(exportParams)}
           >
             <Download className="mr-1 size-4" />
-            Export CSV
+            {t("exportCsv")}
           </Button>
           <Button variant="outline" size="sm" onClick={refetch}>
             <RefreshCw className="mr-1 size-4" />
-            Refresh
+            {t("refresh")}
           </Button>
         </div>
       }
     >
       {/* Filters */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <ActivityLogSearch value={search} onChange={setSearch} />
-        <ActivityLogFilters
-          dateFrom={dateFrom}
-          dateTo={dateTo}
-          actionType={actionType}
-          onDateFromChange={setDateFrom}
-          onDateToChange={setDateTo}
-          onActionTypeChange={setActionType}
-          onClearAll={clearFilters}
-        />
-      </div>
+      <ActivityLogFilters
+        userName={search}
+        dateFrom={dateFrom}
+        dateTo={dateTo}
+        actionType={actionType}
+        onUserNameChange={setSearch}
+        onDateFromChange={setDateFrom}
+        onDateToChange={setDateTo}
+        onActionTypeChange={setActionType}
+        onClearAll={clearFilters}
+      />
 
       {/* Table Card */}
       <Card className="gap-0 py-0">
@@ -88,17 +89,12 @@ export default function ActivityLogsPage() {
         {total > PAGE_SIZE && (
           <div className="flex items-center justify-between border-t px-4 py-3 sm:px-6">
             <p className="text-muted-foreground text-sm">
-              Showing{" "}
-              <span className="text-foreground font-medium">
-                {(page - 1) * PAGE_SIZE + 1}
-              </span>{" "}
-              to{" "}
-              <span className="text-foreground font-medium">
-                {Math.min(page * PAGE_SIZE, total)}
-              </span>{" "}
-              of{" "}
-              <span className="text-foreground font-medium">{total}</span>{" "}
-              logs
+              {tc("showing", {
+                from: (page - 1) * PAGE_SIZE + 1,
+                to: Math.min(page * PAGE_SIZE, total),
+                total,
+                item: "logs",
+              })}
             </p>
             <div className="flex items-center gap-1">
               <Button
@@ -108,7 +104,7 @@ export default function ActivityLogsPage() {
                 onClick={() => setPage((p) => p - 1)}
               >
                 <ChevronLeft />
-                <span className="sr-only">Previous page</span>
+                <span className="sr-only">{tc("previousPage")}</span>
               </Button>
               <Button
                 variant="outline"
@@ -117,7 +113,7 @@ export default function ActivityLogsPage() {
                 onClick={() => setPage((p) => p + 1)}
               >
                 <ChevronRight />
-                <span className="sr-only">Next page</span>
+                <span className="sr-only">{tc("nextPage")}</span>
               </Button>
             </div>
           </div>

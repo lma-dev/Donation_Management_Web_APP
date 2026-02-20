@@ -16,6 +16,16 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
+          await prisma.activityLog.create({
+            data: {
+              userName: credentials?.email ?? "Unknown",
+              userRole: "Unknown",
+              actionType: "Login Failed",
+              actionLabel: "Login Failed",
+              details: `Failed login attempt: missing credentials`,
+              status: "Alert",
+            },
+          });
           return null;
         }
 
@@ -24,8 +34,29 @@ export const authOptions: NextAuthOptions = {
             credentials.email,
             credentials.password,
           );
+          await prisma.activityLog.create({
+            data: {
+              userId: user.id,
+              userName: user.name ?? user.email,
+              userRole: user.role,
+              actionType: "Login",
+              actionLabel: "User Logged In",
+              details: `User logged in: ${user.email}`,
+              status: "Success",
+            },
+          });
           return user;
         } catch {
+          await prisma.activityLog.create({
+            data: {
+              userName: credentials.email,
+              userRole: "Unknown",
+              actionType: "Login Failed",
+              actionLabel: "Login Failed",
+              details: `Failed login attempt for: ${credentials.email}`,
+              status: "Alert",
+            },
+          });
           return null;
         }
       },

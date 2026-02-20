@@ -1,5 +1,5 @@
 import {
-  BarChart3,
+  LayoutDashboard,
   CalendarRange,
   CalendarDays,
   Users,
@@ -10,57 +10,62 @@ import {
 } from "lucide-react";
 
 export type NavItem = {
-  label: string;
+  labelKey: string;
   href: string;
   icon: LucideIcon;
 };
 
 export type NavSection = {
-  title: string;
+  titleKey: string;
   items: NavItem[];
 };
 
 export const navigation: NavSection[] = [
   {
-    title: "Dashboard",
+    titleKey: "sections.dashboard",
     items: [
       {
-        label: "Monthly Overview",
+        labelKey: "items.dashboard",
+        href: "/dashboard",
+        icon: LayoutDashboard,
+      },
+      {
+        labelKey: "items.monthlyOverview",
         href: "/dashboard/monthly",
         icon: CalendarDays,
       },
       {
-        label: "Yearly Overview",
+        labelKey: "items.yearlyOverview",
         href: "/dashboard/yearly",
         icon: CalendarRange,
       },
     ],
   },
   {
-    title: "Management",
+    titleKey: "sections.management",
     items: [
       {
-        label: "User Management",
+        labelKey: "items.userManagement",
         href: "/user-management",
         icon: Users,
       },
       {
-        label: "Donation Places",
+        labelKey: "items.donationPlaces",
         href: "/donation-place-management",
         icon: MapPin,
       },
     ],
   },
   {
-    title: "System",
+    titleKey: "sections.system",
     items: [
       {
-        label: "Activity Logs",
+        labelKey: "items.activityLogs",
         href: "/activity-logs",
         icon: ScrollText,
       },
       {
-        label: "Application Settings",
+        labelKey: "items.applicationSettings",
         href: "/dashboard/settings",
         icon: Settings,
       },

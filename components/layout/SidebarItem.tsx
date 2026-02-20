@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
   Tooltip,
   TooltipContent,
@@ -16,11 +17,13 @@ type SidebarItemProps = {
 };
 
 export function SidebarItem({ item, collapsed }: SidebarItemProps) {
+  const t = useTranslations("navigation");
   const pathname = usePathname();
   // Strip locale prefix for matching (e.g., /en/dashboard -> /dashboard)
   const pathnameWithoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/)/, "");
   const isActive = pathnameWithoutLocale === item.href;
   const Icon = item.icon;
+  const label = t(item.labelKey);
 
   const linkContent = (
     <Link
@@ -36,7 +39,7 @@ export function SidebarItem({ item, collapsed }: SidebarItemProps) {
       )}
     >
       <Icon className="h-4 w-4 shrink-0" />
-      {!collapsed && <span className="truncate">{item.label}</span>}
+      {!collapsed && <span className="truncate">{label}</span>}
     </Link>
   );
 
@@ -45,7 +48,7 @@ export function SidebarItem({ item, collapsed }: SidebarItemProps) {
       <Tooltip delayDuration={0}>
         <TooltipTrigger asChild>{linkContent}</TooltipTrigger>
         <TooltipContent side="right" sideOffset={12}>
-          {item.label}
+          {label}
         </TooltipContent>
       </Tooltip>
     );

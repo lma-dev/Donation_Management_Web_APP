@@ -6,7 +6,7 @@ import {
 } from "../schema";
 import {
   findMonthlyOverview,
-  findAllPriorMonths,
+  findPreviousMonthOverview,
   createMonthlyOverview as createMonthlyOverviewData,
   createSupporterDonation as createSupporterDonationData,
   createDistributionRecord as createDistributionRecordData,
@@ -16,34 +16,6 @@ import type { MonthlyOverviewResponse } from "../types";
 
 function serializeBigInt(value: bigint): string {
   return value.toString();
-}
-
-/**
- * Compute carryover for a given month by iterating through all prior months
- * in chronological order. Each month's remaining = carryOver + collected - donated.
- * The carryover for the target month is the remaining balance of the
- * immediately preceding month in the chain.
- */
-async function computeCarryOver(year: number, month: number): Promise<bigint> {
-  const priorMonths = await findAllPriorMonths(year, month);
-
-  if (priorMonths.length === 0) return BigInt(0);
-
-  let carryOver = BigInt(0);
-  for (const m of priorMonths) {
-    const collected = m.supporterDonations.reduce(
-      (sum, d) => sum + d.kyatAmount,
-      BigInt(0),
-    );
-    const donated = m.distributionRecords.reduce(
-      (sum, d) => sum + d.amountMMK,
-      BigInt(0),
-    );
-    const remaining = carryOver + collected - donated;
-    carryOver = remaining;
-  }
-
-  return carryOver;
 }
 
 export async function getMonthlyOverview(input: {
@@ -64,7 +36,7 @@ export async function getMonthlyOverview(input: {
     );
   }
 
-  const carryOver = await computeCarryOver(parsed.data.year, parsed.data.month);
+  const carryOver = overview.carryOver;
 
   const totalCollected = overview.supporterDonations.reduce(
     (sum, d) => sum + d.kyatAmount,
@@ -108,6 +80,36 @@ export async function getMonthlyOverview(input: {
   };
 }
 
+/**
+ * Get the previous month's remaining balance for display when creating a new month.
+ * Returns "0" if no previous month exists.
+ */
+export async function getPreviousMonthBalance(input: {
+  year: unknown;
+  month: unknown;
+}): Promise<string> {
+  const parsed = monthlyQuerySchema.safeParse(input);
+  if (!parsed.success) {
+    return "0";
+  }
+
+  const prev = await findPreviousMonthOverview(parsed.data.year, parsed.data.month);
+  if (!prev) return "0";
+
+  const carryOver = prev.carryOver;
+  const collected = prev.supporterDonations.reduce(
+    (sum, d) => sum + d.kyatAmount,
+    BigInt(0),
+  );
+  const donated = prev.distributionRecords.reduce(
+    (sum, d) => sum + d.amountMMK,
+    BigInt(0),
+  );
+
+  const remaining = carryOver + collected - donated;
+  return remaining.toString();
+}
+
 export async function createMonthlyOverview(input: unknown) {
   const parsed = createMonthlySchema.safeParse(input);
   if (!parsed.success) {
@@ -127,6 +129,7 @@ export async function createMonthlyOverview(input: unknown) {
     year: parsed.data.year,
     month: parsed.data.month,
     exchangeRate: parsed.data.exchangeRate,
+    carryOver: BigInt(parsed.data.carryOver),
   });
 
   return {

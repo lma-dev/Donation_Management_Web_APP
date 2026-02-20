@@ -7,11 +7,7 @@ export async function findActivityLogs(filters: ActivityLogFiltersInput) {
   const where: Record<string, unknown> = {};
 
   if (search) {
-    where.OR = [
-      { userName: { contains: search, mode: "insensitive" } },
-      { details: { contains: search, mode: "insensitive" } },
-      { actionType: { contains: search, mode: "insensitive" } },
-    ];
+    where.userName = { contains: search, mode: "insensitive" };
   }
 
   if (dateFrom || dateTo) {
@@ -90,11 +86,7 @@ export async function findAllActivityLogs(filters: Omit<ActivityLogFiltersInput,
   const where: Record<string, unknown> = {};
 
   if (search) {
-    where.OR = [
-      { userName: { contains: search, mode: "insensitive" } },
-      { details: { contains: search, mode: "insensitive" } },
-      { actionType: { contains: search, mode: "insensitive" } },
-    ];
+    where.userName = { contains: search, mode: "insensitive" };
   }
 
   if (dateFrom || dateTo) {

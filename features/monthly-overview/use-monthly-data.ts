@@ -6,6 +6,7 @@ import { useState } from "react";
 import { selectedMonthlyYearAtom, selectedMonthlyMonthAtom } from "./atoms";
 import {
   fetchMonthlyOverview,
+  fetchPreviousMonthBalance,
   createMonthlyOverview,
   createSupporterDonation,
   createDistributionRecord,
@@ -25,17 +26,29 @@ export function useMonthlyData() {
     retry: false,
   });
 
+  const isNotFound = overviewQuery.error?.message?.includes("No data found");
+
+  const previousBalanceQuery = useQuery<string>({
+    queryKey: ["previous-month-balance", selectedYear, selectedMonth],
+    queryFn: () => fetchPreviousMonthBalance(selectedYear, selectedMonth),
+    enabled: isNotFound === true,
+  });
+
   function invalidate() {
     queryClient.invalidateQueries({
       queryKey: ["monthly-overview", selectedYear, selectedMonth],
     });
   }
 
-  async function handleCreateOverview(data: { exchangeRate: number }) {
+  async function handleCreateOverview(data: {
+    exchangeRate: number;
+    carryOver: number;
+  }) {
     await createMonthlyOverview({
       year: selectedYear,
       month: selectedMonth,
       exchangeRate: data.exchangeRate,
+      carryOver: data.carryOver,
     });
     invalidate();
   }
@@ -85,7 +98,8 @@ export function useMonthlyData() {
     overview: overviewQuery.data,
     isLoading: overviewQuery.isLoading,
     error: overviewQuery.error,
-    isNotFound: overviewQuery.error?.message?.includes("No data found"),
+    isNotFound,
+    previousBalance: previousBalanceQuery.data ?? "0",
     handleCreateOverview,
     handleAddSupporter,
     handleAddDistribution,

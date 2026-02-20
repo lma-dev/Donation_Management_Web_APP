@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import {
   Dialog,
@@ -45,6 +46,8 @@ export function AddDistributionDialog({
   onOpenChange,
   onSubmit,
 }: AddDistributionDialogProps) {
+  const t = useTranslations("monthlyOverview.distribution");
+  const tc = useTranslations("common");
   const [selectedPlaceId, setSelectedPlaceId] = useState("");
   const [selectedPlaceName, setSelectedPlaceName] = useState("");
   const [comboboxOpen, setComboboxOpen] = useState(false);
@@ -94,14 +97,14 @@ export function AddDistributionDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Add Distribution Record</DialogTitle>
+          <DialogTitle>{t("dialogTitle")}</DialogTitle>
           <DialogDescription>
-            Record a donation distribution to a recipient.
+            {t("dialogDescription")}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label>Donation Place</Label>
+            <Label>{t("donationPlace")}</Label>
             <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
               <PopoverTrigger asChild>
                 <Button
@@ -110,15 +113,15 @@ export function AddDistributionDialog({
                   aria-expanded={comboboxOpen}
                   className="w-full justify-between font-normal"
                 >
-                  {selectedPlaceName || "Select a donation place..."}
+                  {selectedPlaceName || t("selectPlace")}
                   <ChevronsUpDown className="text-muted-foreground size-4 shrink-0" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
                 <Command>
-                  <CommandInput placeholder="Search donation places..." />
+                  <CommandInput placeholder={t("searchPlaces")} />
                   <CommandList>
-                    <CommandEmpty>No donation place found.</CommandEmpty>
+                    <CommandEmpty>{t("noPlaceFound")}</CommandEmpty>
                     <CommandGroup>
                       {places.map((place) => (
                         <CommandItem
@@ -143,7 +146,7 @@ export function AddDistributionDialog({
             </Popover>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="dist-amount">Amount (MMK)</Label>
+            <Label htmlFor="dist-amount">{t("amountMmk")}</Label>
             <Input
               id="dist-amount"
               type="number"
@@ -155,12 +158,12 @@ export function AddDistributionDialog({
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="dist-remarks">Remarks (optional)</Label>
+            <Label htmlFor="dist-remarks">{t("remarksOptional")}</Label>
             <Input
               id="dist-remarks"
               value={remarks}
               onChange={(e) => setRemarks(e.target.value)}
-              placeholder="Optional notes"
+              placeholder={t("remarksPlaceholder")}
             />
           </div>
           <DialogFooter>
@@ -169,7 +172,7 @@ export function AddDistributionDialog({
               variant="outline"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              {tc("cancel")}
             </Button>
             <Button
               type="submit"
@@ -178,7 +181,7 @@ export function AddDistributionDialog({
               }
             >
               {isSubmitting && <Loader2 className="size-4 animate-spin" />}
-              Add Distribution
+              {t("addDistribution")}
             </Button>
           </DialogFooter>
         </form>

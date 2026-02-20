@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { editUser, removeUser } from "@/features/user-management/domain";
 import { UserError } from "@/features/user-management/error";
+import { logAction } from "@/lib/activity-log";
 
 export async function PUT(
   request: Request,
@@ -10,6 +11,11 @@ export async function PUT(
     const { id } = await params;
     const body = await request.json();
     const user = await editUser(id, body);
+    await logAction({
+      actionType: "Updated",
+      actionLabel: "User Updated",
+      details: `Updated user: ${body.name ?? body.email ?? id}`,
+    });
     return NextResponse.json(user);
   } catch (error) {
     if (error instanceof UserError) {
@@ -38,6 +44,11 @@ export async function DELETE(
   try {
     const { id } = await params;
     await removeUser(id);
+    await logAction({
+      actionType: "Deleted",
+      actionLabel: "User Deleted",
+      details: `Deleted user with ID: ${id}`,
+    });
     return NextResponse.json({ success: true });
   } catch (error) {
     if (error instanceof UserError) {

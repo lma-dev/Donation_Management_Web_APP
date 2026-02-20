@@ -1,6 +1,6 @@
 {
   "home": {
-    "title": "Spring "
+    "title": "Spring Liberation Rose"
   },
   "auth": {
     "login": {
@@ -14,6 +14,272 @@
       "submitting": "ဝင်ရောက်နေသည်...",
       "forgotPassword": "စကားဝှက် မေ့သွားပါသလား?",
       "error": "အီးမေးလ် သို့မဟုတ် စကားဝှက် မှားယွင်းနေပါသည်။"
+    }
+  },
+  "navigation": {
+    "appName": "Spring Liberation Rose",
+    "expandSidebar": "ဘေးဘားကို ချဲ့ပါ",
+    "collapseSidebar": "ဘေးဘားကို ခေါက်ပါ",
+    "openMenu": "မီနူးကို ဖွင့်ပါ",
+    "closeSidebar": "ဘေးဘားကို ပိတ်ပါ",
+    "navigationMenu": "လမ်းညွှန် မီနူး",
+    "toggleTheme": "အပြင်အဆင် ပြောင်းရန်",
+    "sections": {
+      "dashboard": "ဒက်ရှ်ဘုတ်",
+      "management": "စီမံခန့်ခွဲမှု",
+      "system": "စနစ်"
+    },
+    "items": {
+      "dashboard": "ဒက်ရှ်ဘုတ်",
+      "monthlyOverview": "လစဉ် အနှစ်ချုပ်",
+      "yearlyOverview": "နှစ်စဉ် အနှစ်ချုပ်",
+      "userManagement": "အသုံးပြုသူ စီမံခန့်ခွဲမှု",
+      "donationPlaces": "လှူဒါန်းရာနေရာများ",
+      "activityLogs": "လုပ်ဆောင်ချက် မှတ်တမ်းများ",
+      "applicationSettings": "အက်ပ် ဆက်တင်များ"
+    },
+    "userMenu": {
+      "profile": "ပရိုဖိုင်",
+      "logout": "ထွက်ရန်"
+    }
+  },
+  "common": {
+    "cancel": "ပယ်ဖျက်ရန်",
+    "delete": "ဖျက်ရန်",
+    "edit": "ပြင်ဆင်ရန်",
+    "saveChanges": "ပြောင်းလဲမှုများ သိမ်းရန်",
+    "create": "ဖန်တီးရန်",
+    "export": "ထုတ်ယူရန်",
+    "add": "ထည့်ရန်",
+    "total": "စုစုပေါင်း",
+    "previousPage": "ယခင် စာမျက်နှာ",
+    "nextPage": "နောက် စာမျက်နှာ",
+    "showing": "{item} {total} ခုမှ {from} မှ {to} ထိ ပြသနေသည်",
+    "somethingWentWrong": "တစ်ခုခု မှားယွင်းသွားပါသည်",
+    "exportExcel": "Excel ဖြင့် ထုတ်ယူရန်",
+    "exportPdf": "PDF ဖြင့် ထုတ်ယူရန်",
+    "exportJson": "JSON ဖြင့် ထုတ်ယူရန်",
+    "days": "ရက်"
+  },
+  "months": {
+    "january": "ဇန်နဝါရီ",
+    "february": "ဖေဖော်ဝါရီ",
+    "march": "မတ်",
+    "april": "ဧပြီ",
+    "may": "မေ",
+    "june": "ဇွန်",
+    "july": "ဇူလိုင်",
+    "august": "ဩဂုတ်",
+    "september": "စက်တင်ဘာ",
+    "october": "အောက်တိုဘာ",
+    "november": "နိုဝင်ဘာ",
+    "december": "ဒီဇင်ဘာ"
+  },
+  "dashboard": {
+    "title": "ဒက်ရှ်ဘုတ်",
+    "description": "လှူဒါန်းမှု၊ လှုပ်ရှားမှုနှင့် ဖြန့်ဝေမှု အနှစ်ချုပ်။",
+    "totalUsers": "စုစုပေါင်း အသုံးပြုသူ",
+    "monthlyTrend": "လစဉ် လှူဒါန်းမှု လမ်းကြောင်း",
+    "collected": "စုဆောင်းငွေ",
+    "donated": "လှူဒါန်းငွေ",
+    "distributionByPlace": "နေရာအလိုက် ဖြန့်ဝေမှု",
+    "noChartData": "ဒေတာ မရှိသေးပါ။"
+  },
+  "activityLogs": {
+    "title": "စနစ် လုပ်ဆောင်ချက် မှတ်တမ်းများ",
+    "description": "စီမံခန့်ခွဲမှု လုပ်ဆောင်ချက်များ၊ စနစ် အပ်ဒိတ်များနှင့် လုံခြုံရေး ဖြစ်ရပ်များကို စောင့်ကြည့်ပါ။ ဒေတာကို ရက် ၉၀ ထိန်းသိမ်းထားပါသည်။",
+    "exportCsv": "CSV ထုတ်ယူရန်",
+    "refresh": "ပြန်လည်ရယူရန်",
+    "searchPlaceholder": "အသုံးပြုသူ အမည်ဖြင့် ရှာဖွေပါ...",
+    "allUsers": "အသုံးပြုသူ အားလုံး",
+    "allActions": "လုပ်ဆောင်ချက် အားလုံး",
+    "clearAll": "အားလုံး ရှင်းလင်းရန်",
+    "actionTypes": {
+      "added": "ထည့်သွင်းပြီး",
+      "updated": "အပ်ဒိတ်ပြီး",
+      "deleted": "ဖျက်ပြီး",
+      "login": "ဝင်ရောက်ပြီး",
+      "loginFailed": "ဝင်ရောက်မှု မအောင်မြင်",
+      "changedPassword": "စကားဝှက် ပြောင်းပြီး",
+      "export": "ထုတ်ယူပြီး",
+      "system": "စနစ်"
+    },
+    "table": {
+      "timestamp": "အချိန်",
+      "user": "အသုံးပြုသူ",
+      "action": "လုပ်ဆောင်ချက်",
+      "details": "အသေးစိတ်",
+      "ipAddress": "IP လိပ်စာ",
+      "status": "အခြေအနေ"
+    },
+    "empty": "လုပ်ဆောင်ချက် မှတ်တမ်း မရှိပါ",
+    "emptyDescription": "စစ်ထုတ်မှုကို ပြင်ဆင်ပါ သို့မဟုတ် နောက်မှ ပြန်ကြည့်ပါ။",
+    "summary": {
+      "totalLogs": "စုစုပေါင်း မှတ်တမ်း (ရက် ၃၀)",
+      "criticalEvents": "အရေးကြီး ဖြစ်ရပ်များ",
+      "activeUsersToday": "ယနေ့ အသုံးပြုသူ",
+      "retentionLeft": "ထိန်းသိမ်းရက် ကျန်"
+    }
+  },
+  "monthlyOverview": {
+    "title": "လစဉ် အနှစ်ချုပ်",
+    "description": "{year} ခုနှစ် {month} လှူဒါန်းမှု အနှစ်ချုပ်",
+    "exchangeRate": "ငွေလဲနှုန်း",
+    "jpyEquals": "1 JPY =",
+    "mmk": "MMK",
+    "createTitle": "လစဉ် အနှစ်ချုပ် ဖန်တီးရန် — {year} ခုနှစ် {month}",
+    "exchangeRateLabel": "ငွေလဲနှုန်း (JPY → MMK)",
+    "exchangeRatePlaceholder": "ဥပမာ 32.5",
+    "carryOverLabel": "ယခင်လ လက်ကျန် (MMK)",
+    "previousBalance": "ယခင်လ လက်ကျန်ငွေ: {amount} MMK",
+    "createOverview": "အနှစ်ချုပ် ဖန်တီးရန်",
+    "kpi": {
+      "carryOver": "ယခင်လ လက်ကျန်",
+      "totalCollected": "စုစုပေါင်း စုဆောင်းငွေ",
+      "totalDonated": "စုစုပေါင်း လှူဒါန်းငွေ",
+      "remainingBalance": "လက်ကျန်ငွေ"
+    },
+    "supporters": {
+      "title": "ပံ့ပိုးသူများထံမှ လှူဒါန်းမှုများ",
+      "addEntry": "ထည့်သွင်းရန်",
+      "name": "အမည်",
+      "amount": "ပမာဏ",
+      "currency": "ငွေကြေး",
+      "kyats": "ကျပ် (MMK)",
+      "empty": "ပံ့ပိုးသူ လှူဒါန်းမှု မရှိသေးပါ",
+      "dialogTitle": "ပံ့ပိုးသူ လှူဒါန်းမှု ထည့်ရန်",
+      "dialogDescription": "ပံ့ပိုးသူထံမှ လှူဒါန်းမှု အသစ် ထည့်သွင်းပါ။",
+      "kyatAmount": "ကျပ်ငွေ (MMK)",
+      "addDonation": "လှူဒါန်းမှု ထည့်ရန်"
+    },
+    "distribution": {
+      "title": "လှူဒါန်းငွေ ဖြန့်ဝေမှု",
+      "addEntry": "ထည့်သွင်းရန်",
+      "place": "နေရာ",
+      "amountMmk": "ပမာဏ (MMK)",
+      "remarks": "မှတ်ချက်",
+      "empty": "ဖြန့်ဝေမှု မှတ်တမ်း မရှိသေးပါ",
+      "dialogTitle": "ဖြန့်ဝေမှု မှတ်တမ်း ထည့်ရန်",
+      "dialogDescription": "လက်ခံသူထံ လှူဒါန်းငွေ ဖြန့်ဝေမှုကို မှတ်တမ်းတင်ပါ။",
+      "donationPlace": "လှူဒါန်းရာ နေရာ",
+      "selectPlace": "လှူဒါန်းရာ နေရာ ရွေးပါ...",
+      "searchPlaces": "လှူဒါန်းရာ နေရာ ရှာဖွေပါ...",
+      "noPlaceFound": "လှူဒါန်းရာ နေရာ မတွေ့ပါ။",
+      "remarksOptional": "မှတ်ချက် (မဖြစ်မနေ မဟုတ်)",
+      "remarksPlaceholder": "မှတ်ချက် ရေးပါ",
+      "addDistribution": "ဖြန့်ဝေမှု ထည့်ရန်"
+    }
+  },
+  "yearlyOverview": {
+    "title": "နှစ်စဉ် အနှစ်ချုပ်",
+    "description": "{year} ခုနှစ် လှူဒါန်းမှု အနှစ်ချုပ်",
+    "empty": "နှစ်စဉ် ဒေတာ မရှိသေးပါ။ စတင်ရန် လစဉ် အနှစ်ချုပ် ဒေတာ ထည့်သွင်းပါ။",
+    "fy": "FY {year}",
+    "kpi": {
+      "totalCollected": "စုစုပေါင်း စုဆောင်းငွေ",
+      "totalDonated": "စုစုပေါင်း လှူဒါန်းငွေ",
+      "remainingBalance": "လက်ကျန်ငွေ"
+    },
+    "breakdown": {
+      "title": "လစဉ် အသေးစိတ်",
+      "month": "လ",
+      "collected": "စုဆောင်းငွေ",
+      "donated": "လှူဒါန်းငွေ",
+      "balance": "လက်ကျန်",
+      "annualTotal": "နှစ်စဉ် စုစုပေါင်း"
+    }
+  },
+  "donationPlaces": {
+    "title": "လှူဒါန်းရာ နေရာများ",
+    "description": "ဖြန့်ဝေမှု မှတ်တမ်းအတွက် လှူဒါန်းရာ နေရာများကို စီမံပါ။",
+    "addPlace": "နေရာ ထည့်ရန်",
+    "searchPlaceholder": "လှူဒါန်းရာ နေရာ ရှာဖွေပါ...",
+    "table": {
+      "name": "အမည်",
+      "note": "မှတ်ချက်",
+      "status": "အခြေအနေ",
+      "updated": "အပ်ဒိတ်ရက်",
+      "actions": "လုပ်ဆောင်ချက်"
+    },
+    "active": "အသုံးပြုဆဲ",
+    "inactive": "ရပ်ဆိုင်းထားသည်",
+    "empty": "လှူဒါန်းရာ နေရာ မတွေ့ပါ",
+    "emptyDescription": "လှူဒါန်းရာ နေရာ အသစ် ထည့်သွင်း၍ စတင်ပါ။",
+    "form": {
+      "addTitle": "လှူဒါန်းရာ နေရာ ထည့်ရန်",
+      "editTitle": "လှူဒါန်းရာ နေရာ ပြင်ဆင်ရန်",
+      "addDescription": "လှူဒါန်းရာ နေရာ အသစ်၏ အသေးစိတ်ကို ဖြည့်ပါ။",
+      "editDescription": "လှူဒါန်းရာ နေရာ၏ အသေးစိတ်ကို အပ်ဒိတ်ပါ။",
+      "nameLabel": "အမည်",
+      "namePlaceholder": "နေရာ အမည် ထည့်ပါ",
+      "noteLabel": "မှတ်ချက်",
+      "notePlaceholder": "မှတ်ချက် (ရွေးချယ်နိုင်)",
+      "activeLabel": "အသုံးပြုဆဲ"
+    },
+    "deleteTitle": "လှူဒါန်းရာ နေရာ ဖျက်မလား?",
+    "deleteDescription": "{name} ကို အပြီးအပိုင် ဖျက်ပါမည်။ ဤလုပ်ဆောင်ချက်ကို ပြန်ဖျက်၍ မရပါ။"
+  },
+  "userManagement": {
+    "title": "အသုံးပြုသူ စီမံခန့်ခွဲမှု",
+    "description": "အသုံးပြုသူ အကောင့်များ၊ အခန်းကဏ္ဍများနှင့် ခွင့်ပြုချက်များကို စီမံပါ။",
+    "registerUser": "အသုံးပြုသူ မှတ်ပုံတင်ရန်",
+    "searchPlaceholder": "အသုံးပြုသူ ရှာဖွေပါ...",
+    "table": {
+      "name": "အမည်",
+      "email": "အီးမေးလ်",
+      "role": "အခန်းကဏ္ဍ",
+      "memberSince": "အဖွဲ့ဝင်ဖြစ်သည့်နေ့",
+      "actions": "လုပ်ဆောင်ချက်"
+    },
+    "empty": "အသုံးပြုသူ မတွေ့ပါ",
+    "emptyDescription": "အသုံးပြုသူ အသစ် မှတ်ပုံတင်၍ စတင်ပါ။",
+    "form": {
+      "registerTitle": "အသုံးပြုသူ မှတ်ပုံတင်ရန်",
+      "updateTitle": "အသုံးပြုသူ အပ်ဒိတ်ရန်",
+      "registerDescription": "အသုံးပြုသူ အသစ်၏ အသေးစိတ်ကို ဖြည့်ပါ။",
+      "updateDescription": "အသုံးပြုသူ၏ အသေးစိတ်ကို အပ်ဒိတ်ပါ။",
+      "nameLabel": "အမည်",
+      "namePlaceholder": "အမည်အပြည့်အစုံ ထည့်ပါ",
+      "emailLabel": "အီးမေးလ်",
+      "emailPlaceholder": "user@gmail.com",
+      "memberSinceLabel": "အဖွဲ့ဝင်ဖြစ်သည့်နေ့",
+      "passwordLabel": "စကားဝှက်",
+      "passwordPlaceholderNew": "စကားဝှက် ထည့်ပါ",
+      "passwordPlaceholderEdit": "မပြောင်းလျှင် အလွတ်ထားပါ",
+      "showPassword": "စကားဝှက် ပြရန်",
+      "hidePassword": "စကားဝှက် ဖျောက်ရန်",
+      "confirmPasswordLabel": "စကားဝှက် အတည်ပြုရန်",
+      "confirmPasswordPlaceholder": "စကားဝှက် ပြန်ထည့်ပါ",
+      "passwordsMatch": "စကားဝှက် တူညီပါသည်",
+      "passwordsMismatch": "စကားဝှက် မတူညီပါ"
+    },
+    "deleteTitle": "အသုံးပြုသူ ဖျက်မလား?",
+    "deleteDescription": "{name} ကို အပြီးအပိုင် ဖျက်ပါမည်။ ဤလုပ်ဆောင်ချက်ကို ပြန်ဖျက်၍ မရပါ။",
+    "passwordRules": {
+      "minLength": "အနည်းဆုံး စာလုံး ၈ လုံး",
+      "hasUppercase": "စာလုံးအကြီး ၁ လုံး",
+      "hasLowercase": "စာလုံးအသေး ၁ လုံး",
+      "hasNumber": "ဂဏန်း ၁ လုံး",
+      "hasSpecialChar": "အထူးစာလုံး ၁ လုံး"
+    }
+  },
+  "profile": {
+    "title": "ပရိုဖိုင်",
+    "description": "သင့် အကောင့် အချက်အလက်။",
+    "unnamedUser": "အမည်မသိ အသုံးပြုသူ",
+    "email": "အီးမေးလ်",
+    "role": "အခန်းကဏ္ဍ",
+    "memberSince": "အဖွဲ့ဝင်ဖြစ်သည့်နေ့"
+  },
+  "settings": {
+    "title": "အက်ပ် ဆက်တင်များ",
+    "description": "အက်ပလီကေးရှင်း ဦးစားပေးများကို ပြင်ဆင်ပါ။",
+    "language": {
+      "title": "ဘာသာစကား",
+      "description": "မျက်နှာပြင်အတွက် သင်နှစ်သက်ရာ ဘာသာစကားကို ရွေးချယ်ပါ။",
+      "en": "English",
+      "ja": "日本語",
+      "mm": "မြန်မာ"
     }
   }
 }

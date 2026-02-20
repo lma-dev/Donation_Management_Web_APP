@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslations } from "next-intl";
 import type { MonthlyRecordResponse } from "@/features/yearly-summary/types";
 
 type MonthlyBreakdownTableProps = {
@@ -27,19 +28,21 @@ export function MonthlyBreakdownTable({
   totalCollected,
   totalDonated,
 }: MonthlyBreakdownTableProps) {
+  const t = useTranslations("yearlyOverview.breakdown");
+
   return (
     <Card className="gap-0 py-0">
       <CardHeader>
-        <CardTitle>Monthly Breakdown</CardTitle>
+        <CardTitle>{t("title")}</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead className="w-[200px]">Month</TableHead>
-              <TableHead className="text-right">Collected</TableHead>
-              <TableHead className="text-right">Donated</TableHead>
-              <TableHead className="text-right">Balance</TableHead>
+              <TableHead className="w-[200px]">{t("month")}</TableHead>
+              <TableHead className="text-right">{t("collected")}</TableHead>
+              <TableHead className="text-right">{t("donated")}</TableHead>
+              <TableHead className="text-right">{t("balance")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -64,7 +67,7 @@ export function MonthlyBreakdownTable({
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell className="font-bold">Annual Total</TableCell>
+              <TableCell className="font-bold">{t("annualTotal")}</TableCell>
               <TableCell className="text-right font-bold tabular-nums">
                 {formatAmount(totalCollected)}
               </TableCell>

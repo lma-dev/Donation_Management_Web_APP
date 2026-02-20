@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { PanelLeftClose, PanelLeft, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,8 @@ function SidebarHeader({
   collapsed: boolean;
   onToggle: () => void;
 }) {
+  const t = useTranslations("navigation");
+
   return (
     <div
       className={cn(
@@ -33,14 +36,14 @@ function SidebarHeader({
     >
       {!collapsed && (
         <span className="text-lg font-bold tracking-tight">
-          Spring Liberation Rose
+          {t("appName")}
         </span>
       )}
       <Button
         variant="ghost"
         size="icon"
         onClick={onToggle}
-        aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        aria-label={collapsed ? t("expandSidebar") : t("collapseSidebar")}
         className="h-8 w-8"
       >
         {collapsed ? (
@@ -57,7 +60,7 @@ function SidebarNav({ collapsed }: { collapsed: boolean }) {
   return (
     <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-4">
       {navigation.map((section, index) => (
-        <div key={section.title}>
+        <div key={section.titleKey}>
           {index > 0 && <Separator className="mb-4" />}
           <SidebarSection section={section} collapsed={collapsed} />
         </div>
@@ -84,19 +87,21 @@ function MobileSidebar({
   mobileOpen,
   onMobileOpenChange,
 }: Pick<SidebarProps, "mobileOpen" | "onMobileOpenChange">) {
+  const t = useTranslations("navigation");
+
   return (
     <Sheet open={mobileOpen} onOpenChange={onMobileOpenChange}>
       <SheetContent side="left" className="w-60 p-0" showCloseButton={false}>
-        <SheetTitle className="sr-only">Navigation menu</SheetTitle>
+        <SheetTitle className="sr-only">{t("navigationMenu")}</SheetTitle>
         <div className="flex h-16 items-center justify-between border-b border-border px-4">
           <span className="text-lg font-bold tracking-tight">
-            Spring Liberation Rose
+            {t("appName")}
           </span>
           <Button
             variant="ghost"
             size="icon"
             onClick={() => onMobileOpenChange(false)}
-            aria-label="Close sidebar"
+            aria-label={t("closeSidebar")}
             className="h-8 w-8"
           >
             <X className="h-4 w-4" />

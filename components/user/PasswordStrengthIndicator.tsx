@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { CircleCheck, Circle } from "lucide-react";
 import {
   validatePassword,
@@ -13,6 +14,7 @@ type PasswordStrengthIndicatorProps = {
 export function PasswordStrengthIndicator({
   password,
 }: PasswordStrengthIndicatorProps) {
+  const t = useTranslations("userManagement.passwordRules");
   const validation = validatePassword(password);
 
   return (
@@ -33,7 +35,7 @@ export function PasswordStrengthIndicator({
                   : "text-muted-foreground"
               }
             >
-              {rule.label}
+              {t(rule.key)}
             </span>
           </li>
         );

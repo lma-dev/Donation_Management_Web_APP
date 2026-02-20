@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
@@ -17,15 +18,19 @@ type UserTableRowProps = {
   onDelete: (user: User) => void;
 };
 
-function formatDate(date: Date): string {
+function formatDate(date: Date | string): string {
+  const d = typeof date === "string" ? new Date(date) : date;
+  if (isNaN(d.getTime())) return "—";
   return new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "short",
     day: "numeric",
-  }).format(date);
+  }).format(d);
 }
 
 export function UserTableRow({ user, onEdit, onDelete }: UserTableRowProps) {
+  const tc = useTranslations("common");
+
   return (
     <TableRow>
       <TableCell className="font-medium">{user.name}</TableCell>
@@ -50,10 +55,10 @@ export function UserTableRow({ user, onEdit, onDelete }: UserTableRowProps) {
                 onClick={() => onEdit(user)}
               >
                 <Pencil />
-                <span className="sr-only">Edit {user.name}</span>
+                <span className="sr-only">{`${tc("edit")} ${user.name}`}</span>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Edit</TooltipContent>
+            <TooltipContent>{tc("edit")}</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -64,10 +69,10 @@ export function UserTableRow({ user, onEdit, onDelete }: UserTableRowProps) {
                 onClick={() => onDelete(user)}
               >
                 <Trash2 />
-                <span className="sr-only">Delete {user.name}</span>
+                <span className="sr-only">{`${tc("delete")} ${user.name}`}</span>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Delete</TooltipContent>
+            <TooltipContent>{tc("delete")}</TooltipContent>
           </Tooltip>
         </div>
       </TableCell>

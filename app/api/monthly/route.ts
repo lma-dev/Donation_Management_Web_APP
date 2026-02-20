@@ -4,6 +4,7 @@ import {
   createMonthlyOverview,
 } from "@/features/monthly-overview/domain";
 import { MonthlyOverviewError } from "@/features/monthly-overview/error";
+import { logAction } from "@/lib/activity-log";
 
 export async function GET(request: NextRequest) {
   try {
@@ -39,6 +40,11 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const data = await createMonthlyOverview(body);
+    await logAction({
+      actionType: "Added",
+      actionLabel: "Monthly Overview Created",
+      details: `Created monthly overview for ${body.year}-${body.month}`,
+    });
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
     if (error instanceof MonthlyOverviewError) {

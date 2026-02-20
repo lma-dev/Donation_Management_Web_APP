@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Eye, EyeOff, CircleAlert, CircleCheck, Loader2 } from "lucide-react";
 import { PasswordStrengthIndicator } from "@/components/user/PasswordStrengthIndicator";
 import { Button } from "@/components/ui/button";
@@ -32,6 +33,8 @@ function formatDateReadonly(date: Date): string {
 }
 
 export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) {
+  const t = useTranslations("userManagement.form");
+  const tc = useTranslations("common");
   const isEditing = user !== null;
 
   const [name, setName] = useState("");
@@ -66,7 +69,7 @@ export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) 
     setError(null);
 
     if (password && password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError(t("passwordsMismatch"));
       return;
     }
 
@@ -74,7 +77,7 @@ export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) 
     try {
       await onSubmit({ name, email, password, confirmPassword });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong");
+      setError(err instanceof Error ? err.message : tc("somethingWentWrong"));
     } finally {
       setSubmitting(false);
     }
@@ -85,23 +88,23 @@ export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) 
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? "Update User" : "Register User"}
+            {isEditing ? t("updateTitle") : t("registerTitle")}
           </DialogTitle>
           <DialogDescription>
             {isEditing
-              ? "Update the user details below."
-              : "Fill in the details to register a new user."}
+              ? t("updateDescription")
+              : t("registerDescription")}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="user-name">
-              Name <span className="text-destructive">*</span>
+              {t("nameLabel")} <span className="text-destructive">*</span>
             </Label>
             <Input
               id="user-name"
-              placeholder="Enter full name"
+              placeholder={t("namePlaceholder")}
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -110,12 +113,12 @@ export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) 
 
           <div className="grid gap-2">
             <Label htmlFor="user-email">
-              Email <span className="text-destructive">*</span>
+              {t("emailLabel")} <span className="text-destructive">*</span>
             </Label>
             <Input
               id="user-email"
               type="email"
-              placeholder="user@gmail.com"
+              placeholder={t("emailPlaceholder")}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -124,14 +127,14 @@ export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) 
 
           {isEditing && user && (
             <div className="grid gap-2">
-              <Label className="text-muted-foreground">Member Since</Label>
+              <Label className="text-muted-foreground">{t("memberSinceLabel")}</Label>
               <p className="text-sm">{formatDateReadonly(user.createdAt)}</p>
             </div>
           )}
 
           <div className="grid gap-2">
             <Label htmlFor="user-password">
-              Password{" "}
+              {t("passwordLabel")}{" "}
               {!isEditing && <span className="text-destructive">*</span>}
             </Label>
             <div className="relative">
@@ -139,7 +142,7 @@ export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) 
                 id="user-password"
                 type={showPassword ? "text" : "password"}
                 placeholder={
-                  isEditing ? "Leave blank to keep current" : "Enter password"
+                  isEditing ? t("passwordPlaceholderEdit") : t("passwordPlaceholderNew")
                 }
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -160,7 +163,7 @@ export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) 
                   <Eye className="size-3.5" />
                 )}
                 <span className="sr-only">
-                  {showPassword ? "Hide password" : "Show password"}
+                  {showPassword ? t("hidePassword") : t("showPassword")}
                 </span>
               </Button>
             </div>
@@ -169,12 +172,12 @@ export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) 
 
           {passwordTouched && (
             <div className="grid gap-2">
-              <Label htmlFor="user-confirm-password">Confirm Password</Label>
+              <Label htmlFor="user-confirm-password">{t("confirmPasswordLabel")}</Label>
               <div className="relative">
                 <Input
                   id="user-confirm-password"
                   type={showConfirmPassword ? "text" : "password"}
-                  placeholder="Confirm password"
+                  placeholder={t("confirmPasswordPlaceholder")}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   className="pr-9"
@@ -193,7 +196,7 @@ export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) 
                     <Eye className="size-3.5" />
                   )}
                   <span className="sr-only">
-                    {showConfirmPassword ? "Hide password" : "Show password"}
+                    {showConfirmPassword ? t("hidePassword") : t("showPassword")}
                   </span>
                 </Button>
               </div>
@@ -203,14 +206,14 @@ export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) 
                     <>
                       <CircleCheck className="size-3.5 text-emerald-500" />
                       <span className="text-emerald-600 dark:text-emerald-400">
-                        Passwords match
+                        {t("passwordsMatch")}
                       </span>
                     </>
                   ) : (
                     <>
                       <CircleAlert className="text-destructive size-3.5" />
                       <span className="text-destructive">
-                        Passwords do not match
+                        {t("passwordsMismatch")}
                       </span>
                     </>
                   )}
@@ -233,11 +236,11 @@ export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) 
               onClick={() => onOpenChange(false)}
               disabled={submitting}
             >
-              Cancel
+              {tc("cancel")}
             </Button>
             <Button type="submit" disabled={submitting}>
               {submitting && <Loader2 className="animate-spin" />}
-              {isEditing ? "Save Changes" : "Create"}
+              {isEditing ? tc("saveChanges") : tc("create")}
             </Button>
           </DialogFooter>
         </form>

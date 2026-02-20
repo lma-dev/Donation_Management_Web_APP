@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getAllActivityLogs } from "@/features/activity-log/domain";
 import { ActivityLogError } from "@/features/activity-log/error";
+import { logAction } from "@/lib/activity-log";
 
 export async function GET(request: NextRequest) {
   try {
@@ -25,6 +26,12 @@ export async function GET(request: NextRequest) {
     }
 
     const csv = csvRows.join("\n");
+
+    await logAction({
+      actionType: "Export",
+      actionLabel: "Activity Logs Exported",
+      details: "Exported activity logs to CSV",
+    });
 
     return new NextResponse(csv, {
       headers: {

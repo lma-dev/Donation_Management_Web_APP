@@ -1,17 +1,21 @@
 import { prisma } from "@/lib/prisma";
 
-export async function findYearlySummaryByYear(fiscalYear: number) {
-  return prisma.yearlySummary.findUnique({
-    where: { fiscalYear },
+export async function findMonthlyOverviewsByYear(year: number) {
+  return prisma.monthlyOverview.findMany({
+    where: { year },
     include: {
-      monthlyRecords: true,
+      supporterDonations: true,
+      distributionRecords: true,
     },
+    orderBy: { month: "asc" },
   });
 }
 
-export async function findAllFiscalYears() {
-  return prisma.yearlySummary.findMany({
-    select: { fiscalYear: true },
-    orderBy: { fiscalYear: "desc" },
+export async function findAllAvailableYears(): Promise<number[]> {
+  const results = await prisma.monthlyOverview.findMany({
+    select: { year: true },
+    distinct: ["year"],
+    orderBy: { year: "desc" },
   });
+  return results.map((r) => r.year);
 }

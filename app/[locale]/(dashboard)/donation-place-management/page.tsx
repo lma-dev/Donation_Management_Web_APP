@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { useAtom } from "jotai";
 import { useQuery } from "@tanstack/react-query";
 import { Plus, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
@@ -23,6 +24,8 @@ import {
 import type { DonationPlace } from "@/features/donation-place/types";
 
 export default function DonationPlaceManagementPage() {
+  const t = useTranslations("donationPlaces");
+  const tc = useTranslations("common");
   const { data: places = [], isLoading } = useQuery<DonationPlace[]>({
     queryKey: ["donation-places"],
     queryFn: async () => {
@@ -108,12 +111,12 @@ export default function DonationPlaceManagementPage() {
 
   return (
     <PageContent
-      title="Donation Places"
-      description="Manage donation places for distribution records."
+      title={t("title")}
+      description={t("description")}
       actions={
         <Button onClick={handleAdd} className="w-full sm:w-auto">
           <Plus />
-          Add Place
+          {t("addPlace")}
         </Button>
       }
     >
@@ -131,19 +134,12 @@ export default function DonationPlaceManagementPage() {
         {filtered.length > PAGE_SIZE && (
           <div className="flex items-center justify-between border-t px-4 py-3 sm:px-6">
             <p className="text-muted-foreground text-sm">
-              Showing{" "}
-              <span className="text-foreground font-medium">
-                {(currentPage - 1) * PAGE_SIZE + 1}
-              </span>{" "}
-              to{" "}
-              <span className="text-foreground font-medium">
-                {Math.min(currentPage * PAGE_SIZE, filtered.length)}
-              </span>{" "}
-              of{" "}
-              <span className="text-foreground font-medium">
-                {filtered.length}
-              </span>{" "}
-              places
+              {tc("showing", {
+                from: (currentPage - 1) * PAGE_SIZE + 1,
+                to: Math.min(currentPage * PAGE_SIZE, filtered.length),
+                total: filtered.length,
+                item: "places",
+              })}
             </p>
             <div className="flex items-center gap-1">
               <Button
@@ -153,7 +149,7 @@ export default function DonationPlaceManagementPage() {
                 onClick={() => setPage((p) => p - 1)}
               >
                 <ChevronLeft />
-                <span className="sr-only">Previous page</span>
+                <span className="sr-only">{tc("previousPage")}</span>
               </Button>
               <Button
                 variant="outline"
@@ -162,7 +158,7 @@ export default function DonationPlaceManagementPage() {
                 onClick={() => setPage((p) => p + 1)}
               >
                 <ChevronRight />
-                <span className="sr-only">Next page</span>
+                <span className="sr-only">{tc("nextPage")}</span>
               </Button>
             </div>
           </div>

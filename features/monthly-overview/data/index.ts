@@ -11,22 +11,19 @@ export async function findMonthlyOverview(year: number, month: number) {
 }
 
 /**
- * Fetch all monthly overviews that exist strictly before the given year/month,
- * ordered chronologically. Used for iterative carryover computation.
+ * Find the previous month's overview (the month immediately before year/month).
+ * For January of year Y, looks up December of year Y-1.
  */
-export async function findAllPriorMonths(year: number, month: number) {
-  return prisma.monthlyOverview.findMany({
-    where: {
-      OR: [
-        { year: { lt: year } },
-        { year, month: { lt: month } },
-      ],
-    },
+export async function findPreviousMonthOverview(year: number, month: number) {
+  const prevMonth = month === 1 ? 12 : month - 1;
+  const prevYear = month === 1 ? year - 1 : year;
+
+  return prisma.monthlyOverview.findUnique({
+    where: { year_month: { year: prevYear, month: prevMonth } },
     include: {
       supporterDonations: true,
       distributionRecords: true,
     },
-    orderBy: [{ year: "asc" }, { month: "asc" }],
   });
 }
 
@@ -34,12 +31,14 @@ export async function createMonthlyOverview(data: {
   year: number;
   month: number;
   exchangeRate: number;
+  carryOver: bigint;
 }) {
   return prisma.monthlyOverview.create({
     data: {
       year: data.year,
       month: data.month,
       exchangeRate: data.exchangeRate,
+      carryOver: data.carryOver,
     },
     include: {
       supporterDonations: true,

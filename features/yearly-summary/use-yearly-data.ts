@@ -2,7 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { selectedYearAtom } from "./atoms";
 import {
   fetchYearlySummary,
@@ -15,17 +15,26 @@ export function useYearlyData() {
   const [selectedYear, setSelectedYear] = useAtom(selectedYearAtom);
   const [isExporting, setIsExporting] = useState(false);
 
-  const summaryQuery = useQuery<YearlySummaryResponse>({
-    queryKey: ["yearly-summary", selectedYear],
-    queryFn: () => fetchYearlySummary(selectedYear),
-  });
-
   const yearsQuery = useQuery<{ years: number[] }>({
     queryKey: ["available-years"],
     queryFn: fetchAvailableYears,
   });
 
+  useEffect(() => {
+    if (selectedYear === null && yearsQuery.data?.years?.length) {
+      setSelectedYear(yearsQuery.data.years[0]);
+    }
+  }, [selectedYear, yearsQuery.data, setSelectedYear]);
+
+  const summaryQuery = useQuery<YearlySummaryResponse>({
+    queryKey: ["yearly-summary", selectedYear],
+    queryFn: () => fetchYearlySummary(selectedYear!),
+    enabled: selectedYear !== null,
+    retry: false,
+  });
+
   async function handleExport(type: "excel" | "pdf" | "json") {
+    if (selectedYear === null) return;
     setIsExporting(true);
     try {
       await downloadExport(selectedYear, type);
@@ -35,10 +44,11 @@ export function useYearlyData() {
   }
 
   return {
-    selectedYear,
+    selectedYear: selectedYear ?? new Date().getFullYear(),
     setSelectedYear,
     summary: summaryQuery.data,
-    isLoading: summaryQuery.isLoading,
+    isLoading:
+      yearsQuery.isLoading || (selectedYear !== null && summaryQuery.isLoading),
     error: summaryQuery.error,
     availableYears: yearsQuery.data?.years ?? [],
     handleExport,

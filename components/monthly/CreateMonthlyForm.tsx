@@ -1,81 +1,102 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, Plus } from "lucide-react";
 
-const MONTH_NAMES = [
+const MONTH_KEYS = [
   "",
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
 ];
 
 type CreateMonthlyFormProps = {
   year: number;
   month: number;
-  onSubmit: (data: { exchangeRate: number }) => Promise<void>;
+  previousBalance: string;
+  onSubmit: (data: { exchangeRate: number; carryOver: number }) => Promise<void>;
 };
 
 export function CreateMonthlyForm({
   year,
   month,
+  previousBalance,
   onSubmit,
 }: CreateMonthlyFormProps) {
+  const t = useTranslations("monthlyOverview");
+  const tm = useTranslations("months");
   const [exchangeRate, setExchangeRate] = useState("");
+  const [carryOver, setCarryOver] = useState(previousBalance !== "0" ? previousBalance : "");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const rate = Number(exchangeRate);
+    const carry = Number(carryOver) || 0;
     if (rate <= 0) return;
 
     setIsSubmitting(true);
     try {
-      await onSubmit({ exchangeRate: rate });
+      await onSubmit({ exchangeRate: rate, carryOver: carry });
     } finally {
       setIsSubmitting(false);
     }
   }
+
+  const prevBalanceNum = Number(previousBalance);
 
   return (
     <div className="flex items-center justify-center py-10">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>
-            Create Monthly Overview — {MONTH_NAMES[month]} {year}
+            {t("createTitle", { month: tm(MONTH_KEYS[month]), year })}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="exchange-rate">Exchange Rate (JPY to MMK)</Label>
+              <Label htmlFor="exchange-rate">{t("exchangeRateLabel")}</Label>
               <Input
                 id="exchange-rate"
                 type="number"
                 step="0.01"
                 value={exchangeRate}
                 onChange={(e) => setExchangeRate(e.target.value)}
-                placeholder="e.g. 32.5"
+                placeholder={t("exchangeRatePlaceholder")}
                 required
               />
             </div>
-            <p className="text-muted-foreground text-xs">
-              Carry over from the previous month will be calculated
-              automatically.
-            </p>
+            <div className="space-y-2">
+              <Label htmlFor="carry-over">{t("carryOverLabel")}</Label>
+              <Input
+                id="carry-over"
+                type="number"
+                step="1"
+                value={carryOver}
+                onChange={(e) => setCarryOver(e.target.value)}
+                placeholder="0"
+              />
+              {prevBalanceNum > 0 && (
+                <p className="text-muted-foreground text-xs">
+                  {t("previousBalance", { amount: prevBalanceNum.toLocaleString() })}
+                </p>
+              )}
+            </div>
             <Button
               type="submit"
               className="w-full gap-2"
@@ -86,7 +107,7 @@ export function CreateMonthlyForm({
               ) : (
                 <Plus className="size-4" />
               )}
-              Create Overview
+              {t("createOverview")}
             </Button>
           </form>
         </CardContent>

@@ -5,6 +5,7 @@ import {
   createDonationPlace,
 } from "@/features/donation-place/domain";
 import { DonationPlaceError } from "@/features/donation-place/error";
+import { logAction } from "@/lib/activity-log";
 
 export async function GET(request: NextRequest) {
   try {
@@ -26,6 +27,11 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const place = await createDonationPlace(body);
+    await logAction({
+      actionType: "Added",
+      actionLabel: "Donation Place Created",
+      details: `Created donation place: ${body.name}`,
+    });
     return NextResponse.json(place, { status: 201 });
   } catch (error) {
     if (error instanceof DonationPlaceError) {

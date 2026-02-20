@@ -1,6 +1,7 @@
 "use client";
 
 import { MapPin } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   Table,
   TableBody,
@@ -18,14 +19,16 @@ type DonationPlaceTableProps = {
 };
 
 function EmptyState() {
+  const t = useTranslations("donationPlaces");
+
   return (
     <div className="flex flex-col items-center justify-center py-16 text-center">
       <div className="bg-muted mb-4 flex size-12 items-center justify-center rounded-lg">
         <MapPin className="text-muted-foreground size-6" />
       </div>
-      <h3 className="text-sm font-medium">No donation places found</h3>
+      <h3 className="text-sm font-medium">{t("empty")}</h3>
       <p className="text-muted-foreground mt-1 text-sm">
-        Get started by adding a new donation place.
+        {t("emptyDescription")}
       </p>
     </div>
   );
@@ -36,6 +39,8 @@ export function DonationPlaceTable({
   onEdit,
   onDelete,
 }: DonationPlaceTableProps) {
+  const t = useTranslations("donationPlaces");
+
   if (places.length === 0) {
     return <EmptyState />;
   }
@@ -44,11 +49,11 @@ export function DonationPlaceTable({
     <Table>
       <TableHeader>
         <TableRow className="hover:bg-transparent">
-          <TableHead>Name</TableHead>
-          <TableHead>Note</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Updated</TableHead>
-          <TableHead className="w-[80px]">Actions</TableHead>
+          <TableHead>{t("table.name")}</TableHead>
+          <TableHead>{t("table.note")}</TableHead>
+          <TableHead>{t("table.status")}</TableHead>
+          <TableHead>{t("table.updated")}</TableHead>
+          <TableHead className="w-[80px]">{t("table.actions")}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

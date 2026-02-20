@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -24,6 +25,8 @@ export function MonthlyExportDropdown({
   onExport,
   isExporting,
 }: MonthlyExportDropdownProps) {
+  const t = useTranslations("common");
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -33,21 +36,21 @@ export function MonthlyExportDropdown({
           ) : (
             <Download className="size-4" />
           )}
-          Export
+          {t("export")}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => onExport("excel")}>
           <FileSpreadsheet className="size-4" />
-          Export as Excel
+          {t("exportExcel")}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => onExport("pdf")}>
           <FileText className="size-4" />
-          Export as PDF
+          {t("exportPdf")}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => onExport("json")}>
           <FileJson className="size-4" />
-          Export as JSON
+          {t("exportJson")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

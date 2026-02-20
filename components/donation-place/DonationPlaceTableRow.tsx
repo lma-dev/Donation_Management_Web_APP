@@ -1,6 +1,7 @@
 "use client";
 
 import { Pencil, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -30,6 +31,9 @@ export function DonationPlaceTableRow({
   onEdit,
   onDelete,
 }: DonationPlaceTableRowProps) {
+  const t = useTranslations("donationPlaces");
+  const tc = useTranslations("common");
+
   return (
     <TableRow>
       <TableCell className="font-medium">{place.name}</TableCell>
@@ -41,7 +45,7 @@ export function DonationPlaceTableRow({
           variant={place.isActive ? "default" : "secondary"}
           className="text-xs font-normal"
         >
-          {place.isActive ? "Active" : "Inactive"}
+          {place.isActive ? t("active") : t("inactive")}
         </Badge>
       </TableCell>
       <TableCell className="text-muted-foreground">
@@ -57,10 +61,10 @@ export function DonationPlaceTableRow({
                 onClick={() => onEdit(place)}
               >
                 <Pencil />
-                <span className="sr-only">Edit {place.name}</span>
+                <span className="sr-only">{`${tc("edit")} ${place.name}`}</span>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Edit</TooltipContent>
+            <TooltipContent>{tc("edit")}</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -71,10 +75,10 @@ export function DonationPlaceTableRow({
                 onClick={() => onDelete(place)}
               >
                 <Trash2 />
-                <span className="sr-only">Delete {place.name}</span>
+                <span className="sr-only">{`${tc("delete")} ${place.name}`}</span>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Delete</TooltipContent>
+            <TooltipContent>{tc("delete")}</TooltipContent>
           </Tooltip>
         </div>
       </TableCell>

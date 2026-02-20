@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2, Mail, Shield, CalendarDays } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -21,6 +22,7 @@ type Profile = {
 };
 
 export default function ProfilePage() {
+  const t = useTranslations("profile");
   const { data: profile, isLoading } = useQuery<Profile>({
     queryKey: ["profile"],
     queryFn: async () => {
@@ -56,7 +58,7 @@ export default function ProfilePage() {
   }).format(new Date(profile.createdAt));
 
   return (
-    <PageContent title="Profile" description="Your account information.">
+    <PageContent title={t("title")} description={t("description")}>
       <Card className="max-w-2xl">
         <CardHeader>
           <div className="flex items-center gap-4">
@@ -67,7 +69,7 @@ export default function ProfilePage() {
             </Avatar>
             <div>
               <CardTitle className="text-xl">
-                {profile.name ?? "Unnamed User"}
+                {profile.name ?? t("unnamedUser")}
               </CardTitle>
               <Badge variant="secondary" className="mt-1">
                 {profile.role}
@@ -80,21 +82,21 @@ export default function ProfilePage() {
             <div className="flex items-start gap-3">
               <Mail className="text-muted-foreground mt-0.5 size-4 shrink-0" />
               <div>
-                <dt className="text-muted-foreground text-sm">Email</dt>
+                <dt className="text-muted-foreground text-sm">{t("email")}</dt>
                 <dd className="text-sm font-medium">{profile.email}</dd>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <Shield className="text-muted-foreground mt-0.5 size-4 shrink-0" />
               <div>
-                <dt className="text-muted-foreground text-sm">Role</dt>
+                <dt className="text-muted-foreground text-sm">{t("role")}</dt>
                 <dd className="text-sm font-medium">{profile.role}</dd>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <CalendarDays className="text-muted-foreground mt-0.5 size-4 shrink-0" />
               <div>
-                <dt className="text-muted-foreground text-sm">Member Since</dt>
+                <dt className="text-muted-foreground text-sm">{t("memberSince")}</dt>
                 <dd className="text-sm font-medium">{memberSince}</dd>
               </div>
             </div>

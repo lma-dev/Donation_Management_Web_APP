@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { listUsers, registerUser } from "@/features/user-management/domain";
 import { UserError } from "@/features/user-management/error";
+import { logAction } from "@/lib/activity-log";
 
 export async function GET() {
   try {
@@ -18,6 +19,11 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const user = await registerUser(body);
+    await logAction({
+      actionType: "Added",
+      actionLabel: "User Registered",
+      details: `Registered new user: ${body.name ?? body.email}`,
+    });
     return NextResponse.json(user, { status: 201 });
   } catch (error) {
     if (error instanceof UserError) {

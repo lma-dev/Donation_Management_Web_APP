@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Loader2 } from "lucide-react";
 import { PageContent } from "@/components/layout/PageContent";
 import { YearlyKpiCards } from "@/components/yearly/YearlyKpiCards";
@@ -9,6 +10,7 @@ import { ExportDropdown } from "@/components/yearly/ExportDropdown";
 import { useYearlyData } from "@/features/yearly-summary/use-yearly-data";
 
 export default function YearlyOverviewPage() {
+  const t = useTranslations("yearlyOverview");
   const {
     selectedYear,
     setSelectedYear,
@@ -22,8 +24,8 @@ export default function YearlyOverviewPage() {
 
   return (
     <PageContent
-      title="Yearly Overview"
-      description={`Donation summary for fiscal year ${selectedYear}`}
+      title={t("title")}
+      description={t("description", { year: selectedYear })}
       actions={
         <div className="flex items-center gap-2">
           <YearSelector
@@ -61,7 +63,11 @@ export default function YearlyOverviewPage() {
             totalDonated={summary.totalDonated}
           />
         </div>
-      ) : null}
+      ) : (
+        <div className="text-muted-foreground py-10 text-center">
+          {t("empty")}
+        </div>
+      )}
     </PageContent>
   );
 }

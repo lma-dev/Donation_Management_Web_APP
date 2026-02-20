@@ -17,6 +17,7 @@ export const createMonthlySchema = z.object({
   year: z.number().int().min(2000).max(2100),
   month: z.number().int().min(1).max(12),
   exchangeRate: z.number().positive("Exchange rate must be positive"),
+  carryOver: z.number().int().min(0, "Carry over must be non-negative"),
 });
 
 export const createSupporterSchema = z.object({

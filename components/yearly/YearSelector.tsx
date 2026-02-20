@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { CalendarRange, ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type YearSelectorProps = {
   selectedYear: number;
@@ -20,19 +21,21 @@ export function YearSelector({
   availableYears,
   onYearChange,
 }: YearSelectorProps) {
+  const t = useTranslations("yearlyOverview");
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className="gap-2">
           <CalendarRange className="size-4" />
-          FY {selectedYear}
+          {t("fy", { year: selectedYear })}
           <ChevronDown className="size-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {availableYears.map((year) => (
           <DropdownMenuItem key={year} onClick={() => onYearChange(year)}>
-            FY {year}
+            {t("fy", { year })}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

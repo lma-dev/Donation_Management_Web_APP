@@ -1,3 +1,3 @@
 import { atom } from "jotai";
 
-export const selectedYearAtom = atom<number>(new Date().getFullYear());
+export const selectedYearAtom = atom<number | null>(null);

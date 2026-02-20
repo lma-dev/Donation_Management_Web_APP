@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { ScrollText } from "lucide-react";
 import {
   Table,
@@ -16,20 +17,23 @@ type ActivityLogTableProps = {
 };
 
 function EmptyState() {
+  const t = useTranslations("activityLogs");
   return (
     <div className="flex flex-col items-center justify-center py-16 text-center">
       <div className="bg-muted mb-4 flex size-12 items-center justify-center rounded-lg">
         <ScrollText className="text-muted-foreground size-6" />
       </div>
-      <h3 className="text-sm font-medium">No activity logs found</h3>
+      <h3 className="text-sm font-medium">{t("empty")}</h3>
       <p className="text-muted-foreground mt-1 text-sm">
-        Try adjusting your filters or check back later.
+        {t("emptyDescription")}
       </p>
     </div>
   );
 }
 
 export function ActivityLogTable({ logs }: ActivityLogTableProps) {
+  const t = useTranslations("activityLogs");
+
   if (logs.length === 0) {
     return <EmptyState />;
   }
@@ -38,12 +42,12 @@ export function ActivityLogTable({ logs }: ActivityLogTableProps) {
     <Table>
       <TableHeader>
         <TableRow className="hover:bg-transparent">
-          <TableHead>Timestamp</TableHead>
-          <TableHead>User</TableHead>
-          <TableHead>Action</TableHead>
-          <TableHead>Details</TableHead>
-          <TableHead>IP Address</TableHead>
-          <TableHead>Status</TableHead>
+          <TableHead>{t("table.timestamp")}</TableHead>
+          <TableHead>{t("table.user")}</TableHead>
+          <TableHead>{t("table.action")}</TableHead>
+          <TableHead>{t("table.details")}</TableHead>
+          <TableHead>{t("table.ipAddress")}</TableHead>
+          <TableHead>{t("table.status")}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
