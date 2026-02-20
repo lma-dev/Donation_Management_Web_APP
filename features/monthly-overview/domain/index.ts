@@ -4,6 +4,8 @@ import {
   createSupporterSchema,
   createDistributionSchema,
   updateExchangeRateSchema,
+  updateSupporterSchema,
+  updateDistributionSchema,
 } from "../schema";
 import {
   findMonthlyOverview,
@@ -12,6 +14,10 @@ import {
   createSupporterDonation as createSupporterDonationData,
   createDistributionRecord as createDistributionRecordData,
   updateExchangeRate as updateExchangeRateData,
+  updateSupporterDonation as updateSupporterDonationData,
+  deleteSupporterDonation as deleteSupporterDonationData,
+  updateDistributionRecord as updateDistributionRecordData,
+  deleteDistributionRecord as deleteDistributionRecordData,
 } from "../data";
 import { MonthlyOverviewError } from "../error";
 import type { MonthlyOverviewResponse } from "../types";
@@ -253,4 +259,96 @@ export async function addDistributionRecord(input: unknown) {
     remarks: record.remarks,
     createdAt: record.createdAt.toISOString(),
   };
+}
+
+export async function updateSupporterDonation(input: unknown) {
+  const parsed = updateSupporterSchema.safeParse(input);
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0]?.message ?? "Validation failed";
+    throw new MonthlyOverviewError(firstError, "VALIDATION_ERROR");
+  }
+
+  try {
+    const donation = await updateSupporterDonationData(parsed.data.id, {
+      name: parsed.data.name,
+      amount: BigInt(parsed.data.amount),
+      currency: parsed.data.currency,
+      kyatAmount: BigInt(parsed.data.kyatAmount),
+    });
+
+    return {
+      id: donation.id,
+      name: donation.name,
+      amount: serializeBigInt(donation.amount),
+      currency: donation.currency,
+      kyatAmount: serializeBigInt(donation.kyatAmount),
+      createdAt: donation.createdAt.toISOString(),
+    };
+  } catch {
+    throw new MonthlyOverviewError(
+      "Supporter donation not found",
+      "RECORD_NOT_FOUND",
+    );
+  }
+}
+
+export async function removeSupporterDonation(id: string) {
+  if (!id) {
+    throw new MonthlyOverviewError("ID is required", "VALIDATION_ERROR");
+  }
+
+  try {
+    await deleteSupporterDonationData(id);
+  } catch {
+    throw new MonthlyOverviewError(
+      "Supporter donation not found",
+      "RECORD_NOT_FOUND",
+    );
+  }
+}
+
+export async function updateDistributionRecord(input: unknown) {
+  const parsed = updateDistributionSchema.safeParse(input);
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0]?.message ?? "Validation failed";
+    throw new MonthlyOverviewError(firstError, "VALIDATION_ERROR");
+  }
+
+  try {
+    const record = await updateDistributionRecordData(parsed.data.id, {
+      donationPlaceId: parsed.data.donationPlaceId,
+      recipient: parsed.data.recipient,
+      amountMMK: BigInt(parsed.data.amountMMK),
+      remarks: parsed.data.remarks,
+    });
+
+    return {
+      id: record.id,
+      donationPlaceId: record.donationPlaceId,
+      recipient: record.recipient,
+      amountMMK: serializeBigInt(record.amountMMK),
+      remarks: record.remarks,
+      createdAt: record.createdAt.toISOString(),
+    };
+  } catch {
+    throw new MonthlyOverviewError(
+      "Distribution record not found",
+      "RECORD_NOT_FOUND",
+    );
+  }
+}
+
+export async function removeDistributionRecord(id: string) {
+  if (!id) {
+    throw new MonthlyOverviewError("ID is required", "VALIDATION_ERROR");
+  }
+
+  try {
+    await deleteDistributionRecordData(id);
+  } catch {
+    throw new MonthlyOverviewError(
+      "Distribution record not found",
+      "RECORD_NOT_FOUND",
+    );
+  }
 }

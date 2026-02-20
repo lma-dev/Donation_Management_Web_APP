@@ -151,10 +151,13 @@
       "dialogTitle": "ပံ့ပိုးသူ လှူဒါန်းမှု ထည့်ရန်",
       "dialogDescription": "ပံ့ပိုးသူထံမှ လှူဒါန်းမှု အသစ် ထည့်သွင်းပါ။",
       "kyatAmount": "ကျပ်ငွေ (MMK)",
-      "addDonation": "လှူဒါန်းမှု ထည့်ရန်"
+      "addDonation": "လှူဒါန်းမှု ထည့်ရန်",
+      "editDialogTitle": "ပံ့ပိုးသူ လှူဒါန်းမှု ပြင်ဆင်ရန်",
+      "editDialogDescription": "လှူဒါန်းမှု အသေးစိတ်ကို အပ်ဒိတ်ပါ။",
+      "updateDonation": "လှူဒါန်းမှု အပ်ဒိတ်ရန်"
     },
     "distribution": {
-      "title": "လှူဒါန်းငွေ ဖြန့်ဝေမှု",
+      "title": "ဖြန့်ဝေမှု နေရာများ",
       "addEntry": "ထည့်သွင်းရန်",
       "place": "နေရာ",
       "amountMmk": "ပမာဏ (MMK)",
@@ -168,8 +171,13 @@
       "noPlaceFound": "လှူဒါန်းရာ နေရာ မတွေ့ပါ။",
       "remarksOptional": "မှတ်ချက် (မဖြစ်မနေ မဟုတ်)",
       "remarksPlaceholder": "မှတ်ချက် ရေးပါ",
-      "addDistribution": "ဖြန့်ဝေမှု ထည့်ရန်"
-    }
+      "addDistribution": "ဖြန့်ဝေမှု ထည့်ရန်",
+      "editDialogTitle": "ဖြန့်ဝေမှု မှတ်တမ်း ပြင်ဆင်ရန်",
+      "editDialogDescription": "ဖြန့်ဝေမှု မှတ်တမ်း အသေးစိတ်ကို အပ်ဒိတ်ပါ။",
+      "updateDistribution": "ဖြန့်ဝေမှု အပ်ဒိတ်ရန်"
+    },
+    "deleteTitle": "မှတ်တမ်း ဖျက်ရန်",
+    "deleteDescription": "ဤမှတ်တမ်းကို ဖျက်လိုသည်မှာ သေချာပါသလား? ဤလုပ်ဆောင်ချက်ကို ပြန်ဖျက်၍ မရပါ။"
   },
   "yearlyOverview": {
     "title": "နှစ်စဉ် အနှစ်ချုပ်",
@@ -298,6 +306,14 @@
       "addSupporterError": "ပံ့ပိုးသူ လှူဒါန်းမှု ထည့်သွင်းမှု မအောင်မြင်ပါ",
       "addDistributionSuccess": "ဖြန့်ဝေမှု မှတ်တမ်း ထည့်သွင်းပြီးပါပြီ",
       "addDistributionError": "ဖြန့်ဝေမှု မှတ်တမ်း ထည့်သွင်းမှု မအောင်မြင်ပါ",
+      "updateSupporterSuccess": "ပံ့ပိုးသူ လှူဒါန်းမှု အပ်ဒိတ်ပြီးပါပြီ",
+      "updateSupporterError": "ပံ့ပိုးသူ လှူဒါန်းမှု အပ်ဒိတ်မှု မအောင်မြင်ပါ",
+      "deleteSupporterSuccess": "ပံ့ပိုးသူ လှူဒါန်းမှု ဖျက်ပြီးပါပြီ",
+      "deleteSupporterError": "ပံ့ပိုးသူ လှူဒါန်းမှု ဖျက်မှု မအောင်မြင်ပါ",
+      "updateDistributionSuccess": "ဖြန့်ဝေမှု မှတ်တမ်း အပ်ဒိတ်ပြီးပါပြီ",
+      "updateDistributionError": "ဖြန့်ဝေမှု မှတ်တမ်း အပ်ဒိတ်မှု မအောင်မြင်ပါ",
+      "deleteDistributionSuccess": "ဖြန့်ဝေမှု မှတ်တမ်း ဖျက်ပြီးပါပြီ",
+      "deleteDistributionError": "ဖြန့်ဝေမှု မှတ်တမ်း ဖျက်မှု မအောင်မြင်ပါ",
       "exportSuccess": "ထုတ်ယူမှု ဒေါင်းလုဒ်ပြီးပါပြီ",
       "exportError": "ထုတ်ယူမှု မအောင်မြင်ပါ"
     }

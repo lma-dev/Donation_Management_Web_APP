@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -29,11 +29,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, ChevronsUpDown, Check } from "lucide-react";
 import type { DonationPlace } from "@/features/donation-place/types";
+import type { DistributionRecordResponse } from "@/features/monthly-overview/types";
 
 type AddDistributionDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  editData?: DistributionRecordResponse | null;
   onSubmit: (data: {
+    recipient: string;
+    donationPlaceId: string;
+    amountMMK: number;
+    remarks?: string;
+  }) => Promise<void>;
+  onUpdate?: (data: {
+    id: string;
     recipient: string;
     donationPlaceId: string;
     amountMMK: number;
@@ -44,7 +53,9 @@ type AddDistributionDialogProps = {
 export function AddDistributionDialog({
   open,
   onOpenChange,
+  editData,
   onSubmit,
+  onUpdate,
 }: AddDistributionDialogProps) {
   const t = useTranslations("monthlyOverview.distribution");
   const tc = useTranslations("common");
@@ -55,6 +66,8 @@ export function AddDistributionDialog({
   const [remarks, setRemarks] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const isEditMode = !!editData;
+
   const { data: places = [] } = useQuery<DonationPlace[]>({
     queryKey: ["donation-places", "active"],
     queryFn: async () => {
@@ -64,6 +77,20 @@ export function AddDistributionDialog({
     },
     enabled: open,
   });
+
+  useEffect(() => {
+    if (editData) {
+      setSelectedPlaceId(editData.donationPlaceId ?? "");
+      setSelectedPlaceName(editData.recipient);
+      setAmountMMK(editData.amountMMK);
+      setRemarks(editData.remarks ?? "");
+    } else {
+      setSelectedPlaceId("");
+      setSelectedPlaceName("");
+      setAmountMMK("");
+      setRemarks("");
+    }
+  }, [editData]);
 
   const numericAmount = Number(amountMMK) || 0;
 
@@ -80,12 +107,22 @@ export function AddDistributionDialog({
 
     setIsSubmitting(true);
     try {
-      await onSubmit({
-        recipient: selectedPlaceName,
-        donationPlaceId: selectedPlaceId,
-        amountMMK: numericAmount,
-        remarks: remarks.trim() || undefined,
-      });
+      if (isEditMode && onUpdate) {
+        await onUpdate({
+          id: editData.id,
+          recipient: selectedPlaceName,
+          donationPlaceId: selectedPlaceId,
+          amountMMK: numericAmount,
+          remarks: remarks.trim() || undefined,
+        });
+      } else {
+        await onSubmit({
+          recipient: selectedPlaceName,
+          donationPlaceId: selectedPlaceId,
+          amountMMK: numericAmount,
+          remarks: remarks.trim() || undefined,
+        });
+      }
       reset();
       onOpenChange(false);
     } finally {
@@ -97,9 +134,11 @@ export function AddDistributionDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{t("dialogTitle")}</DialogTitle>
+          <DialogTitle>
+            {isEditMode ? t("editDialogTitle") : t("dialogTitle")}
+          </DialogTitle>
           <DialogDescription>
-            {t("dialogDescription")}
+            {isEditMode ? t("editDialogDescription") : t("dialogDescription")}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -181,7 +220,7 @@ export function AddDistributionDialog({
               }
             >
               {isSubmitting && <Loader2 className="size-4 animate-spin" />}
-              {t("addDistribution")}
+              {isEditMode ? t("updateDistribution") : t("addDistribution")}
             </Button>
           </DialogFooter>
         </form>

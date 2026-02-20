@@ -15,12 +15,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
+import type { SupporterDonationResponse } from "@/features/monthly-overview/types";
 
 type AddSupporterDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   exchangeRate: number;
+  editData?: SupporterDonationResponse | null;
   onSubmit: (data: {
+    name: string;
+    amount: number;
+    currency: string;
+    kyatAmount: number;
+  }) => Promise<void>;
+  onUpdate?: (data: {
+    id: string;
     name: string;
     amount: number;
     currency: string;
@@ -32,7 +41,9 @@ export function AddSupporterDialog({
   open,
   onOpenChange,
   exchangeRate,
+  editData,
   onSubmit,
+  onUpdate,
 }: AddSupporterDialogProps) {
   const t = useTranslations("monthlyOverview.supporters");
   const tc = useTranslations("common");
@@ -43,9 +54,19 @@ export function AddSupporterDialog({
   const [currency, setCurrency] = useState<"JPY" | "MMK">("JPY");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const isEditMode = !!editData;
+
   useEffect(() => {
-    if (userName) setName(userName);
-  }, [userName]);
+    if (editData) {
+      setName(editData.name);
+      setAmount(editData.amount);
+      setCurrency(editData.currency as "JPY" | "MMK");
+    } else {
+      setName(userName);
+      setAmount("");
+      setCurrency("JPY");
+    }
+  }, [editData, userName]);
 
   const numericAmount = Number(amount) || 0;
   const kyatPreview =
@@ -65,12 +86,22 @@ export function AddSupporterDialog({
 
     setIsSubmitting(true);
     try {
-      await onSubmit({
-        name: name.trim(),
-        amount: numericAmount,
-        currency,
-        kyatAmount: kyatPreview,
-      });
+      if (isEditMode && onUpdate) {
+        await onUpdate({
+          id: editData.id,
+          name: name.trim(),
+          amount: numericAmount,
+          currency,
+          kyatAmount: kyatPreview,
+        });
+      } else {
+        await onSubmit({
+          name: name.trim(),
+          amount: numericAmount,
+          currency,
+          kyatAmount: kyatPreview,
+        });
+      }
       reset();
       onOpenChange(false);
     } finally {
@@ -82,9 +113,11 @@ export function AddSupporterDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{t("dialogTitle")}</DialogTitle>
+          <DialogTitle>
+            {isEditMode ? t("editDialogTitle") : t("dialogTitle")}
+          </DialogTitle>
           <DialogDescription>
-            {t("dialogDescription")}
+            {isEditMode ? t("editDialogDescription") : t("dialogDescription")}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -93,8 +126,9 @@ export function AddSupporterDialog({
             <Input
               id="supporter-name"
               value={name}
-              readOnly
-              className="bg-muted"
+              onChange={isEditMode ? (e) => setName(e.target.value) : undefined}
+              readOnly={!isEditMode}
+              className={!isEditMode ? "bg-muted" : ""}
             />
           </div>
           <div className="space-y-2">
@@ -158,7 +192,7 @@ export function AddSupporterDialog({
               disabled={isSubmitting || !name.trim() || numericAmount <= 0}
             >
               {isSubmitting && <Loader2 className="size-4 animate-spin" />}
-              {t("addDonation")}
+              {isEditMode ? t("updateDonation") : t("addDonation")}
             </Button>
           </DialogFooter>
         </form>

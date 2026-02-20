@@ -96,6 +96,66 @@ export async function createDistributionRecord(data: {
   return res.json();
 }
 
+export async function updateSupporterDonation(data: {
+  id: string;
+  name: string;
+  amount: number;
+  currency: string;
+  kyatAmount: number;
+}) {
+  const res = await fetch("/api/monthly/supporter", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error ?? "Failed to update supporter donation");
+  }
+  return res.json();
+}
+
+export async function deleteSupporterDonation(id: string) {
+  const res = await fetch(`/api/monthly/supporter?id=${id}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error ?? "Failed to delete supporter donation");
+  }
+  return res.json();
+}
+
+export async function updateDistributionRecord(data: {
+  id: string;
+  donationPlaceId: string;
+  recipient: string;
+  amountMMK: number;
+  remarks?: string;
+}) {
+  const res = await fetch("/api/monthly/distribution", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error ?? "Failed to update distribution record");
+  }
+  return res.json();
+}
+
+export async function deleteDistributionRecord(id: string) {
+  const res = await fetch(`/api/monthly/distribution?id=${id}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error ?? "Failed to delete distribution record");
+  }
+  return res.json();
+}
+
 export async function downloadMonthlyExport(
   year: number,
   month: number,

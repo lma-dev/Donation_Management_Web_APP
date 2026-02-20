@@ -31,18 +31,26 @@ export function MonthlyBreakdownTable({
   const t = useTranslations("yearlyOverview.breakdown");
 
   return (
-    <Card className="gap-0 py-0">
-      <CardHeader>
-        <CardTitle>{t("title")}</CardTitle>
+    <Card className="gap-0 overflow-hidden rounded-2xl py-0 shadow-xs">
+      <CardHeader className="flex flex-row items-center justify-between py-4">
+        <CardTitle className="text-base">{t("title")}</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
         <Table>
           <TableHeader>
-            <TableRow className="hover:bg-transparent">
-              <TableHead className="w-[200px]">{t("month")}</TableHead>
-              <TableHead className="text-right">{t("collected")}</TableHead>
-              <TableHead className="text-right">{t("donated")}</TableHead>
-              <TableHead className="text-right">{t("balance")}</TableHead>
+            <TableRow className="bg-muted/40 hover:bg-muted/40">
+              <TableHead className="text-muted-foreground w-50 px-6 py-3.5 text-[13px] font-semibold uppercase tracking-wide">
+                {t("month")}
+              </TableHead>
+              <TableHead className="text-muted-foreground px-6 py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
+                {t("collected")}
+              </TableHead>
+              <TableHead className="text-muted-foreground px-6 py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
+                {t("donated")}
+              </TableHead>
+              <TableHead className="text-muted-foreground px-6 py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
+                {t("balance")}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -51,30 +59,34 @@ export function MonthlyBreakdownTable({
                 Number(record.collectedAmount) - Number(record.donatedAmount);
               return (
                 <TableRow key={record.id}>
-                  <TableCell className="font-medium">{record.month}</TableCell>
-                  <TableCell className="text-right tabular-nums">
+                  <TableCell className="px-6 py-3.5 font-medium">
+                    {record.month}
+                  </TableCell>
+                  <TableCell className="px-6 py-3.5 text-right tabular-nums">
                     {formatAmount(record.collectedAmount)}
                   </TableCell>
-                  <TableCell className="text-right tabular-nums">
+                  <TableCell className="px-6 py-3.5 text-right tabular-nums">
                     {formatAmount(record.donatedAmount)}
                   </TableCell>
-                  <TableCell className="text-right tabular-nums">
+                  <TableCell className="px-6 py-3.5 text-right font-semibold tabular-nums text-blue-600">
                     {formatAmount(balance.toString())}
                   </TableCell>
                 </TableRow>
               );
             })}
           </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TableCell className="font-bold">{t("annualTotal")}</TableCell>
-              <TableCell className="text-right font-bold tabular-nums">
+          <TableFooter className="border-t-2">
+            <TableRow className="hover:bg-transparent">
+              <TableCell className="px-6 py-3.5 font-bold">
+                {t("annualTotal")}
+              </TableCell>
+              <TableCell className="px-6 py-3.5 text-right font-bold tabular-nums">
                 {formatAmount(totalCollected)}
               </TableCell>
-              <TableCell className="text-right font-bold tabular-nums">
+              <TableCell className="px-6 py-3.5 text-right font-bold tabular-nums">
                 {formatAmount(totalDonated)}
               </TableCell>
-              <TableCell className="text-right font-bold tabular-nums">
+              <TableCell className="px-6 py-3.5 text-right font-bold tabular-nums text-blue-600">
                 {formatAmount(
                   (
                     Number(totalCollected) - Number(totalDonated)

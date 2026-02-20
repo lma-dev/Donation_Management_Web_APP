@@ -36,6 +36,10 @@ export default function MonthlyOverviewPage() {
     handleUpdateExchangeRate,
     handleAddSupporter,
     handleAddDistribution,
+    handleUpdateSupporter,
+    handleDeleteSupporter,
+    handleUpdateDistribution,
+    handleDeleteDistribution,
     handleExport,
     isExporting,
   } = useMonthlyData();
@@ -156,12 +160,19 @@ export default function MonthlyOverviewPage() {
             <SupporterDonationsTable
               supporters={overview.supporters}
               totalCollected={overview.totalCollected}
+              exchangeRate={overview.exchangeRate}
               onAddClick={() => setSupporterDialogOpen(true)}
+              onSubmit={handleAddSupporter}
+              onUpdate={handleUpdateSupporter}
+              onDelete={handleDeleteSupporter}
             />
             <DistributionTable
               distributions={overview.distributions}
               totalDonated={overview.totalDonated}
               onAddClick={() => setDistributionDialogOpen(true)}
+              onSubmit={handleAddDistribution}
+              onUpdate={handleUpdateDistribution}
+              onDelete={handleDeleteDistribution}
             />
           </div>
 

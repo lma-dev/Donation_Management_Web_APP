@@ -151,7 +151,10 @@
       "dialogTitle": "支援者寄付の追加",
       "dialogDescription": "支援者からの新しい寄付エントリーを追加します。",
       "kyatAmount": "チャット金額（MMK）",
-      "addDonation": "寄付を追加"
+      "addDonation": "寄付を追加",
+      "editDialogTitle": "支援者寄付の編集",
+      "editDialogDescription": "寄付エントリーの詳細を更新します。",
+      "updateDonation": "寄付を更新"
     },
     "distribution": {
       "title": "寄付配布",
@@ -168,8 +171,13 @@
       "noPlaceFound": "寄付先が見つかりません。",
       "remarksOptional": "備考（任意）",
       "remarksPlaceholder": "任意のメモ",
-      "addDistribution": "配布を追加"
-    }
+      "addDistribution": "配布を追加",
+      "editDialogTitle": "配布記録の編集",
+      "editDialogDescription": "配布記録の詳細を更新します。",
+      "updateDistribution": "配布を更新"
+    },
+    "deleteTitle": "記録を削除",
+    "deleteDescription": "この記録を削除してもよろしいですか？この操作は取り消せません。"
   },
   "yearlyOverview": {
     "title": "年次概要",
@@ -298,6 +306,14 @@
       "addSupporterError": "支援者の寄付の追加に失敗しました",
       "addDistributionSuccess": "配布記録を追加しました",
       "addDistributionError": "配布記録の追加に失敗しました",
+      "updateSupporterSuccess": "支援者の寄付を更新しました",
+      "updateSupporterError": "支援者の寄付の更新に失敗しました",
+      "deleteSupporterSuccess": "支援者の寄付を削除しました",
+      "deleteSupporterError": "支援者の寄付の削除に失敗しました",
+      "updateDistributionSuccess": "配布記録を更新しました",
+      "updateDistributionError": "配布記録の更新に失敗しました",
+      "deleteDistributionSuccess": "配布記録を削除しました",
+      "deleteDistributionError": "配布記録の削除に失敗しました",
       "exportSuccess": "エクスポートをダウンロードしました",
       "exportError": "エクスポートに失敗しました"
     }

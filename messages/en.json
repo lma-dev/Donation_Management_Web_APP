@@ -151,10 +151,13 @@
       "dialogTitle": "Add Supporter Donation",
       "dialogDescription": "Add a new donation entry from a supporter.",
       "kyatAmount": "Kyat Amount (MMK)",
-      "addDonation": "Add Donation"
+      "addDonation": "Add Donation",
+      "editDialogTitle": "Edit Supporter Donation",
+      "editDialogDescription": "Update the donation entry details.",
+      "updateDonation": "Update Donation"
     },
     "distribution": {
-      "title": "Donation Distribution",
+      "title": "Distribution Places",
       "addEntry": "Add Entry",
       "place": "Place",
       "amountMmk": "Amount (MMK)",
@@ -168,8 +171,13 @@
       "noPlaceFound": "No donation place found.",
       "remarksOptional": "Remarks (optional)",
       "remarksPlaceholder": "Optional notes",
-      "addDistribution": "Add Distribution"
-    }
+      "addDistribution": "Add Distribution",
+      "editDialogTitle": "Edit Distribution Record",
+      "editDialogDescription": "Update the distribution record details.",
+      "updateDistribution": "Update Distribution"
+    },
+    "deleteTitle": "Delete Record",
+    "deleteDescription": "Are you sure you want to delete this record? This action cannot be undone."
   },
   "yearlyOverview": {
     "title": "Yearly Overview",
@@ -298,6 +306,14 @@
       "addSupporterError": "Failed to add supporter donation",
       "addDistributionSuccess": "Distribution record added successfully",
       "addDistributionError": "Failed to add distribution record",
+      "updateSupporterSuccess": "Supporter donation updated successfully",
+      "updateSupporterError": "Failed to update supporter donation",
+      "deleteSupporterSuccess": "Supporter donation deleted successfully",
+      "deleteSupporterError": "Failed to delete supporter donation",
+      "updateDistributionSuccess": "Distribution record updated successfully",
+      "updateDistributionError": "Failed to update distribution record",
+      "deleteDistributionSuccess": "Distribution record deleted successfully",
+      "deleteDistributionError": "Failed to delete distribution record",
       "exportSuccess": "Export downloaded successfully",
       "exportError": "Failed to export"
     }

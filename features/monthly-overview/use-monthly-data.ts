@@ -13,6 +13,10 @@ import {
   updateExchangeRate,
   createSupporterDonation,
   createDistributionRecord,
+  updateSupporterDonation,
+  deleteSupporterDonation,
+  updateDistributionRecord,
+  deleteDistributionRecord,
   downloadMonthlyExport,
 } from "./api-client";
 import type { MonthlyOverviewResponse } from "./types";
@@ -118,6 +122,62 @@ export function useMonthlyData() {
     }
   }
 
+  async function handleUpdateSupporter(data: {
+    id: string;
+    name: string;
+    amount: number;
+    currency: string;
+    kyatAmount: number;
+  }) {
+    try {
+      await updateSupporterDonation(data);
+      invalidate();
+      toast.success(t("updateSupporterSuccess"));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t("updateSupporterError"));
+      throw error;
+    }
+  }
+
+  async function handleDeleteSupporter(id: string) {
+    try {
+      await deleteSupporterDonation(id);
+      invalidate();
+      toast.success(t("deleteSupporterSuccess"));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t("deleteSupporterError"));
+      throw error;
+    }
+  }
+
+  async function handleUpdateDistribution(data: {
+    id: string;
+    donationPlaceId: string;
+    recipient: string;
+    amountMMK: number;
+    remarks?: string;
+  }) {
+    try {
+      await updateDistributionRecord(data);
+      invalidate();
+      toast.success(t("updateDistributionSuccess"));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t("updateDistributionError"));
+      throw error;
+    }
+  }
+
+  async function handleDeleteDistribution(id: string) {
+    try {
+      await deleteDistributionRecord(id);
+      invalidate();
+      toast.success(t("deleteDistributionSuccess"));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t("deleteDistributionError"));
+      throw error;
+    }
+  }
+
   async function handleExport(type: "excel" | "pdf" | "json") {
     setIsExporting(true);
     try {
@@ -145,6 +205,10 @@ export function useMonthlyData() {
     handleUpdateExchangeRate,
     handleAddSupporter,
     handleAddDistribution,
+    handleUpdateSupporter,
+    handleDeleteSupporter,
+    handleUpdateDistribution,
+    handleDeleteDistribution,
     handleExport,
     isExporting,
   };

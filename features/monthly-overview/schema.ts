@@ -51,9 +51,29 @@ export const monthlyExportSchema = z.object({
   }),
 });
 
+export const updateSupporterSchema = z.object({
+  id: z.string().min(1, "ID is required"),
+  name: z.string().min(1, "Name is required"),
+  amount: z.number().int().min(0, "Amount must be non-negative"),
+  currency: z.enum(["JPY", "MMK"], {
+    message: "Currency must be JPY or MMK",
+  }),
+  kyatAmount: z.number().int().min(0, "Kyat amount must be non-negative"),
+});
+
+export const updateDistributionSchema = z.object({
+  id: z.string().min(1, "ID is required"),
+  donationPlaceId: z.string().min(1, "Donation place is required"),
+  recipient: z.string().min(1, "Recipient is required"),
+  amountMMK: z.number().int().min(0, "Amount must be non-negative"),
+  remarks: z.string().optional(),
+});
+
 export type MonthlyQuery = z.infer<typeof monthlyQuerySchema>;
 export type CreateMonthly = z.infer<typeof createMonthlySchema>;
 export type CreateSupporter = z.infer<typeof createSupporterSchema>;
 export type CreateDistribution = z.infer<typeof createDistributionSchema>;
 export type UpdateExchangeRate = z.infer<typeof updateExchangeRateSchema>;
+export type UpdateSupporter = z.infer<typeof updateSupporterSchema>;
+export type UpdateDistribution = z.infer<typeof updateDistributionSchema>;
 export type MonthlyExportQuery = z.infer<typeof monthlyExportSchema>;

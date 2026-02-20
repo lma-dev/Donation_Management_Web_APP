@@ -116,3 +116,46 @@ export async function createDistributionRecord(data: {
     },
   });
 }
+
+export async function updateSupporterDonation(
+  id: string,
+  data: { name: string; amount: bigint; currency: string; kyatAmount: bigint },
+) {
+  return prisma.supporterDonation.update({
+    where: { id },
+    data: {
+      name: data.name,
+      amount: data.amount,
+      currency: data.currency,
+      kyatAmount: data.kyatAmount,
+    },
+  });
+}
+
+export async function deleteSupporterDonation(id: string) {
+  return prisma.supporterDonation.delete({ where: { id } });
+}
+
+export async function updateDistributionRecord(
+  id: string,
+  data: {
+    donationPlaceId?: string;
+    recipient: string;
+    amountMMK: bigint;
+    remarks?: string;
+  },
+) {
+  return prisma.distributionRecord.update({
+    where: { id },
+    data: {
+      donationPlaceId: data.donationPlaceId,
+      recipient: data.recipient,
+      amountMMK: data.amountMMK,
+      remarks: data.remarks,
+    },
+  });
+}
+
+export async function deleteDistributionRecord(id: string) {
+  return prisma.distributionRecord.delete({ where: { id } });
+}
