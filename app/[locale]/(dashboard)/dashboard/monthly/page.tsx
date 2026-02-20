@@ -13,25 +13,11 @@ import { AddDistributionDialog } from "@/components/monthly/AddDistributionDialo
 import { MonthlyExportDropdown } from "@/components/monthly/MonthlyExportDropdown";
 import { CreateMonthlyForm } from "@/components/monthly/CreateMonthlyForm";
 import { useMonthlyData } from "@/features/monthly-overview/use-monthly-data";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-const MONTH_KEYS = [
-  "",
-  "january",
-  "february",
-  "march",
-  "april",
-  "may",
-  "june",
-  "july",
-  "august",
-  "september",
-  "october",
-  "november",
-  "december",
-] as const;
+import { getMonthKey } from "@/lib/constants";
 
 export default function MonthlyOverviewPage() {
   const t = useTranslations("monthlyOverview");
@@ -47,6 +33,7 @@ export default function MonthlyOverviewPage() {
     isNotFound,
     previousBalance,
     handleCreateOverview,
+    handleUpdateExchangeRate,
     handleAddSupporter,
     handleAddDistribution,
     handleExport,
@@ -55,8 +42,28 @@ export default function MonthlyOverviewPage() {
 
   const [supporterDialogOpen, setSupporterDialogOpen] = useState(false);
   const [distributionDialogOpen, setDistributionDialogOpen] = useState(false);
+  const [editingRate, setEditingRate] = useState<string | null>(null);
+  const [isSavingRate, setIsSavingRate] = useState(false);
 
-  const monthKey = MONTH_KEYS[selectedMonth] ?? "";
+  const rateValue = editingRate ?? String(overview?.exchangeRate ?? "");
+  const rateChanged =
+    editingRate !== null &&
+    overview &&
+    Number(editingRate) !== overview.exchangeRate &&
+    Number(editingRate) > 0;
+
+  async function handleSaveRate() {
+    if (!rateChanged) return;
+    setIsSavingRate(true);
+    try {
+      await handleUpdateExchangeRate(Number(editingRate));
+      setEditingRate(null);
+    } finally {
+      setIsSavingRate(false);
+    }
+  }
+
+  const monthKey = getMonthKey(selectedMonth);
   const monthName = monthKey ? tm(monthKey) : "";
 
   return (
@@ -111,11 +118,27 @@ export default function MonthlyOverviewPage() {
                 </Label>
                 <Input
                   type="number"
-                  value={overview.exchangeRate}
-                  readOnly
+                  value={rateValue}
+                  onChange={(e) => setEditingRate(e.target.value)}
                   className="w-32"
                 />
-                <span className="text-muted-foreground text-sm">{t("mmk")}</span>
+                <span className="text-muted-foreground text-sm">
+                  {t("mmk")}
+                </span>
+                {rateChanged && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleSaveRate}
+                    disabled={isSavingRate}
+                  >
+                    {isSavingRate ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      <span> {t("confirm")}</span>
+                    )}
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>

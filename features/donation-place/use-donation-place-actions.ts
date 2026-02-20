@@ -1,4 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 async function apiRequest(url: string, options?: RequestInit) {
   const res = await fetch(url, options);
@@ -17,6 +19,7 @@ export type DonationPlaceFormData = {
 
 export function useDonationPlaceActions() {
   const queryClient = useQueryClient();
+  const t = useTranslations("toast.donationPlaces");
 
   const addMutation = useMutation({
     mutationFn: (data: DonationPlaceFormData) =>
@@ -25,8 +28,13 @@ export function useDonationPlaceActions() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       }),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["donation-places"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["donation-places"] });
+      toast.success(t("addSuccess"));
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : t("addError"));
+    },
   });
 
   const updateMutation = useMutation({
@@ -42,15 +50,25 @@ export function useDonationPlaceActions() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       }),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["donation-places"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["donation-places"] });
+      toast.success(t("updateSuccess"));
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : t("updateError"));
+    },
   });
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) =>
       apiRequest(`/api/donation-places/${id}`, { method: "DELETE" }),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["donation-places"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["donation-places"] });
+      toast.success(t("deleteSuccess"));
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : t("deleteError"));
+    },
   });
 
   return {

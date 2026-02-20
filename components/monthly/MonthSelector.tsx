@@ -9,21 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { CalendarDays, ChevronDown } from "lucide-react";
-
-const MONTH_KEYS = [
-  "january",
-  "february",
-  "march",
-  "april",
-  "may",
-  "june",
-  "july",
-  "august",
-  "september",
-  "october",
-  "november",
-  "december",
-];
+import { MONTH_KEYS } from "@/lib/constants";
 
 const YEARS = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - 5 + i);
 
@@ -48,29 +34,40 @@ export function MonthSelector({
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="gap-2">
             <CalendarDays className="size-4" />
-            {tm(MONTH_KEYS[selectedMonth - 1])} {selectedYear}
+            {selectedYear}
             <ChevronDown className="size-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="max-h-64 overflow-y-auto">
-          {YEARS.map((year) =>
-            MONTH_KEYS.map((_, i) => (
-              <DropdownMenuItem
-                key={`${year}-${i}`}
-                onClick={() => {
-                  onYearChange(year);
-                  onMonthChange(i + 1);
-                }}
-                className={
-                  year === selectedYear && i + 1 === selectedMonth
-                    ? "bg-accent"
-                    : ""
-                }
-              >
-                {tm(MONTH_KEYS[i])} {year}
-              </DropdownMenuItem>
-            )),
-          )}
+        <DropdownMenuContent align="end">
+          {YEARS.map((year) => (
+            <DropdownMenuItem
+              key={year}
+              onClick={() => onYearChange(year)}
+              className={year === selectedYear ? "bg-accent" : ""}
+            >
+              {year}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" className="gap-2">
+            {tm(MONTH_KEYS[selectedMonth - 1])}
+            <ChevronDown className="size-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          {MONTH_KEYS.map((key, i) => (
+            <DropdownMenuItem
+              key={key}
+              onClick={() => onMonthChange(i + 1)}
+              className={i + 1 === selectedMonth ? "bg-accent" : ""}
+            >
+              {tm(key)}
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

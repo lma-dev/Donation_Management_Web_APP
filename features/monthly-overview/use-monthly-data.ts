@@ -3,11 +3,14 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useState } from "react";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import { selectedMonthlyYearAtom, selectedMonthlyMonthAtom } from "./atoms";
 import {
   fetchMonthlyOverview,
   fetchPreviousMonthBalance,
   createMonthlyOverview,
+  updateExchangeRate,
   createSupporterDonation,
   createDistributionRecord,
   downloadMonthlyExport,
@@ -19,6 +22,7 @@ export function useMonthlyData() {
   const [selectedMonth, setSelectedMonth] = useAtom(selectedMonthlyMonthAtom);
   const [isExporting, setIsExporting] = useState(false);
   const queryClient = useQueryClient();
+  const t = useTranslations("toast.monthly");
 
   const overviewQuery = useQuery<MonthlyOverviewResponse>({
     queryKey: ["monthly-overview", selectedYear, selectedMonth],
@@ -44,13 +48,34 @@ export function useMonthlyData() {
     exchangeRate: number;
     carryOver: number;
   }) {
-    await createMonthlyOverview({
-      year: selectedYear,
-      month: selectedMonth,
-      exchangeRate: data.exchangeRate,
-      carryOver: data.carryOver,
-    });
-    invalidate();
+    try {
+      await createMonthlyOverview({
+        year: selectedYear,
+        month: selectedMonth,
+        exchangeRate: data.exchangeRate,
+        carryOver: data.carryOver,
+      });
+      invalidate();
+      toast.success(t("createSuccess"));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t("createError"));
+      throw error;
+    }
+  }
+
+  async function handleUpdateExchangeRate(exchangeRate: number) {
+    if (!overviewQuery.data) return;
+    try {
+      await updateExchangeRate({
+        id: overviewQuery.data.id,
+        exchangeRate,
+      });
+      invalidate();
+      toast.success(t("updateRateSuccess"));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t("updateRateError"));
+      throw error;
+    }
   }
 
   async function handleAddSupporter(data: {
@@ -60,11 +85,17 @@ export function useMonthlyData() {
     kyatAmount: number;
   }) {
     if (!overviewQuery.data) return;
-    await createSupporterDonation({
-      monthlyOverviewId: overviewQuery.data.id,
-      ...data,
-    });
-    invalidate();
+    try {
+      await createSupporterDonation({
+        monthlyOverviewId: overviewQuery.data.id,
+        ...data,
+      });
+      invalidate();
+      toast.success(t("addSupporterSuccess"));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t("addSupporterError"));
+      throw error;
+    }
   }
 
   async function handleAddDistribution(data: {
@@ -74,17 +105,27 @@ export function useMonthlyData() {
     remarks?: string;
   }) {
     if (!overviewQuery.data) return;
-    await createDistributionRecord({
-      monthlyOverviewId: overviewQuery.data.id,
-      ...data,
-    });
-    invalidate();
+    try {
+      await createDistributionRecord({
+        monthlyOverviewId: overviewQuery.data.id,
+        ...data,
+      });
+      invalidate();
+      toast.success(t("addDistributionSuccess"));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t("addDistributionError"));
+      throw error;
+    }
   }
 
   async function handleExport(type: "excel" | "pdf" | "json") {
     setIsExporting(true);
     try {
       await downloadMonthlyExport(selectedYear, selectedMonth, type);
+      toast.success(t("exportSuccess"));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t("exportError"));
+      throw error;
     } finally {
       setIsExporting(false);
     }
@@ -101,6 +142,7 @@ export function useMonthlyData() {
     isNotFound,
     previousBalance: previousBalanceQuery.data ?? "0",
     handleCreateOverview,
+    handleUpdateExchangeRate,
     handleAddSupporter,
     handleAddDistribution,
     handleExport,

@@ -42,6 +42,22 @@ export async function createMonthlyOverview(data: {
   return res.json();
 }
 
+export async function updateExchangeRate(data: {
+  id: string;
+  exchangeRate: number;
+}) {
+  const res = await fetch("/api/monthly", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error ?? "Failed to update exchange rate");
+  }
+  return res.json();
+}
+
 export async function createSupporterDonation(data: {
   monthlyOverviewId: string;
   name: string;

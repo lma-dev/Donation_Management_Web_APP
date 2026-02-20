@@ -34,10 +34,10 @@ export function DistributionTable({
   const tc = useTranslations("common");
 
   return (
-    <Card className="gap-0 py-0">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle>{t("title")}</CardTitle>
-        <Button size="sm" onClick={onAddClick} className="gap-1">
+    <Card className="gap-0 overflow-hidden py-0">
+      <CardHeader className="flex flex-row items-center justify-between py-4">
+        <CardTitle className="text-base">{t("title")}</CardTitle>
+        <Button size="sm" onClick={onAddClick} className="gap-1 rounded-lg px-4">
           <Plus className="size-4" />
           {t("addEntry")}
         </Button>
@@ -81,8 +81,8 @@ export function DistributionTable({
           {distributions.length > 0 && (
             <TableFooter>
               <TableRow>
-                <TableCell className="font-bold">{tc("total")}</TableCell>
-                <TableCell className="text-right font-bold tabular-nums">
+                <TableCell className="font-semibold">{tc("total")}</TableCell>
+                <TableCell className="text-right font-semibold tabular-nums">
                   {formatAmount(totalDonated)}
                 </TableCell>
                 <TableCell />

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   getMonthlyOverview,
   createMonthlyOverview,
+  updateMonthlyExchangeRate,
 } from "@/features/monthly-overview/domain";
 import { MonthlyOverviewError } from "@/features/monthly-overview/error";
 import { logAction } from "@/lib/activity-log";
@@ -56,6 +57,31 @@ export async function POST(request: NextRequest) {
     }
     return NextResponse.json(
       { error: "Failed to create monthly overview" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function PATCH(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const data = await updateMonthlyExchangeRate(body);
+    await logAction({
+      actionType: "Updated",
+      actionLabel: "Exchange Rate Updated",
+      details: `Updated exchange rate to ${body.exchangeRate}`,
+    });
+    return NextResponse.json(data);
+  } catch (error) {
+    if (error instanceof MonthlyOverviewError) {
+      const status = error.code === "OVERVIEW_NOT_FOUND" ? 404 : 400;
+      return NextResponse.json(
+        { error: error.message, code: error.code },
+        { status },
+      );
+    }
+    return NextResponse.json(
+      { error: "Failed to update exchange rate" },
       { status: 500 },
     );
   }

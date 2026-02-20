@@ -47,6 +47,40 @@ export async function createMonthlyOverview(data: {
   });
 }
 
+export async function updateExchangeRate(id: string, exchangeRate: number) {
+  return prisma.$transaction(async (tx) => {
+    const overview = await tx.monthlyOverview.update({
+      where: { id },
+      data: { exchangeRate },
+      include: {
+        supporterDonations: true,
+      },
+    });
+
+    const jpyDonations = overview.supporterDonations.filter(
+      (d) => d.currency === "JPY",
+    );
+
+    for (const donation of jpyDonations) {
+      const newKyatAmount = BigInt(
+        Math.round(Number(donation.amount) * exchangeRate),
+      );
+      await tx.supporterDonation.update({
+        where: { id: donation.id },
+        data: { kyatAmount: newKyatAmount },
+      });
+    }
+
+    return tx.monthlyOverview.findUnique({
+      where: { id },
+      include: {
+        supporterDonations: { orderBy: { createdAt: "asc" } },
+        distributionRecords: { orderBy: { createdAt: "asc" } },
+      },
+    });
+  });
+}
+
 export async function createSupporterDonation(data: {
   monthlyOverviewId: string;
   name: string;

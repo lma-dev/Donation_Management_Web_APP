@@ -3,6 +3,7 @@ import {
   createMonthlySchema,
   createSupporterSchema,
   createDistributionSchema,
+  updateExchangeRateSchema,
 } from "../schema";
 import {
   findMonthlyOverview,
@@ -10,6 +11,7 @@ import {
   createMonthlyOverview as createMonthlyOverviewData,
   createSupporterDonation as createSupporterDonationData,
   createDistributionRecord as createDistributionRecordData,
+  updateExchangeRate as updateExchangeRateData,
 } from "../data";
 import { MonthlyOverviewError } from "../error";
 import type { MonthlyOverviewResponse } from "../types";
@@ -137,6 +139,69 @@ export async function createMonthlyOverview(input: unknown) {
     year: overview.year,
     month: overview.month,
     exchangeRate: overview.exchangeRate,
+  };
+}
+
+export async function updateMonthlyExchangeRate(input: unknown): Promise<MonthlyOverviewResponse> {
+  const parsed = updateExchangeRateSchema.safeParse(input);
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0]?.message ?? "Validation failed";
+    throw new MonthlyOverviewError(firstError, "VALIDATION_ERROR");
+  }
+
+  const overview = await updateExchangeRateData(
+    parsed.data.id,
+    parsed.data.exchangeRate,
+  );
+
+  if (!overview) {
+    throw new MonthlyOverviewError(
+      "Monthly overview not found",
+      "OVERVIEW_NOT_FOUND",
+    );
+  }
+
+  const carryOver = overview.carryOver;
+
+  const totalCollected = overview.supporterDonations.reduce(
+    (sum, d) => sum + d.kyatAmount,
+    BigInt(0),
+  );
+
+  const totalDonated = overview.distributionRecords.reduce(
+    (sum, d) => sum + d.amountMMK,
+    BigInt(0),
+  );
+
+  const remainingBalance = carryOver + totalCollected - totalDonated;
+
+  return {
+    id: overview.id,
+    year: overview.year,
+    month: overview.month,
+    exchangeRate: overview.exchangeRate,
+    carryOver: serializeBigInt(carryOver),
+    totalCollected: serializeBigInt(totalCollected),
+    totalDonated: serializeBigInt(totalDonated),
+    remainingBalance: serializeBigInt(remainingBalance),
+    supporters: overview.supporterDonations.map((s) => ({
+      id: s.id,
+      name: s.name,
+      amount: serializeBigInt(s.amount),
+      currency: s.currency,
+      kyatAmount: serializeBigInt(s.kyatAmount),
+      createdAt: s.createdAt.toISOString(),
+    })),
+    distributions: overview.distributionRecords.map((d) => ({
+      id: d.id,
+      donationPlaceId: d.donationPlaceId,
+      recipient: d.recipient,
+      amountMMK: serializeBigInt(d.amountMMK),
+      remarks: d.remarks,
+      createdAt: d.createdAt.toISOString(),
+    })),
+    createdAt: overview.createdAt.toISOString(),
+    updatedAt: overview.updatedAt.toISOString(),
   };
 }
 

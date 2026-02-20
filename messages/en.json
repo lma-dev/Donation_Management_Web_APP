@@ -133,6 +133,7 @@
     "carryOverLabel": "Carry Over (MMK)",
     "previousBalance": "Previous month remaining balance: {amount} MMK",
     "createOverview": "Create Overview",
+    "confirm": "Confirm",
     "kpi": {
       "carryOver": "Carry Over",
       "totalCollected": "Total Collected",
@@ -270,6 +271,36 @@
     "email": "Email",
     "role": "Role",
     "memberSince": "Member Since"
+  },
+  "toast": {
+    "users": {
+      "addSuccess": "User added successfully",
+      "addError": "Failed to add user",
+      "updateSuccess": "User updated successfully",
+      "updateError": "Failed to update user",
+      "deleteSuccess": "User deleted successfully",
+      "deleteError": "Failed to delete user"
+    },
+    "donationPlaces": {
+      "addSuccess": "Donation place added successfully",
+      "addError": "Failed to add donation place",
+      "updateSuccess": "Donation place updated successfully",
+      "updateError": "Failed to update donation place",
+      "deleteSuccess": "Donation place deleted successfully",
+      "deleteError": "Failed to delete donation place"
+    },
+    "monthly": {
+      "createSuccess": "Monthly overview created successfully",
+      "createError": "Failed to create monthly overview",
+      "updateRateSuccess": "Exchange rate updated successfully",
+      "updateRateError": "Failed to update exchange rate",
+      "addSupporterSuccess": "Supporter donation added successfully",
+      "addSupporterError": "Failed to add supporter donation",
+      "addDistributionSuccess": "Distribution record added successfully",
+      "addDistributionError": "Failed to add distribution record",
+      "exportSuccess": "Export downloaded successfully",
+      "exportError": "Failed to export"
+    }
   },
   "settings": {
     "title": "Application Settings",

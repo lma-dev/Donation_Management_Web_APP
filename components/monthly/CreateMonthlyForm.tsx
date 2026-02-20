@@ -7,22 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2, Plus } from "lucide-react";
-
-const MONTH_KEYS = [
-  "",
-  "january",
-  "february",
-  "march",
-  "april",
-  "may",
-  "june",
-  "july",
-  "august",
-  "september",
-  "october",
-  "november",
-  "december",
-];
+import { getMonthKey } from "@/lib/constants";
 
 type CreateMonthlyFormProps = {
   year: number;
@@ -64,7 +49,7 @@ export function CreateMonthlyForm({
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>
-            {t("createTitle", { month: tm(MONTH_KEYS[month]), year })}
+            {t("createTitle", { month: tm(getMonthKey(month)), year })}
           </CardTitle>
         </CardHeader>
         <CardContent>

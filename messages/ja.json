@@ -133,6 +133,7 @@
     "carryOverLabel": "繰越金（MMK）",
     "previousBalance": "前月の残高: {amount} MMK",
     "createOverview": "概要を作成",
+    "confirm": "確認",
     "kpi": {
       "carryOver": "繰越金",
       "totalCollected": "総集金額",
@@ -270,6 +271,36 @@
     "email": "メールアドレス",
     "role": "役割",
     "memberSince": "登録日"
+  },
+  "toast": {
+    "users": {
+      "addSuccess": "ユーザーを追加しました",
+      "addError": "ユーザーの追加に失敗しました",
+      "updateSuccess": "ユーザーを更新しました",
+      "updateError": "ユーザーの更新に失敗しました",
+      "deleteSuccess": "ユーザーを削除しました",
+      "deleteError": "ユーザーの削除に失敗しました"
+    },
+    "donationPlaces": {
+      "addSuccess": "寄付先を追加しました",
+      "addError": "寄付先の追加に失敗しました",
+      "updateSuccess": "寄付先を更新しました",
+      "updateError": "寄付先の更新に失敗しました",
+      "deleteSuccess": "寄付先を削除しました",
+      "deleteError": "寄付先の削除に失敗しました"
+    },
+    "monthly": {
+      "createSuccess": "月次概要を作成しました",
+      "createError": "月次概要の作成に失敗しました",
+      "updateRateSuccess": "為替レートを更新しました",
+      "updateRateError": "為替レートの更新に失敗しました",
+      "addSupporterSuccess": "支援者の寄付を追加しました",
+      "addSupporterError": "支援者の寄付の追加に失敗しました",
+      "addDistributionSuccess": "配布記録を追加しました",
+      "addDistributionError": "配布記録の追加に失敗しました",
+      "exportSuccess": "エクスポートをダウンロードしました",
+      "exportError": "エクスポートに失敗しました"
+    }
   },
   "settings": {
     "title": "アプリ設定",

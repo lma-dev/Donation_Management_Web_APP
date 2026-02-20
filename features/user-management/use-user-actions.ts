@@ -1,4 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 import type { UserFormData } from "@/types/user";
 
 async function apiRequest(url: string, options?: RequestInit) {
@@ -12,6 +14,7 @@ async function apiRequest(url: string, options?: RequestInit) {
 
 export function useUserActions() {
   const queryClient = useQueryClient();
+  const t = useTranslations("toast.users");
 
   const addUserMutation = useMutation({
     mutationFn: (data: UserFormData) =>
@@ -20,7 +23,13 @@ export function useUserActions() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success(t("addSuccess"));
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : t("addError"));
+    },
   });
 
   const updateUserMutation = useMutation({
@@ -30,13 +39,25 @@ export function useUserActions() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success(t("updateSuccess"));
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : t("updateError"));
+    },
   });
 
   const deleteUserMutation = useMutation({
     mutationFn: (userId: string) =>
       apiRequest(`/api/users/${userId}`, { method: "DELETE" }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["users"] }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success(t("deleteSuccess"));
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : t("deleteError"));
+    },
   });
 
   return {

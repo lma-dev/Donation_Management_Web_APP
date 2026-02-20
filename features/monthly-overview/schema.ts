@@ -38,6 +38,11 @@ export const createDistributionSchema = z.object({
   remarks: z.string().optional(),
 });
 
+export const updateExchangeRateSchema = z.object({
+  id: z.string().min(1, "Monthly overview ID is required"),
+  exchangeRate: z.number().positive("Exchange rate must be positive"),
+});
+
 export const monthlyExportSchema = z.object({
   year: z.coerce.number().int().min(2000).max(2100),
   month: z.coerce.number().int().min(1).max(12),
@@ -50,4 +55,5 @@ export type MonthlyQuery = z.infer<typeof monthlyQuerySchema>;
 export type CreateMonthly = z.infer<typeof createMonthlySchema>;
 export type CreateSupporter = z.infer<typeof createSupporterSchema>;
 export type CreateDistribution = z.infer<typeof createDistributionSchema>;
+export type UpdateExchangeRate = z.infer<typeof updateExchangeRateSchema>;
 export type MonthlyExportQuery = z.infer<typeof monthlyExportSchema>;
