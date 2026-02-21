@@ -15,7 +15,10 @@
       "Bash(npm install:*)",
       "Bash(pnpm add:*)",
       "Bash(npm ls:*)",
-      "Bash(pnpm ls:*)"
+      "Bash(pnpm ls:*)",
+      "Bash(pnpm config set:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm test:*)"
     ]
   }
 }

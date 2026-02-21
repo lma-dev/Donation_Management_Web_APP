@@ -2,8 +2,8 @@
 
 ## Todo
 
-- [ ] add testing (unit tests and integration tests — no test framework installed yet)
-- [ ] add business flow mermaid diagrams for each tab (only ER diagram exists in database.md) . (use flow chart if possible)
+- [x] add testing (unit tests and integration tests — no test framework installed yet)
+- [x] add business flow mermaid diagrams for each tab (only ER diagram exists in database.md) . (use flow chart if possible)
 - [x] profile page — password change functionality
 - [x] error handling improvements (form validation feedback, API error states)
 - [ ] responsive design / mobile optimization
