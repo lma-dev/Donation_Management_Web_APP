@@ -6,8 +6,12 @@ import {
 } from "@/features/monthly-overview/domain";
 import { MonthlyOverviewError } from "@/features/monthly-overview/error";
 import { logAction } from "@/lib/activity-log";
+import { requireRole } from "@/lib/api-auth";
 
 export async function POST(request: NextRequest) {
+  const { error: authError } = await requireRole("ADMIN");
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const data = await addSupporterDonation(body);
@@ -32,6 +36,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PUT(request: NextRequest) {
+  const { error: authError } = await requireRole("ADMIN");
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const data = await updateSupporterDonation(body);
@@ -57,6 +64,9 @@ export async function PUT(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
+  const { error: authError } = await requireRole("ADMIN");
+  if (authError) return authError;
+
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");

@@ -23,6 +23,7 @@ type SupporterDonationsTableProps = {
   supporters: SupporterDonationResponse[];
   totalCollected: string;
   exchangeRate: number;
+  canEdit?: boolean;
   onAddClick: () => void;
   onSubmit: (data: {
     name: string;
@@ -48,6 +49,7 @@ export function SupporterDonationsTable({
   supporters,
   totalCollected,
   exchangeRate,
+  canEdit = true,
   onAddClick,
   onSubmit,
   onUpdate,
@@ -76,10 +78,12 @@ export function SupporterDonationsTable({
       <Card className="gap-0 overflow-hidden rounded-2xl py-0 shadow-xs">
         <CardHeader className="flex flex-row items-center justify-between py-4">
           <CardTitle className="text-base">{t("title")}</CardTitle>
-          <Button size="sm" onClick={onAddClick} className="gap-1 rounded-lg px-4">
-            <Plus className="size-4" />
-            {t("addEntry")}
-          </Button>
+          {canEdit && (
+            <Button size="sm" onClick={onAddClick} className="gap-1 rounded-lg px-4">
+              <Plus className="size-4" />
+              {t("addEntry")}
+            </Button>
+          )}
         </CardHeader>
         <CardContent className="p-0">
           <Table>
@@ -97,7 +101,7 @@ export function SupporterDonationsTable({
                 <TableHead className="text-muted-foreground px-6 py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
                   {t("kyats")}
                 </TableHead>
-                <TableHead className="w-15" />
+                {canEdit && <TableHead className="w-15" />}
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -121,12 +125,14 @@ export function SupporterDonationsTable({
                     <TableCell className="px-6 py-3.5 text-right tabular-nums">
                       {formatAmount(s.kyatAmount)}
                     </TableCell>
-                    <TableCell>
-                      <RowActionMenu
-                        onEdit={() => setEditingItem(s)}
-                        onDelete={() => setDeletingItem(s)}
-                      />
-                    </TableCell>
+                    {canEdit && (
+                      <TableCell>
+                        <RowActionMenu
+                          onEdit={() => setEditingItem(s)}
+                          onDelete={() => setDeletingItem(s)}
+                        />
+                      </TableCell>
+                    )}
                   </TableRow>
                 ))
               )}

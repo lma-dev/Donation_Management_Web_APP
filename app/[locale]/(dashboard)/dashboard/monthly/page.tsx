@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
 import { Loader2 } from "lucide-react";
 import { PageContent } from "@/components/layout/PageContent";
 import { MonthSelector } from "@/components/monthly/MonthSelector";
@@ -22,6 +23,8 @@ import { getMonthKey } from "@/lib/constants";
 export default function MonthlyOverviewPage() {
   const t = useTranslations("monthlyOverview");
   const tm = useTranslations("months");
+  const { data: session } = useSession();
+  const canEdit = session?.user?.role === "ADMIN" || session?.user?.role === "SYSTEM_ADMIN";
   const {
     selectedYear,
     setSelectedYear,
@@ -96,12 +99,18 @@ export default function MonthlyOverviewPage() {
           <Loader2 className="text-muted-foreground size-6 animate-spin" />
         </div>
       ) : isNotFound ? (
-        <CreateMonthlyForm
-          year={selectedYear}
-          month={selectedMonth}
-          previousBalance={previousBalance}
-          onSubmit={handleCreateOverview}
-        />
+        canEdit ? (
+          <CreateMonthlyForm
+            year={selectedYear}
+            month={selectedMonth}
+            previousBalance={previousBalance}
+            onSubmit={handleCreateOverview}
+          />
+        ) : (
+          <div className="text-muted-foreground py-10 text-center">
+            {t("noData")}
+          </div>
+        )
       ) : error ? (
         <div className="text-muted-foreground py-10 text-center">
           {error.message}
@@ -161,6 +170,7 @@ export default function MonthlyOverviewPage() {
               supporters={overview.supporters}
               totalCollected={overview.totalCollected}
               exchangeRate={overview.exchangeRate}
+              canEdit={canEdit}
               onAddClick={() => setSupporterDialogOpen(true)}
               onSubmit={handleAddSupporter}
               onUpdate={handleUpdateSupporter}
@@ -169,6 +179,7 @@ export default function MonthlyOverviewPage() {
             <DistributionTable
               distributions={overview.distributions}
               totalDonated={overview.totalDonated}
+              canEdit={canEdit}
               onAddClick={() => setDistributionDialogOpen(true)}
               onSubmit={handleAddDistribution}
               onUpdate={handleUpdateDistribution}

@@ -1,41 +1,35 @@
 import { NextResponse } from "next/server";
-import { editUser, removeUser } from "@/features/user-management/domain";
+import { lockUser, unlockUser } from "@/features/user-management/domain";
 import { UserError } from "@/features/user-management/error";
 import { logAction } from "@/lib/activity-log";
 import { requireRole } from "@/lib/api-auth";
 
-export async function PUT(
-  request: Request,
+export async function POST(
+  _request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const { error: authError } = await requireRole("ADMIN");
+  const { error: authError, session } = await requireRole("ADMIN");
   if (authError) return authError;
 
   try {
     const { id } = await params;
-    const body = await request.json();
-    const user = await editUser(id, body);
+    await lockUser(id, session!.user.id);
     await logAction({
       actionType: "Updated",
-      actionLabel: "User Updated",
-      details: `Updated user: ${body.name ?? body.email ?? id}`,
+      actionLabel: "User Locked",
+      details: `Locked user account: ${id}`,
     });
-    return NextResponse.json(user);
+    return NextResponse.json({ success: true });
   } catch (error) {
     if (error instanceof UserError) {
-      const status =
-        error.code === "USER_NOT_FOUND"
-          ? 404
-          : error.code === "EMAIL_ALREADY_EXISTS"
-            ? 409
-            : 400;
+      const status = error.code === "USER_NOT_FOUND" ? 404 : 400;
       return NextResponse.json(
         { error: error.message, code: error.code },
         { status },
       );
     }
     return NextResponse.json(
-      { error: "Failed to update user" },
+      { error: "Failed to lock user" },
       { status: 500 },
     );
   }
@@ -50,11 +44,11 @@ export async function DELETE(
 
   try {
     const { id } = await params;
-    await removeUser(id);
+    await unlockUser(id);
     await logAction({
-      actionType: "Deleted",
-      actionLabel: "User Deleted",
-      details: `Deleted user with ID: ${id}`,
+      actionType: "Updated",
+      actionLabel: "User Unlocked",
+      details: `Unlocked user account: ${id}`,
     });
     return NextResponse.json({ success: true });
   } catch (error) {
@@ -66,7 +60,7 @@ export async function DELETE(
       );
     }
     return NextResponse.json(
-      { error: "Failed to delete user" },
+      { error: "Failed to unlock user" },
       { status: 500 },
     );
   }

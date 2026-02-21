@@ -13,7 +13,8 @@
       "submit": "ログイン",
       "submitting": "ログイン中...",
       "forgotPassword": "パスワードをお忘れですか？",
-      "error": "メールアドレスまたはパスワードが正しくありません。"
+      "error": "メールアドレスまたはパスワードが正しくありません。",
+      "accountLocked": "このアカウントはロックされています。管理者にお問い合わせください。"
     }
   },
   "navigation": {
@@ -59,7 +60,9 @@
     "exportExcel": "Excelでエクスポート",
     "exportPdf": "PDFでエクスポート",
     "exportJson": "JSONでエクスポート",
-    "days": "日"
+    "days": "日",
+    "lock": "ロック",
+    "unlock": "ロック解除"
   },
   "months": {
     "january": "1月",
@@ -134,6 +137,7 @@
     "previousBalance": "前月の残高: {amount} MMK",
     "createOverview": "概要を作成",
     "confirm": "確認",
+    "noData": "この月のデータはまだありません。",
     "kpi": {
       "carryOver": "繰越金",
       "totalCollected": "総集金額",
@@ -237,6 +241,9 @@
       "name": "名前",
       "email": "メール",
       "role": "役割",
+      "status": "ステータス",
+      "locked": "ロック中",
+      "active": "アクティブ",
       "memberSince": "登録日",
       "actions": "操作"
     },
@@ -260,10 +267,21 @@
       "confirmPasswordLabel": "パスワード確認",
       "confirmPasswordPlaceholder": "パスワードを再入力",
       "passwordsMatch": "パスワードが一致しています",
-      "passwordsMismatch": "パスワードが一致しません"
+      "passwordsMismatch": "パスワードが一致しません",
+      "roleLabel": "役割",
+      "rolePlaceholder": "役割を選択",
+      "roles": {
+        "user": "ユーザー",
+        "admin": "管理者",
+        "systemAdmin": "システム管理者"
+      }
     },
     "deleteTitle": "ユーザーを削除しますか？",
     "deleteDescription": "{name} を完全に削除します。この操作は取り消せません。",
+    "lockTitle": "ユーザーをロックしますか？",
+    "lockDescription": "{name} のログインを禁止します。後でロック解除できます。",
+    "unlockTitle": "ユーザーのロックを解除しますか？",
+    "unlockDescription": "{name} が再びログインできるようになります。",
     "passwordRules": {
       "minLength": "8文字以上",
       "hasUppercase": "大文字1つ以上",
@@ -287,7 +305,11 @@
       "updateSuccess": "ユーザーを更新しました",
       "updateError": "ユーザーの更新に失敗しました",
       "deleteSuccess": "ユーザーを削除しました",
-      "deleteError": "ユーザーの削除に失敗しました"
+      "deleteError": "ユーザーの削除に失敗しました",
+      "lockSuccess": "ユーザーアカウントをロックしました",
+      "lockError": "ユーザーアカウントのロックに失敗しました",
+      "unlockSuccess": "ユーザーアカウントのロックを解除しました",
+      "unlockError": "ユーザーアカウントのロック解除に失敗しました"
     },
     "donationPlaces": {
       "addSuccess": "寄付先を追加しました",

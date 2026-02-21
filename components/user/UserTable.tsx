@@ -16,6 +16,9 @@ type UserTableProps = {
   users: User[];
   onEdit: (user: User) => void;
   onDelete: (user: User) => void;
+  onLock?: (user: User) => void;
+  onUnlock?: (user: User) => void;
+  showRoleColumn: boolean;
 };
 
 function EmptyState() {
@@ -34,7 +37,14 @@ function EmptyState() {
   );
 }
 
-export function UserTable({ users, onEdit, onDelete }: UserTableProps) {
+export function UserTable({
+  users,
+  onEdit,
+  onDelete,
+  onLock,
+  onUnlock,
+  showRoleColumn,
+}: UserTableProps) {
   const t = useTranslations("userManagement");
 
   if (users.length === 0) {
@@ -47,9 +57,10 @@ export function UserTable({ users, onEdit, onDelete }: UserTableProps) {
         <TableRow className="hover:bg-transparent">
           <TableHead>{t("table.name")}</TableHead>
           <TableHead>{t("table.email")}</TableHead>
-          <TableHead>{t("table.role")}</TableHead>
+          {showRoleColumn && <TableHead>{t("table.role")}</TableHead>}
+          <TableHead>{t("table.status")}</TableHead>
           <TableHead>{t("table.memberSince")}</TableHead>
-          <TableHead className="w-[80px]">{t("table.actions")}</TableHead>
+          <TableHead className="w-30">{t("table.actions")}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -59,6 +70,9 @@ export function UserTable({ users, onEdit, onDelete }: UserTableProps) {
             user={user}
             onEdit={onEdit}
             onDelete={onDelete}
+            onLock={onLock}
+            onUnlock={onUnlock}
+            showRoleColumn={showRoleColumn}
           />
         ))}
       </TableBody>

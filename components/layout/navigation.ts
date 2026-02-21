@@ -8,11 +8,13 @@ import {
   ScrollText,
   type LucideIcon,
 } from "lucide-react";
+import type { UserRole } from "@/types/user";
 
 export type NavItem = {
   labelKey: string;
   href: string;
   icon: LucideIcon;
+  minRole?: UserRole;
 };
 
 export type NavSection = {
@@ -48,11 +50,13 @@ export const navigation: NavSection[] = [
         labelKey: "items.userManagement",
         href: "/user-management",
         icon: Users,
+        minRole: "ADMIN",
       },
       {
         labelKey: "items.donationPlaces",
         href: "/donation-place-management",
         icon: MapPin,
+        minRole: "ADMIN",
       },
     ],
   },
@@ -63,6 +67,7 @@ export const navigation: NavSection[] = [
         labelKey: "items.activityLogs",
         href: "/activity-logs",
         icon: ScrollText,
+        minRole: "SYSTEM_ADMIN",
       },
       {
         labelKey: "items.applicationSettings",

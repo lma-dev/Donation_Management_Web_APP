@@ -8,6 +8,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -15,7 +22,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import type { User, UserFormData } from "@/types/user";
+import type { User, UserFormData, UserRole } from "@/types/user";
 
 type UserFormProps = {
   open: boolean;
@@ -39,6 +46,7 @@ export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) 
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [role, setRole] = useState<UserRole>("USER");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -50,6 +58,7 @@ export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) 
     if (open) {
       setName(user?.name ?? "");
       setEmail(user?.email ?? "");
+      setRole(user?.role ?? "USER");
       setPassword("");
       setConfirmPassword("");
       setShowPassword(false);
@@ -75,7 +84,7 @@ export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) 
 
     setSubmitting(true);
     try {
-      await onSubmit({ name, email, password, confirmPassword });
+      await onSubmit({ name, email, password, confirmPassword, role });
     } catch (err) {
       setError(err instanceof Error ? err.message : tc("somethingWentWrong"));
     } finally {
@@ -123,6 +132,22 @@ export function UserForm({ open, onOpenChange, user, onSubmit }: UserFormProps) 
               onChange={(e) => setEmail(e.target.value)}
               required
             />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="user-role">
+              {t("roleLabel")} <span className="text-destructive">*</span>
+            </Label>
+            <Select value={role} onValueChange={(v) => setRole(v as UserRole)}>
+              <SelectTrigger id="user-role">
+                <SelectValue placeholder={t("rolePlaceholder")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="USER">{t("roles.user")}</SelectItem>
+                <SelectItem value="ADMIN">{t("roles.admin")}</SelectItem>
+                <SelectItem value="SYSTEM_ADMIN">{t("roles.systemAdmin")}</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {isEditing && user && (

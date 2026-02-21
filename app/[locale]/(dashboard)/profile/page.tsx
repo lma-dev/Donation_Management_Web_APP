@@ -17,7 +17,7 @@ type Profile = {
   id: string;
   name: string | null;
   email: string;
-  role: "ADMIN" | "USER";
+  role: "ADMIN" | "USER" | "SYSTEM_ADMIN";
   createdAt: string;
 };
 

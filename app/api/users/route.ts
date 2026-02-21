@@ -2,8 +2,12 @@ import { NextResponse } from "next/server";
 import { listUsers, registerUser } from "@/features/user-management/domain";
 import { UserError } from "@/features/user-management/error";
 import { logAction } from "@/lib/activity-log";
+import { requireRole } from "@/lib/api-auth";
 
 export async function GET() {
+  const { error: authError } = await requireRole("ADMIN");
+  if (authError) return authError;
+
   try {
     const users = await listUsers();
     return NextResponse.json(users);
@@ -16,6 +20,9 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+  const { error: authError } = await requireRole("ADMIN");
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const user = await registerUser(body);

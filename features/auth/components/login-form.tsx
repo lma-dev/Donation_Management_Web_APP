@@ -46,6 +46,19 @@ export function LoginForm() {
     });
 
     if (!result?.ok) {
+      try {
+        const lockRes = await fetch(
+          `/api/auth/check-lock?email=${encodeURIComponent(parsed.data.email)}`,
+        );
+        const lockData = await lockRes.json();
+        if (lockData.isLocked) {
+          setError(t("accountLocked"));
+          setIsLoading(false);
+          return;
+        }
+      } catch {
+        // ignore check-lock errors, fall through to generic error
+      }
       setError(t("error"));
       setIsLoading(false);
       return;

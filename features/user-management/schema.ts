@@ -1,9 +1,12 @@
 import { z } from "zod";
 
+const roleEnum = z.enum(["USER", "ADMIN", "SYSTEM_ADMIN"]);
+
 export const createUserSchema = z
   .object({
     name: z.string().min(1, "Name is required"),
     email: z.string().email("Valid email is required"),
+    role: roleEnum.default("USER"),
     password: z
       .string()
       .min(8, "Password must be at least 8 characters")
@@ -25,6 +28,7 @@ export const updateUserSchema = z
   .object({
     name: z.string().min(1, "Name is required"),
     email: z.string().email("Valid email is required"),
+    role: roleEnum.optional(),
     password: z
       .string()
       .min(8, "Password must be at least 8 characters")

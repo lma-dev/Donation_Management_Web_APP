@@ -2,11 +2,22 @@
 
 import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
 import { useAtom } from "jotai";
 import { useQuery } from "@tanstack/react-query";
 import { Plus, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { PageContent } from "@/components/layout/PageContent";
 import { UserSearch } from "@/components/user/UserSearch";
 import { UserTable } from "@/components/user/UserTable";
@@ -23,6 +34,9 @@ import type { User, UserFormData } from "@/types/user";
 export default function UserManagementPage() {
   const t = useTranslations("userManagement");
   const tc = useTranslations("common");
+  const { data: session } = useSession();
+  const showRoleColumn = session?.user?.role === "SYSTEM_ADMIN" || session?.user?.role === "ADMIN";
+
   // Fetch users from API
   const { data: users = [], isLoading } = useQuery<User[]>({
     queryKey: ["users"],
@@ -60,13 +74,18 @@ export default function UserManagementPage() {
   );
 
   // Actions
-  const { addUser, updateUser, deleteUser } = useUserActions();
+  const { addUser, updateUser, deleteUser, lockUser, unlockUser } =
+    useUserActions();
 
   // Local dialog state
   const [formOpen, setFormOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deletingUser, setDeletingUser] = useState<User | null>(null);
+  const [lockOpen, setLockOpen] = useState(false);
+  const [lockingUser, setLockingUser] = useState<User | null>(null);
+  const [unlockOpen, setUnlockOpen] = useState(false);
+  const [unlockingUser, setUnlockingUser] = useState<User | null>(null);
 
   function handleRegister() {
     setEditingUser(null);
@@ -81,6 +100,16 @@ export default function UserManagementPage() {
   function handleDeleteRequest(user: User) {
     setDeletingUser(user);
     setDeleteOpen(true);
+  }
+
+  function handleLockRequest(user: User) {
+    setLockingUser(user);
+    setLockOpen(true);
+  }
+
+  function handleUnlockRequest(user: User) {
+    setUnlockingUser(user);
+    setUnlockOpen(true);
   }
 
   async function handleFormSubmit(data: UserFormData) {
@@ -98,6 +127,22 @@ export default function UserManagementPage() {
     }
     setDeleteOpen(false);
     setDeletingUser(null);
+  }
+
+  async function handleLockConfirm() {
+    if (lockingUser) {
+      await lockUser(lockingUser.id);
+    }
+    setLockOpen(false);
+    setLockingUser(null);
+  }
+
+  async function handleUnlockConfirm() {
+    if (unlockingUser) {
+      await unlockUser(unlockingUser.id);
+    }
+    setUnlockOpen(false);
+    setUnlockingUser(null);
   }
 
   if (isLoading) {
@@ -130,6 +175,9 @@ export default function UserManagementPage() {
             users={paginated}
             onEdit={handleEdit}
             onDelete={handleDeleteRequest}
+            onLock={handleLockRequest}
+            onUnlock={handleUnlockRequest}
+            showRoleColumn={showRoleColumn}
           />
         </CardContent>
 
@@ -183,6 +231,42 @@ export default function UserManagementPage() {
         user={deletingUser}
         onConfirm={handleDeleteConfirm}
       />
+
+      {/* Lock Confirmation Dialog */}
+      <AlertDialog open={lockOpen} onOpenChange={setLockOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("lockTitle")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("lockDescription", { name: lockingUser?.name ?? "" })}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{tc("cancel")}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleLockConfirm}>
+              {tc("lock")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Unlock Confirmation Dialog */}
+      <AlertDialog open={unlockOpen} onOpenChange={setUnlockOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t("unlockTitle")}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t("unlockDescription", { name: unlockingUser?.name ?? "" })}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{tc("cancel")}</AlertDialogCancel>
+            <AlertDialogAction onClick={handleUnlockConfirm}>
+              {tc("unlock")}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </PageContent>
   );
 }

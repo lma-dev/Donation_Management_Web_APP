@@ -13,7 +13,8 @@
       "submit": "Sign In",
       "submitting": "Signing In...",
       "forgotPassword": "Forgot password?",
-      "error": "Invalid email or password."
+      "error": "Invalid email or password.",
+      "accountLocked": "This account has been locked. Please contact an administrator."
     }
   },
   "navigation": {
@@ -59,7 +60,9 @@
     "exportExcel": "Export as Excel",
     "exportPdf": "Export as PDF",
     "exportJson": "Export as JSON",
-    "days": "days"
+    "days": "days",
+    "lock": "Lock",
+    "unlock": "Unlock"
   },
   "months": {
     "january": "January",
@@ -134,6 +137,7 @@
     "previousBalance": "Previous month remaining balance: {amount} MMK",
     "createOverview": "Create Overview",
     "confirm": "Confirm",
+    "noData": "No data available for this month.",
     "kpi": {
       "carryOver": "Carry Over",
       "totalCollected": "Total Collected",
@@ -237,6 +241,9 @@
       "name": "Name",
       "email": "Gmail",
       "role": "Role",
+      "status": "Status",
+      "locked": "Locked",
+      "active": "Active",
       "memberSince": "Member Since",
       "actions": "Actions"
     },
@@ -260,10 +267,21 @@
       "confirmPasswordLabel": "Confirm Password",
       "confirmPasswordPlaceholder": "Confirm password",
       "passwordsMatch": "Passwords match",
-      "passwordsMismatch": "Passwords do not match"
+      "passwordsMismatch": "Passwords do not match",
+      "roleLabel": "Role",
+      "rolePlaceholder": "Select a role",
+      "roles": {
+        "user": "User",
+        "admin": "Admin",
+        "systemAdmin": "System Admin"
+      }
     },
     "deleteTitle": "Delete User?",
     "deleteDescription": "This will permanently delete {name}. This action cannot be undone.",
+    "lockTitle": "Lock User?",
+    "lockDescription": "This will prevent {name} from logging in. You can unlock them later.",
+    "unlockTitle": "Unlock User?",
+    "unlockDescription": "This will allow {name} to log in again.",
     "passwordRules": {
       "minLength": "At least 8 characters",
       "hasUppercase": "One uppercase letter",
@@ -287,7 +305,11 @@
       "updateSuccess": "User updated successfully",
       "updateError": "Failed to update user",
       "deleteSuccess": "User deleted successfully",
-      "deleteError": "Failed to delete user"
+      "deleteError": "Failed to delete user",
+      "lockSuccess": "User account locked",
+      "lockError": "Failed to lock user account",
+      "unlockSuccess": "User account unlocked",
+      "unlockError": "Failed to unlock user account"
     },
     "donationPlaces": {
       "addSuccess": "Donation place added successfully",

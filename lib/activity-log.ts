@@ -15,17 +15,8 @@ export async function logAction({ actionType, actionLabel, details, status = "Su
   const ip = headersList.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null;
 
   const userName = session?.user?.name ?? "System";
-  const userId = (session?.user as { id?: string })?.id ?? undefined;
-
-  // Look up user role from DB if we have an ID
-  let userRole = "Unknown";
-  if (userId) {
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { role: true },
-    });
-    userRole = user?.role ?? "Unknown";
-  }
+  const userId = session?.user?.id ?? undefined;
+  const userRole = session?.user?.role ?? "Unknown";
 
   await prisma.activityLog.create({
     data: {

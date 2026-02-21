@@ -60,14 +60,42 @@ export function useUserActions() {
     },
   });
 
+  const lockUserMutation = useMutation({
+    mutationFn: (userId: string) =>
+      apiRequest(`/api/users/${userId}/lock`, { method: "POST" }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success(t("lockSuccess"));
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : t("lockError"));
+    },
+  });
+
+  const unlockUserMutation = useMutation({
+    mutationFn: (userId: string) =>
+      apiRequest(`/api/users/${userId}/lock`, { method: "DELETE" }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      toast.success(t("unlockSuccess"));
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : t("unlockError"));
+    },
+  });
+
   return {
     addUser: addUserMutation.mutateAsync,
     updateUser: (userId: string, data: UserFormData) =>
       updateUserMutation.mutateAsync({ userId, data }),
     deleteUser: deleteUserMutation.mutateAsync,
+    lockUser: lockUserMutation.mutateAsync,
+    unlockUser: unlockUserMutation.mutateAsync,
     isLoading:
       addUserMutation.isPending ||
       updateUserMutation.isPending ||
-      deleteUserMutation.isPending,
+      deleteUserMutation.isPending ||
+      lockUserMutation.isPending ||
+      unlockUserMutation.isPending,
   };
 }

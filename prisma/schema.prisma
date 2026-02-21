@@ -12,6 +12,7 @@ datasource db {
 enum Role {
   ADMIN
   USER
+  SYSTEM_ADMIN
 }
 
 // NextAuth Prisma Adapter compatible models
@@ -23,9 +24,13 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
-  role          Role      @default(USER)
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  role                Role      @default(USER)
+  isLocked            Boolean   @default(false)
+  lockedAt            DateTime?
+  failedLoginAttempts Int       @default(0)
+  lockedBy            String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
 
   accounts          Account[]
   sessions          Session[]
