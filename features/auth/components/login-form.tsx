@@ -4,7 +4,7 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { Eye, EyeOff, Loader2, Wallet } from "lucide-react";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -149,12 +149,12 @@ export function LoginForm() {
             </Button>
 
             <p className="text-center text-sm text-muted-foreground">
-              <button
-                type="button"
+              <Link
+                href="/auth/forgot-password"
                 className="underline underline-offset-4 hover:text-foreground"
               >
                 {t("forgotPassword")}
-              </button>
+              </Link>
             </p>
           </form>
         </CardContent>

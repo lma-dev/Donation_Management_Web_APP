@@ -39,3 +39,37 @@ export async function resetFailedAttempts(userId: string) {
     data: { failedLoginAttempts: 0 },
   });
 }
+
+export async function createPasswordResetToken(
+  email: string,
+  token: string,
+  expires: Date,
+) {
+  // Delete any existing tokens for this email first
+  await prisma.verificationToken.deleteMany({
+    where: { identifier: email },
+  });
+
+  return prisma.verificationToken.create({
+    data: {
+      identifier: email,
+      token,
+      expires,
+    },
+  });
+}
+
+export async function findPasswordResetToken(token: string) {
+  return prisma.verificationToken.findUnique({
+    where: { token },
+  });
+}
+
+export async function deletePasswordResetToken(
+  identifier: string,
+  token: string,
+) {
+  return prisma.verificationToken.delete({
+    where: { identifier_token: { identifier, token } },
+  });
+}

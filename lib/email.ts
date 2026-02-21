@@ -66,3 +66,48 @@ export async function sendWelcomeEmail(
     return false;
   }
 }
+
+export async function sendPasswordResetEmail(
+  to: string,
+  name: string,
+  resetUrl: string,
+): Promise<boolean> {
+  const transporter = createTransporter();
+  if (!transporter) {
+    console.warn("[email] SMTP not configured — skipping password reset email");
+    return false;
+  }
+
+  const from = process.env.SMTP_FROM ?? process.env.SMTP_USER;
+
+  const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+      <h2 style="color: #1a1a1a; margin-bottom: 24px;">Password Reset Request</h2>
+      <p style="color: #444; line-height: 1.6;">Hello <strong>${name}</strong>,</p>
+      <p style="color: #444; line-height: 1.6;">We received a request to reset your password. Click the button below to set a new password:</p>
+      <a href="${resetUrl}" style="display: inline-block; background: #18181b; color: #fff; padding: 10px 24px; border-radius: 6px; text-decoration: none; margin-top: 12px;">
+        Reset Password
+      </a>
+      <p style="color: #444; line-height: 1.6; margin-top: 24px;">This link will expire in 1 hour. If you did not request a password reset, you can safely ignore this email.</p>
+      <hr style="border: none; border-top: 1px solid #eee; margin: 32px 0 16px;" />
+      <p style="color: #999; font-size: 12px;">This is an automated message. Please do not reply.</p>
+    </div>
+  `;
+
+  try {
+    await transporter.sendMail({
+      from,
+      to,
+      subject: "Password Reset — Spring Liberation Rose",
+      html,
+    });
+    console.log(`[email] Password reset email sent to ${to}`);
+    return true;
+  } catch (error) {
+    console.error(
+      `[email] Failed to send password reset email to ${to}:`,
+      error,
+    );
+    return false;
+  }
+}

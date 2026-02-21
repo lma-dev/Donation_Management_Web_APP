@@ -5,7 +5,7 @@ import { routing } from "./i18n/routing";
 
 const intlMiddleware = createIntlMiddleware(routing);
 
-const publicPages = ["/", "/auth/login", "/auth/register"];
+const publicPages = ["/", "/auth/login", "/auth/register", "/auth/forgot-password", "/auth/reset-password"];
 
 const PROTECTED_ROUTES: { path: string; minRole: string }[] = [
   { path: "/activity-logs", minRole: "SYSTEM_ADMIN" },

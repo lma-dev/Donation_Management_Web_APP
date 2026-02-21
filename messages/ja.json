@@ -15,6 +15,35 @@
       "forgotPassword": "パスワードをお忘れですか？",
       "error": "メールアドレスまたはパスワードが正しくありません。",
       "accountLocked": "このアカウントはロックされています。管理者にお問い合わせください。"
+    },
+    "forgotPassword": {
+      "title": "パスワードをお忘れの方",
+      "description": "メールアドレスを入力してください。リセットリンクをお送りします。",
+      "email": "メールアドレス",
+      "emailPlaceholder": "admin@example.com",
+      "submit": "リセットリンクを送信",
+      "submitting": "送信中...",
+      "invalidEmail": "有効なメールアドレスを入力してください。",
+      "error": "エラーが発生しました。もう一度お試しください。",
+      "successMessage": "該当するアカウントが存在する場合、パスワードリセットリンクを送信しました。受信トレイをご確認ください。",
+      "backToLogin": "ログインに戻る"
+    },
+    "resetPassword": {
+      "title": "パスワードリセット",
+      "description": "新しいパスワードを入力してください。",
+      "newPassword": "新しいパスワード",
+      "newPasswordPlaceholder": "新しいパスワードを入力",
+      "confirmPassword": "パスワードの確認",
+      "confirmPasswordPlaceholder": "新しいパスワードを再入力",
+      "submit": "パスワードをリセット",
+      "submitting": "リセット中...",
+      "passwordsMatch": "パスワードが一致しています",
+      "passwordsMismatch": "パスワードが一致しません",
+      "invalidToken": "このリセットリンクは無効です。新しいリンクをリクエストしてください。",
+      "tokenExpired": "このリセットリンクは期限切れです。新しいリンクをリクエストしてください。",
+      "validationError": "パスワードの要件を確認してください。",
+      "error": "エラーが発生しました。もう一度お試しください。",
+      "backToLogin": "ログインに戻る"
     }
   },
   "navigation": {
@@ -341,6 +370,9 @@
     "passwordChangeError": "パスワードの変更に失敗しました。"
   },
   "toast": {
+    "auth": {
+      "resetPasswordSuccess": "パスワードがリセットされました。新しいパスワードでログインしてください。"
+    },
     "profile": {
       "changePasswordSuccess": "パスワードを変更しました",
       "changePasswordError": "パスワードの変更に失敗しました"

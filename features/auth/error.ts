@@ -6,7 +6,9 @@ export class AuthError extends Error {
       | "USER_NOT_FOUND"
       | "ACCOUNT_LOCKED"
       | "WRONG_PASSWORD"
-      | "VALIDATION_ERROR",
+      | "VALIDATION_ERROR"
+      | "TOKEN_EXPIRED"
+      | "TOKEN_INVALID",
   ) {
     super(message);
     this.name = "AuthError";
