@@ -62,7 +62,8 @@
     "exportJson": "JSONでエクスポート",
     "days": "日",
     "lock": "ロック",
-    "unlock": "ロック解除"
+    "unlock": "ロック解除",
+    "tryAgain": "もう一度試す"
   },
   "months": {
     "january": "1月",
@@ -323,9 +324,27 @@
     "unnamedUser": "名前未設定",
     "email": "メールアドレス",
     "role": "役割",
-    "memberSince": "登録日"
+    "memberSince": "登録日",
+    "changePassword": "パスワード変更",
+    "changePasswordDescription": "アカウントのパスワードを更新します。",
+    "currentPassword": "現在のパスワード",
+    "currentPasswordPlaceholder": "現在のパスワードを入力",
+    "newPassword": "新しいパスワード",
+    "newPasswordPlaceholder": "新しいパスワードを入力",
+    "confirmNewPassword": "新しいパスワードの確認",
+    "confirmNewPasswordPlaceholder": "新しいパスワードを再入力",
+    "changePasswordButton": "パスワードを変更",
+    "changingPassword": "変更中...",
+    "passwordsMatch": "パスワードが一致しています",
+    "passwordsMismatch": "パスワードが一致しません",
+    "wrongPassword": "現在のパスワードが正しくありません。",
+    "passwordChangeError": "パスワードの変更に失敗しました。"
   },
   "toast": {
+    "profile": {
+      "changePasswordSuccess": "パスワードを変更しました",
+      "changePasswordError": "パスワードの変更に失敗しました"
+    },
     "users": {
       "addSuccess": "ユーザーを追加しました",
       "addError": "ユーザーの追加に失敗しました",

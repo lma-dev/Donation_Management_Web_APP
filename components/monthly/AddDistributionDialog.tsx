@@ -65,6 +65,7 @@ export function AddDistributionDialog({
   const [amountMMK, setAmountMMK] = useState("");
   const [remarks, setRemarks] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   const isEditMode = !!editData;
 
@@ -105,6 +106,7 @@ export function AddDistributionDialog({
     e.preventDefault();
     if (!selectedPlaceId || numericAmount <= 0) return;
 
+    setError("");
     setIsSubmitting(true);
     try {
       if (isEditMode && onUpdate) {
@@ -125,6 +127,8 @@ export function AddDistributionDialog({
       }
       reset();
       onOpenChange(false);
+    } catch (err) {
+      setError((err as Error).message || tc("somethingWentWrong"));
     } finally {
       setIsSubmitting(false);
     }
@@ -142,6 +146,11 @@ export function AddDistributionDialog({
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
+            <div className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              {error}
+            </div>
+          )}
           <div className="space-y-2">
             <Label>{t("donationPlace")}</Label>
             <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>

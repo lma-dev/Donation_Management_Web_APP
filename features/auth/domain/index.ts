@@ -1,10 +1,13 @@
 import bcrypt from "bcryptjs";
 import {
   findUserByEmail,
+  findUserById,
   updateFailedAttempts,
   resetFailedAttempts,
+  updateUserPassword,
 } from "@/features/auth/data";
 import { AuthError } from "@/features/auth/error";
+import { changePasswordSchema } from "@/features/auth/schema";
 
 const MAX_FAILED_ATTEMPTS = 5;
 
@@ -48,4 +51,37 @@ export async function authenticateUser(email: string, password: string) {
     name: user.name,
     role: user.role,
   };
+}
+
+export async function changePassword(
+  userId: string,
+  currentPassword: string,
+  newPassword: string,
+  confirmNewPassword: string,
+) {
+  const parsed = changePasswordSchema.safeParse({
+    currentPassword,
+    newPassword,
+    confirmNewPassword,
+  });
+
+  if (!parsed.success) {
+    const firstError = parsed.error.issues[0]?.message ?? "Validation failed";
+    throw new AuthError(firstError, "VALIDATION_ERROR");
+  }
+
+  const user = await findUserById(userId);
+
+  if (!user || !user.password) {
+    throw new AuthError("User not found", "USER_NOT_FOUND");
+  }
+
+  const isCurrentValid = await bcrypt.compare(currentPassword, user.password);
+
+  if (!isCurrentValid) {
+    throw new AuthError("Current password is incorrect", "WRONG_PASSWORD");
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  await updateUserPassword(userId, hashedPassword);
 }

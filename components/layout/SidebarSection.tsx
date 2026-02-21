@@ -4,15 +4,17 @@ import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { hasMinRole } from "@/lib/permissions";
+import { Separator } from "@/components/ui/separator";
 import { SidebarItem } from "./SidebarItem";
 import type { NavSection } from "./navigation";
 
 type SidebarSectionProps = {
   section: NavSection;
   collapsed: boolean;
+  showSeparator?: boolean;
 };
 
-export function SidebarSection({ section, collapsed }: SidebarSectionProps) {
+export function SidebarSection({ section, collapsed, showSeparator }: SidebarSectionProps) {
   const t = useTranslations("navigation");
   const { data: session } = useSession();
   const userRole = session?.user?.role ?? "USER";
@@ -25,6 +27,7 @@ export function SidebarSection({ section, collapsed }: SidebarSectionProps) {
 
   return (
     <div className="space-y-1">
+      {showSeparator && <Separator className="mb-4" />}
       <p
         className={cn(
           "px-3 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70",

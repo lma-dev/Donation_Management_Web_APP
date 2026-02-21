@@ -6,6 +6,19 @@ export async function findUserByEmail(email: string) {
   });
 }
 
+export async function findUserById(id: string) {
+  return prisma.user.findUnique({
+    where: { id },
+  });
+}
+
+export async function updateUserPassword(id: string, hashedPassword: string) {
+  return prisma.user.update({
+    where: { id },
+    data: { password: hashedPassword },
+  });
+}
+
 export async function updateFailedAttempts(
   userId: string,
   attempts: number,

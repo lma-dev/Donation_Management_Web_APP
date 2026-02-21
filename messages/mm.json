@@ -62,7 +62,8 @@
     "exportJson": "JSON ဖြင့် ထုတ်ယူရန်",
     "days": "ရက်",
     "lock": "လော့ခ်ချရန်",
-    "unlock": "လော့ခ်ဖွင့်ရန်"
+    "unlock": "လော့ခ်ဖွင့်ရန်",
+    "tryAgain": "ထပ်စမ်းကြည့်ပါ"
   },
   "months": {
     "january": "ဇန်နဝါရီ",
@@ -323,9 +324,27 @@
     "unnamedUser": "အမည်မသိ အသုံးပြုသူ",
     "email": "အီးမေးလ်",
     "role": "အခန်းကဏ္ဍ",
-    "memberSince": "အဖွဲ့ဝင်ဖြစ်သည့်နေ့"
+    "memberSince": "အဖွဲ့ဝင်ဖြစ်သည့်နေ့",
+    "changePassword": "စကားဝှက် ပြောင်းရန်",
+    "changePasswordDescription": "အကောင့် စကားဝှက်ကို အပ်ဒိတ်ပါ။",
+    "currentPassword": "လက်ရှိ စကားဝှက်",
+    "currentPasswordPlaceholder": "လက်ရှိ စကားဝှက် ထည့်ပါ",
+    "newPassword": "စကားဝှက် အသစ်",
+    "newPasswordPlaceholder": "စကားဝှက် အသစ် ထည့်ပါ",
+    "confirmNewPassword": "စကားဝှက် အသစ် အတည်ပြုရန်",
+    "confirmNewPasswordPlaceholder": "စကားဝှက် အသစ် ပြန်ထည့်ပါ",
+    "changePasswordButton": "စကားဝှက် ပြောင်းရန်",
+    "changingPassword": "ပြောင်းနေသည်...",
+    "passwordsMatch": "စကားဝှက် တူညီပါသည်",
+    "passwordsMismatch": "စကားဝှက် မတူညီပါ",
+    "wrongPassword": "လက်ရှိ စကားဝှက် မှားယွင်းနေပါသည်။",
+    "passwordChangeError": "စကားဝှက် ပြောင်းမှု မအောင်မြင်ပါ။"
   },
   "toast": {
+    "profile": {
+      "changePasswordSuccess": "စကားဝှက် ပြောင်းပြီးပါပြီ",
+      "changePasswordError": "စကားဝှက် ပြောင်းမှု မအောင်မြင်ပါ"
+    },
     "users": {
       "addSuccess": "အသုံးပြုသူ ထည့်သွင်းပြီးပါပြီ",
       "addError": "အသုံးပြုသူ ထည့်သွင်းမှု မအောင်မြင်ပါ",

@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { PageContent } from "@/components/layout/PageContent";
+import { ChangePasswordForm } from "@/components/profile/ChangePasswordForm";
 
 type Profile = {
   id: string;
@@ -103,6 +104,8 @@ export default function ProfilePage() {
           </dl>
         </CardContent>
       </Card>
+
+      <ChangePasswordForm />
     </PageContent>
   );
 }

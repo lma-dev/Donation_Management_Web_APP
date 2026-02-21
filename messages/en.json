@@ -62,7 +62,8 @@
     "exportJson": "Export as JSON",
     "days": "days",
     "lock": "Lock",
-    "unlock": "Unlock"
+    "unlock": "Unlock",
+    "tryAgain": "Try Again"
   },
   "months": {
     "january": "January",
@@ -323,9 +324,27 @@
     "unnamedUser": "Unnamed User",
     "email": "Email",
     "role": "Role",
-    "memberSince": "Member Since"
+    "memberSince": "Member Since",
+    "changePassword": "Change Password",
+    "changePasswordDescription": "Update your account password.",
+    "currentPassword": "Current Password",
+    "currentPasswordPlaceholder": "Enter current password",
+    "newPassword": "New Password",
+    "newPasswordPlaceholder": "Enter new password",
+    "confirmNewPassword": "Confirm New Password",
+    "confirmNewPasswordPlaceholder": "Confirm new password",
+    "changePasswordButton": "Change Password",
+    "changingPassword": "Changing...",
+    "passwordsMatch": "Passwords match",
+    "passwordsMismatch": "Passwords do not match",
+    "wrongPassword": "Current password is incorrect.",
+    "passwordChangeError": "Failed to change password."
   },
   "toast": {
+    "profile": {
+      "changePasswordSuccess": "Password changed successfully",
+      "changePasswordError": "Failed to change password"
+    },
     "users": {
       "addSuccess": "User added successfully",
       "addError": "Failed to add user",

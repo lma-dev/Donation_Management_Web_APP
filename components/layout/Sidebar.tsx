@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { PanelLeftClose, PanelLeft, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { SidebarSection } from "./SidebarSection";
 import { navigation } from "./navigation";
@@ -60,10 +59,12 @@ function SidebarNav({ collapsed }: { collapsed: boolean }) {
   return (
     <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-4">
       {navigation.map((section, index) => (
-        <div key={section.titleKey}>
-          {index > 0 && <Separator className="mb-4" />}
-          <SidebarSection section={section} collapsed={collapsed} />
-        </div>
+        <SidebarSection
+          key={section.titleKey}
+          section={section}
+          collapsed={collapsed}
+          showSeparator={index > 0}
+        />
       ))}
     </nav>
   );

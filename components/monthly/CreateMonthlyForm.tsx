@@ -23,10 +23,12 @@ export function CreateMonthlyForm({
   onSubmit,
 }: CreateMonthlyFormProps) {
   const t = useTranslations("monthlyOverview");
+  const tc = useTranslations("common");
   const tm = useTranslations("months");
   const [exchangeRate, setExchangeRate] = useState("");
   const [carryOver, setCarryOver] = useState(previousBalance !== "0" ? previousBalance : "");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -34,9 +36,12 @@ export function CreateMonthlyForm({
     const carry = Number(carryOver) || 0;
     if (rate <= 0) return;
 
+    setError("");
     setIsSubmitting(true);
     try {
       await onSubmit({ exchangeRate: rate, carryOver: carry });
+    } catch (err) {
+      setError((err as Error).message || tc("somethingWentWrong"));
     } finally {
       setIsSubmitting(false);
     }
@@ -54,6 +59,11 @@ export function CreateMonthlyForm({
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <div className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                {error}
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="exchange-rate">{t("exchangeRateLabel")}</Label>
               <Input

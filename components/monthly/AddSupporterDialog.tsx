@@ -71,6 +71,7 @@ export function AddSupporterDialog({
   const [amount, setAmount] = useState("");
   const [currency, setCurrency] = useState<"JPY" | "MMK">("JPY");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   const isEditMode = !!editData;
 
@@ -112,6 +113,7 @@ export function AddSupporterDialog({
     e.preventDefault();
     if (!selectedName.trim() || numericAmount <= 0) return;
 
+    setError("");
     setIsSubmitting(true);
     try {
       if (isEditMode && onUpdate) {
@@ -132,6 +134,8 @@ export function AddSupporterDialog({
       }
       reset();
       onOpenChange(false);
+    } catch (err) {
+      setError((err as Error).message || tc("somethingWentWrong"));
     } finally {
       setIsSubmitting(false);
     }
@@ -149,6 +153,11 @@ export function AddSupporterDialog({
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {error && (
+            <div className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              {error}
+            </div>
+          )}
           <div className="space-y-2">
             <Label>{t("name")}</Label>
             <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
