@@ -56,10 +56,10 @@ export function UserTable({
       <TableHeader>
         <TableRow className="hover:bg-transparent">
           <TableHead>{t("table.name")}</TableHead>
-          <TableHead>{t("table.email")}</TableHead>
+          <TableHead className="hidden sm:table-cell">{t("table.email")}</TableHead>
           {showRoleColumn && <TableHead>{t("table.role")}</TableHead>}
           <TableHead>{t("table.status")}</TableHead>
-          <TableHead>{t("table.memberSince")}</TableHead>
+          <TableHead className="hidden md:table-cell">{t("table.memberSince")}</TableHead>
           <TableHead className="w-30">{t("table.actions")}</TableHead>
         </TableRow>
       </TableHeader>

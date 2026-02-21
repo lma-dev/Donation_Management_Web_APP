@@ -75,13 +75,13 @@ export function ActivityLogTableRow({ log }: ActivityLogTableRowProps) {
           {log.actionLabel}
         </Badge>
       </TableCell>
-      <TableCell className="max-w-[300px] truncate text-sm">
+      <TableCell className="max-w-36 sm:max-w-75 truncate text-sm">
         {log.details}
       </TableCell>
-      <TableCell className="text-muted-foreground text-xs font-mono">
+      <TableCell className="text-muted-foreground hidden md:table-cell text-xs font-mono">
         {log.ipAddress ?? "—"}
       </TableCell>
-      <TableCell>
+      <TableCell className="hidden sm:table-cell">
         <Badge
           variant="secondary"
           className={STATUS_COLORS[log.status] ?? ""}

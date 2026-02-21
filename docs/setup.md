@@ -27,6 +27,13 @@ DATABASE_URL="postgresql://<user>@localhost:5432/spring_liberation_rose"
 NEXTAUTH_URL="http://localhost:3000"
 NEXTAUTH_SECRET="your-secret-key-change-in-production"
 NODE_ENV="development"
+
+# Optional: SMTP for sending confirmation emails on user registration
+SMTP_HOST=""
+SMTP_PORT="587"
+SMTP_USER=""
+SMTP_PASS=""
+SMTP_FROM=""
 ```
 
 ### 3. Set up the database
@@ -82,8 +89,13 @@ This starts PostgreSQL and the app together.
 | `pnpm dev` | Start development server |
 | `pnpm build` | Production build |
 | `pnpm start` | Start production server |
+| `pnpm test` | run test |
 | `pnpm lint` | Run ESLint |
 | `pnpm db:seed` | Seed admin user |
 | `pnpm prisma migrate dev` | Run database migrations |
 | `pnpm prisma generate` | Regenerate Prisma client |
 | `pnpm prisma studio` | Open Prisma Studio (DB GUI) |
+
+## Production Deployment
+
+See [deployment.md](./deployment.md) for Vercel and Docker deployment guides.

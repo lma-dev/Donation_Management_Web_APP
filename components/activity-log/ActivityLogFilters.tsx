@@ -54,11 +54,11 @@ export function ActivityLogFilters({
   const hasFilters = userName || dateFrom || dateTo || actionType;
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
       <select
         value={userName}
         onChange={(e) => onUserNameChange(e.target.value)}
-        className="border-input bg-background text-foreground h-9 rounded-md border px-3 text-sm"
+        className="border-input bg-background text-foreground h-9 w-full rounded-md border px-3 text-sm sm:w-auto"
       >
         <option value="">{t("allUsers")}</option>
         {users.map((user) => (
@@ -71,20 +71,20 @@ export function ActivityLogFilters({
         type="date"
         value={dateFrom}
         onChange={(e) => onDateFromChange(e.target.value)}
-        className="w-auto"
+        className="w-full sm:w-auto"
         placeholder="From"
       />
       <Input
         type="date"
         value={dateTo}
         onChange={(e) => onDateToChange(e.target.value)}
-        className="w-auto"
+        className="w-full sm:w-auto"
         placeholder="To"
       />
       <select
         value={actionType}
         onChange={(e) => onActionTypeChange(e.target.value)}
-        className="border-input bg-background text-foreground h-9 rounded-md border px-3 text-sm"
+        className="border-input bg-background text-foreground h-9 w-full rounded-md border px-3 text-sm sm:w-auto"
       >
         <option value="">{t("allActions")}</option>
         {ACTION_TYPE_KEYS.map((item) => (
@@ -94,7 +94,7 @@ export function ActivityLogFilters({
         ))}
       </select>
       {hasFilters && (
-        <Button variant="ghost" size="sm" onClick={onClearAll}>
+        <Button variant="ghost" size="sm" onClick={onClearAll} className="col-span-2 sm:col-span-1">
           <X className="mr-1 size-4" />
           {t("clearAll")}
         </Button>

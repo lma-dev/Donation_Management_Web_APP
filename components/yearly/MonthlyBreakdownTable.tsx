@@ -36,19 +36,20 @@ export function MonthlyBreakdownTable({
         <CardTitle className="text-base">{t("title")}</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
+        <div className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/40 hover:bg-muted/40">
-              <TableHead className="text-muted-foreground w-50 px-6 py-3.5 text-[13px] font-semibold uppercase tracking-wide">
+              <TableHead className="text-muted-foreground w-28 sm:w-50 px-3 py-2.5 sm:px-6 sm:py-3.5 text-[13px] font-semibold uppercase tracking-wide">
                 {t("month")}
               </TableHead>
-              <TableHead className="text-muted-foreground px-6 py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
+              <TableHead className="text-muted-foreground px-3 py-2.5 sm:px-6 sm:py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
                 {t("collected")}
               </TableHead>
-              <TableHead className="text-muted-foreground px-6 py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
+              <TableHead className="text-muted-foreground px-3 py-2.5 sm:px-6 sm:py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
                 {t("donated")}
               </TableHead>
-              <TableHead className="text-muted-foreground px-6 py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
+              <TableHead className="text-muted-foreground px-3 py-2.5 sm:px-6 sm:py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
                 {t("balance")}
               </TableHead>
             </TableRow>
@@ -59,16 +60,16 @@ export function MonthlyBreakdownTable({
                 Number(record.collectedAmount) - Number(record.donatedAmount);
               return (
                 <TableRow key={record.id}>
-                  <TableCell className="px-6 py-3.5 font-medium">
+                  <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 font-medium">
                     {record.month}
                   </TableCell>
-                  <TableCell className="px-6 py-3.5 text-right tabular-nums">
+                  <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 text-right tabular-nums">
                     {formatAmount(record.collectedAmount)}
                   </TableCell>
-                  <TableCell className="px-6 py-3.5 text-right tabular-nums">
+                  <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 text-right tabular-nums">
                     {formatAmount(record.donatedAmount)}
                   </TableCell>
-                  <TableCell className="px-6 py-3.5 text-right font-semibold tabular-nums text-blue-600">
+                  <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 text-right font-semibold tabular-nums text-blue-600">
                     {formatAmount(balance.toString())}
                   </TableCell>
                 </TableRow>
@@ -77,16 +78,16 @@ export function MonthlyBreakdownTable({
           </TableBody>
           <TableFooter className="border-t-2">
             <TableRow className="hover:bg-transparent">
-              <TableCell className="px-6 py-3.5 font-bold">
+              <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 font-bold">
                 {t("annualTotal")}
               </TableCell>
-              <TableCell className="px-6 py-3.5 text-right font-bold tabular-nums">
+              <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 text-right font-bold tabular-nums">
                 {formatAmount(totalCollected)}
               </TableCell>
-              <TableCell className="px-6 py-3.5 text-right font-bold tabular-nums">
+              <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 text-right font-bold tabular-nums">
                 {formatAmount(totalDonated)}
               </TableCell>
-              <TableCell className="px-6 py-3.5 text-right font-bold tabular-nums text-blue-600">
+              <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 text-right font-bold tabular-nums text-blue-600">
                 {formatAmount(
                   (
                     Number(totalCollected) - Number(totalDonated)
@@ -96,6 +97,7 @@ export function MonthlyBreakdownTable({
             </TableRow>
           </TableFooter>
         </Table>
+        </div>
       </CardContent>
     </Card>
   );

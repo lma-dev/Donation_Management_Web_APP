@@ -86,19 +86,20 @@ export function SupporterDonationsTable({
           )}
         </CardHeader>
         <CardContent className="p-0">
+          <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/40 hover:bg-muted/40">
-                <TableHead className="text-muted-foreground w-50 px-6 py-3.5 text-[13px] font-semibold uppercase tracking-wide">
+                <TableHead className="text-muted-foreground w-32 sm:w-50 px-3 py-2.5 sm:px-6 sm:py-3.5 text-[13px] font-semibold uppercase tracking-wide">
                   {t("name")}
                 </TableHead>
-                <TableHead className="text-muted-foreground px-6 py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
+                <TableHead className="text-muted-foreground px-3 py-2.5 sm:px-6 sm:py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
                   {t("amount")}
                 </TableHead>
-                <TableHead className="text-muted-foreground px-6 py-3.5 text-center text-[13px] font-semibold uppercase tracking-wide">
+                <TableHead className="text-muted-foreground hidden sm:table-cell px-3 py-2.5 sm:px-6 sm:py-3.5 text-center text-[13px] font-semibold uppercase tracking-wide">
                   {t("currency")}
                 </TableHead>
-                <TableHead className="text-muted-foreground px-6 py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
+                <TableHead className="text-muted-foreground px-3 py-2.5 sm:px-6 sm:py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
                   {t("kyats")}
                 </TableHead>
                 {canEdit && <TableHead className="w-15" />}
@@ -109,7 +110,7 @@ export function SupporterDonationsTable({
                 <TableRow>
                   <TableCell
                     colSpan={canEdit ? 5 : 4}
-                    className="text-muted-foreground px-6 py-3.5 text-center"
+                    className="text-muted-foreground px-3 py-2.5 sm:px-6 sm:py-3.5 text-center"
                   >
                     {t("empty")}
                   </TableCell>
@@ -117,12 +118,12 @@ export function SupporterDonationsTable({
               ) : (
                 supporters.map((s) => (
                   <TableRow key={s.id}>
-                    <TableCell className="px-6 py-3.5 font-medium">{s.name}</TableCell>
-                    <TableCell className="px-6 py-3.5 text-right tabular-nums">
+                    <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 font-medium">{s.name}</TableCell>
+                    <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 text-right tabular-nums">
                       {formatAmount(s.amount)}
                     </TableCell>
-                    <TableCell className="px-6 py-3.5 text-center">{s.currency}</TableCell>
-                    <TableCell className="px-6 py-3.5 text-right tabular-nums">
+                    <TableCell className="hidden sm:table-cell px-3 py-2.5 sm:px-6 sm:py-3.5 text-center">{s.currency}</TableCell>
+                    <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 text-right tabular-nums">
                       {formatAmount(s.kyatAmount)}
                     </TableCell>
                     {canEdit && (
@@ -140,10 +141,11 @@ export function SupporterDonationsTable({
             {supporters.length > 0 && (
               <TableFooter className="border-t-2">
                 <TableRow className="hover:bg-transparent">
-                  <TableCell colSpan={3} className="px-6 py-3.5 font-bold">
+                  <TableCell colSpan={2} className="px-3 py-2.5 sm:px-6 sm:py-3.5 font-bold">
                     {tc("total")}
                   </TableCell>
-                  <TableCell className="px-6 py-3.5 text-right font-bold tabular-nums">
+                  <TableCell className="hidden sm:table-cell" />
+                  <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 text-right font-bold tabular-nums">
                     {formatAmount(totalCollected)}
                   </TableCell>
                   {canEdit && <TableCell />}
@@ -151,6 +153,7 @@ export function SupporterDonationsTable({
               </TableFooter>
             )}
           </Table>
+          </div>
         </CardContent>
       </Card>
 

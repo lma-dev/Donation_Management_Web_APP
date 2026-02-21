@@ -127,7 +127,7 @@ export default function MonthlyOverviewPage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                 <Label className="text-muted-foreground shrink-0 text-sm">
                   {t("jpyEquals")}
                 </Label>
@@ -135,7 +135,7 @@ export default function MonthlyOverviewPage() {
                   type="number"
                   value={rateValue}
                   onChange={(e) => setEditingRate(e.target.value)}
-                  className="w-32"
+                  className="w-full sm:w-32"
                 />
                 <span className="text-muted-foreground text-sm">
                   {t("mmk")}

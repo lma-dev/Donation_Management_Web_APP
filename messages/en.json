@@ -355,7 +355,9 @@
       "lockSuccess": "User account locked",
       "lockError": "Failed to lock user account",
       "unlockSuccess": "User account unlocked",
-      "unlockError": "Failed to unlock user account"
+      "unlockError": "Failed to unlock user account",
+      "emailSent": "Confirmation email sent to user",
+      "emailFailed": "User created but confirmation email could not be sent"
     },
     "donationPlaces": {
       "addSuccess": "Donation place added successfully",

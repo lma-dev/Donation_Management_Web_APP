@@ -84,16 +84,17 @@ export function DistributionTable({
           )}
         </CardHeader>
         <CardContent className="p-0">
+          <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/40 hover:bg-muted/40">
-                <TableHead className="text-muted-foreground w-50 px-6 py-3.5 text-[13px] font-semibold uppercase tracking-wide">
+                <TableHead className="text-muted-foreground w-32 sm:w-50 px-3 py-2.5 sm:px-6 sm:py-3.5 text-[13px] font-semibold uppercase tracking-wide">
                   {t("place")}
                 </TableHead>
-                <TableHead className="text-muted-foreground px-6 py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
+                <TableHead className="text-muted-foreground px-3 py-2.5 sm:px-6 sm:py-3.5 text-right text-[13px] font-semibold uppercase tracking-wide">
                   {t("amountMmk")}
                 </TableHead>
-                <TableHead className="text-muted-foreground px-6 py-3.5 text-[13px] font-semibold uppercase tracking-wide">
+                <TableHead className="text-muted-foreground hidden sm:table-cell px-3 py-2.5 sm:px-6 sm:py-3.5 text-[13px] font-semibold uppercase tracking-wide">
                   {t("remarks")}
                 </TableHead>
                 {canEdit && <TableHead className="w-15" />}
@@ -104,7 +105,7 @@ export function DistributionTable({
                 <TableRow>
                   <TableCell
                     colSpan={canEdit ? 4 : 3}
-                    className="text-muted-foreground px-6 py-3.5 text-center"
+                    className="text-muted-foreground px-3 py-2.5 sm:px-6 sm:py-3.5 text-center"
                   >
                     {t("empty")}
                   </TableCell>
@@ -112,12 +113,12 @@ export function DistributionTable({
               ) : (
                 distributions.map((d) => (
                   <TableRow key={d.id}>
-                    <TableCell className="px-6 py-3.5 font-medium">{d.recipient}</TableCell>
-                    <TableCell className="px-6 py-3.5 text-right tabular-nums">
+                    <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 font-medium">{d.recipient}</TableCell>
+                    <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 text-right tabular-nums">
                       {formatAmount(d.amountMMK)}
                     </TableCell>
                     <TableCell
-                      className="text-muted-foreground max-w-50 truncate px-6 py-3.5"
+                      className="text-muted-foreground hidden sm:table-cell max-w-24 sm:max-w-50 truncate px-3 py-2.5 sm:px-6 sm:py-3.5"
                       title={d.remarks ?? undefined}
                     >
                       {d.remarks ?? "—"}
@@ -137,16 +138,17 @@ export function DistributionTable({
             {distributions.length > 0 && (
               <TableFooter className="border-t-2">
                 <TableRow className="hover:bg-transparent">
-                  <TableCell className="px-6 py-3.5 font-bold">{tc("total")}</TableCell>
-                  <TableCell className="px-6 py-3.5 text-right font-bold tabular-nums">
+                  <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 font-bold">{tc("total")}</TableCell>
+                  <TableCell className="px-3 py-2.5 sm:px-6 sm:py-3.5 text-right font-bold tabular-nums">
                     {formatAmount(totalDonated)}
                   </TableCell>
-                  <TableCell />
+                  <TableCell className="hidden sm:table-cell" />
                   {canEdit && <TableCell />}
                 </TableRow>
               </TableFooter>
             )}
           </Table>
+          </div>
         </CardContent>
       </Card>
 

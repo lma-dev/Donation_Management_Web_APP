@@ -23,9 +23,14 @@ export function useUserActions() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       }),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
       toast.success(t("addSuccess"));
+      if (data?.emailSent) {
+        toast.info(t("emailSent"));
+      } else {
+        toast.warning(t("emailFailed"));
+      }
     },
     onError: (error) => {
       toast.error(error instanceof Error ? error.message : t("addError"));

@@ -50,9 +50,9 @@ export function DonationPlaceTable({
       <TableHeader>
         <TableRow className="hover:bg-transparent">
           <TableHead>{t("table.name")}</TableHead>
-          <TableHead>{t("table.note")}</TableHead>
+          <TableHead className="hidden sm:table-cell">{t("table.note")}</TableHead>
           <TableHead>{t("table.status")}</TableHead>
-          <TableHead>{t("table.updated")}</TableHead>
+          <TableHead className="hidden md:table-cell">{t("table.updated")}</TableHead>
           <TableHead className="w-[80px]">{t("table.actions")}</TableHead>
         </TableRow>
       </TableHeader>

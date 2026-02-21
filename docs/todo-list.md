@@ -6,9 +6,9 @@
 - [x] add business flow mermaid diagrams for each tab (only ER diagram exists in database.md) . (use flow chart if possible)
 - [x] profile page — password change functionality
 - [x] error handling improvements (form validation feedback, API error states)
-- [ ] responsive design / mobile optimization
-- [ ] deployment configuration and documentation
-- [ ] send confirmation email when create user register . please note that this function is only after login . not login form 
+- [x] responsive design / mobile optimization
+- [x] deployment configuration and documentation
+- [x] send confirmation email when create user register . please note that this function is only after login . not login form
 
 
 ## Completed

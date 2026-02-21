@@ -18,7 +18,9 @@
       "Bash(pnpm ls:*)",
       "Bash(pnpm config set:*)",
       "Bash(pnpm install:*)",
-      "Bash(pnpm test:*)"
+      "Bash(pnpm test:*)",
+      "Bash(git -C /Users/recycle/work/ProjectPlayGround/yone-kya-ml log --oneline -15)",
+      "Bash(head:*)"
     ]
   }
 }

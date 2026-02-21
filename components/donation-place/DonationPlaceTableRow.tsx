@@ -37,7 +37,7 @@ export function DonationPlaceTableRow({
   return (
     <TableRow>
       <TableCell className="font-medium">{place.name}</TableCell>
-      <TableCell className="text-muted-foreground">
+      <TableCell className="text-muted-foreground hidden sm:table-cell">
         {place.note || "—"}
       </TableCell>
       <TableCell>
@@ -48,7 +48,7 @@ export function DonationPlaceTableRow({
           {place.isActive ? t("active") : t("inactive")}
         </Badge>
       </TableCell>
-      <TableCell className="text-muted-foreground">
+      <TableCell className="text-muted-foreground hidden md:table-cell">
         {formatDate(place.updatedAt)}
       </TableCell>
       <TableCell>

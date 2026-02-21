@@ -44,8 +44,8 @@ export function UserTableRow({
 
   return (
     <TableRow>
-      <TableCell className="font-medium">{user.name}</TableCell>
-      <TableCell className="text-muted-foreground">
+      <TableCell className="max-w-30 truncate font-medium sm:max-w-none">{user.name}</TableCell>
+      <TableCell className="text-muted-foreground hidden sm:table-cell">
         {user.email || "—"}
       </TableCell>
       {showRoleColumn && (
@@ -66,7 +66,7 @@ export function UserTableRow({
           </Badge>
         )}
       </TableCell>
-      <TableCell className="text-muted-foreground">
+      <TableCell className="text-muted-foreground hidden md:table-cell">
         {formatDate(user.createdAt)}
       </TableCell>
       <TableCell>

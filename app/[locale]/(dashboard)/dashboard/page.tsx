@@ -41,7 +41,7 @@ export default function DashboardPage() {
 
       {/* Charts Row */}
       <div className="grid gap-4 lg:grid-cols-7">
-        <Card className="lg:col-span-4">
+        <Card className="overflow-hidden lg:col-span-4">
           <CardContent className="pt-0">
             {isLoading ? (
               <div className="flex h-75 items-center justify-center">
@@ -59,7 +59,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="lg:col-span-3">
+        <Card className="overflow-hidden lg:col-span-3">
           <CardContent className="pt-0">
             {isLoading ? (
               <div className="flex h-55 items-center justify-center">

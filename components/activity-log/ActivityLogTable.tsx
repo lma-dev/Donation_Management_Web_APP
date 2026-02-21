@@ -46,8 +46,8 @@ export function ActivityLogTable({ logs }: ActivityLogTableProps) {
           <TableHead>{t("table.user")}</TableHead>
           <TableHead>{t("table.action")}</TableHead>
           <TableHead>{t("table.details")}</TableHead>
-          <TableHead>{t("table.ipAddress")}</TableHead>
-          <TableHead>{t("table.status")}</TableHead>
+          <TableHead className="hidden md:table-cell">{t("table.ipAddress")}</TableHead>
+          <TableHead className="hidden sm:table-cell">{t("table.status")}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
