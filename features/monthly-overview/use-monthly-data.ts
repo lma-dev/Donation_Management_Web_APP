@@ -46,6 +46,12 @@ export function useMonthlyData() {
     queryClient.invalidateQueries({
       queryKey: ["monthly-overview", selectedYear, selectedMonth],
     });
+    queryClient.invalidateQueries({
+      queryKey: ["yearly-summary", selectedYear],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ["available-years"],
+    });
   }
 
   async function handleCreateOverview(data: {

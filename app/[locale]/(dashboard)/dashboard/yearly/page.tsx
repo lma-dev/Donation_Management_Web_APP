@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Loader2 } from "lucide-react";
 import { PageContent } from "@/components/layout/PageContent";
+import { PageGuide } from "@/components/layout/PageGuide";
 import { YearlyKpiCards } from "@/components/yearly/YearlyKpiCards";
 import { MonthlyBreakdownTable } from "@/components/yearly/MonthlyBreakdownTable";
 import { YearSelector } from "@/components/yearly/YearSelector";
@@ -26,6 +27,7 @@ export default function YearlyOverviewPage() {
     <PageContent
       title={t("title")}
       description={t("description", { year: selectedYear })}
+      guide={<PageGuide title={t("guide.title")} description={t("guide.description")} />}
       actions={
         <div className="flex items-center gap-2">
           <YearSelector

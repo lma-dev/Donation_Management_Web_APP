@@ -81,6 +81,10 @@
   "dashboard": {
     "title": "ダッシュボード",
     "description": "寄付、キャンペーン、配布の概要。",
+    "guide": {
+      "title": "ダッシュボード",
+      "description": "総ユーザー数、月別寄付推移、配布先別内訳の概要を確認できます。"
+    },
     "totalUsers": "総ユーザー数",
     "monthlyTrend": "月別寄付推移",
     "collected": "収集額",
@@ -91,6 +95,10 @@
   "activityLogs": {
     "title": "システムアクティビティログ",
     "description": "すべての管理操作、システム更新、セキュリティイベントを監視・監査します。データは90日間保持されます。",
+    "guide": {
+      "title": "アクティビティログ",
+      "description": "ログイン、データ変更、エクスポートなどすべてのシステム操作を確認できます。ユーザー、日付、アクションタイプでフィルターできます。監査用にCSVでログをエクスポートできます。"
+    },
     "exportCsv": "CSVエクスポート",
     "refresh": "更新",
     "searchPlaceholder": "ユーザー名で検索...",
@@ -127,6 +135,10 @@
   "monthlyOverview": {
     "title": "月次概要",
     "description": "{year}年{month}の寄付概要",
+    "guide": {
+      "title": "月次概要",
+      "description": "月次の寄付記録を作成・管理します。支援者の寄付を追加、配布先への配布を記録し、為替レートを管理します。月セレクターで月を切り替えられます。"
+    },
     "exchangeRate": "為替レート",
     "jpyEquals": "1 JPY =",
     "mmk": "MMK",
@@ -156,6 +168,9 @@
       "dialogDescription": "支援者からの新しい寄付エントリーを追加します。",
       "kyatAmount": "チャット金額（MMK）",
       "addDonation": "寄付を追加",
+      "selectName": "支援者を選択...",
+      "searchName": "支援者を検索...",
+      "noUserFound": "ユーザーが見つかりません。",
       "editDialogTitle": "支援者寄付の編集",
       "editDialogDescription": "寄付エントリーの詳細を更新します。",
       "updateDonation": "寄付を更新"
@@ -186,6 +201,10 @@
   "yearlyOverview": {
     "title": "年次概要",
     "description": "{year}年度の寄付サマリー",
+    "guide": {
+      "title": "年次概要",
+      "description": "年度全体の寄付データを集計して表示します。月別内訳テーブルで各月の集金額と寄付額を確認できます。Excel、PDF、JSONでデータをエクスポートできます。"
+    },
     "empty": "年次データがありません。まず月次概要データを追加してください。",
     "fy": "FY {year}",
     "kpi": {
@@ -205,6 +224,10 @@
   "donationPlaces": {
     "title": "寄付先",
     "description": "配布記録用の寄付先を管理します。",
+    "guide": {
+      "title": "寄付先",
+      "description": "寄付先の追加、編集、無効化ができます。これらの寄付先は月次の配布記録フォームに表示されます。"
+    },
     "addPlace": "寄付先を追加",
     "searchPlaceholder": "寄付先を検索...",
     "table": {
@@ -235,6 +258,10 @@
   "userManagement": {
     "title": "ユーザー管理",
     "description": "ユーザーアカウント、役割、権限を管理します。",
+    "guide": {
+      "title": "ユーザー管理",
+      "description": "新規ユーザー登録、役割（ユーザー、管理者、システム管理者）の割り当て、アカウントのロック/ロック解除、パスワード管理ができます。ロックされたアカウントはロック解除されるまでログインできません。"
+    },
     "registerUser": "ユーザー登録",
     "searchPlaceholder": "ユーザーを検索...",
     "table": {
@@ -343,12 +370,24 @@
   "settings": {
     "title": "アプリ設定",
     "description": "アプリケーションの設定を変更します。",
+    "guide": {
+      "title": "設定",
+      "description": "表示言語を変更し、最近のログインアクティビティを確認できます。"
+    },
     "language": {
       "title": "言語",
       "description": "インターフェースの表示言語を選択してください。",
       "en": "English",
       "ja": "日本語",
       "mm": "မြန်မာ"
+    },
+    "loginHistory": {
+      "title": "ログイン履歴",
+      "description": "最近のログインアクティビティ。",
+      "empty": "ログイン履歴が見つかりません。",
+      "loginSuccess": "ログイン成功",
+      "loginFailed": "ログイン失敗",
+      "unknownIp": "不明なIP"
     }
   }
 }

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useSession } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
 import {
   Dialog,
   DialogContent,
@@ -11,11 +11,30 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2 } from "lucide-react";
+import { Loader2, ChevronsUpDown, Check } from "lucide-react";
 import type { SupporterDonationResponse } from "@/features/monthly-overview/types";
+
+type UserOption = {
+  id: string;
+  name: string | null;
+  email: string;
+};
 
 type AddSupporterDialogProps = {
   open: boolean;
@@ -47,26 +66,35 @@ export function AddSupporterDialog({
 }: AddSupporterDialogProps) {
   const t = useTranslations("monthlyOverview.supporters");
   const tc = useTranslations("common");
-  const { data: session } = useSession();
-  const userName = session?.user?.name ?? "";
-  const [name, setName] = useState(userName);
+  const [selectedName, setSelectedName] = useState("");
+  const [comboboxOpen, setComboboxOpen] = useState(false);
   const [amount, setAmount] = useState("");
   const [currency, setCurrency] = useState<"JPY" | "MMK">("JPY");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isEditMode = !!editData;
 
+  const { data: users = [] } = useQuery<UserOption[]>({
+    queryKey: ["users-list"],
+    queryFn: async () => {
+      const res = await fetch("/api/users");
+      if (!res.ok) throw new Error("Failed to fetch users");
+      return res.json();
+    },
+    enabled: open,
+  });
+
   useEffect(() => {
     if (editData) {
-      setName(editData.name);
+      setSelectedName(editData.name);
       setAmount(editData.amount);
       setCurrency(editData.currency as "JPY" | "MMK");
     } else {
-      setName(userName);
+      setSelectedName("");
       setAmount("");
       setCurrency("JPY");
     }
-  }, [editData, userName]);
+  }, [editData]);
 
   const numericAmount = Number(amount) || 0;
   const kyatPreview =
@@ -75,28 +103,28 @@ export function AddSupporterDialog({
       : numericAmount;
 
   function reset() {
-    setName(userName);
+    setSelectedName("");
     setAmount("");
     setCurrency("JPY");
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!name.trim() || numericAmount <= 0) return;
+    if (!selectedName.trim() || numericAmount <= 0) return;
 
     setIsSubmitting(true);
     try {
       if (isEditMode && onUpdate) {
         await onUpdate({
           id: editData.id,
-          name: name.trim(),
+          name: selectedName.trim(),
           amount: numericAmount,
           currency,
           kyatAmount: kyatPreview,
         });
       } else {
         await onSubmit({
-          name: name.trim(),
+          name: selectedName.trim(),
           amount: numericAmount,
           currency,
           kyatAmount: kyatPreview,
@@ -122,14 +150,48 @@ export function AddSupporterDialog({
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="supporter-name">{t("name")}</Label>
-            <Input
-              id="supporter-name"
-              value={name}
-              onChange={isEditMode ? (e) => setName(e.target.value) : undefined}
-              readOnly={!isEditMode}
-              className={!isEditMode ? "bg-muted" : ""}
-            />
+            <Label>{t("name")}</Label>
+            <Popover open={comboboxOpen} onOpenChange={setComboboxOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={comboboxOpen}
+                  className="w-full justify-between font-normal"
+                >
+                  {selectedName || t("selectName")}
+                  <ChevronsUpDown className="text-muted-foreground size-4 shrink-0" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                <Command>
+                  <CommandInput placeholder={t("searchName")} />
+                  <CommandList>
+                    <CommandEmpty>{t("noUserFound")}</CommandEmpty>
+                    <CommandGroup>
+                      {users.map((user) => {
+                        const displayName = user.name ?? user.email;
+                        return (
+                          <CommandItem
+                            key={user.id}
+                            value={displayName}
+                            onSelect={() => {
+                              setSelectedName(displayName);
+                              setComboboxOpen(false);
+                            }}
+                          >
+                            {displayName}
+                            {selectedName === displayName && (
+                              <Check className="ml-auto size-4" />
+                            )}
+                          </CommandItem>
+                        );
+                      })}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
           </div>
           <div className="space-y-2">
             <Label htmlFor="supporter-amount">{t("amount")}</Label>
@@ -189,7 +251,7 @@ export function AddSupporterDialog({
             </Button>
             <Button
               type="submit"
-              disabled={isSubmitting || !name.trim() || numericAmount <= 0}
+              disabled={isSubmitting || !selectedName.trim() || numericAmount <= 0}
             >
               {isSubmitting && <Loader2 className="size-4 animate-spin" />}
               {isEditMode ? t("updateDonation") : t("addDonation")}

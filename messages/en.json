@@ -81,6 +81,10 @@
   "dashboard": {
     "title": "Dashboard",
     "description": "Overview of donations, campaigns, and distributions.",
+    "guide": {
+      "title": "Dashboard",
+      "description": "View a summary of total users, monthly donation trends, and distribution breakdown by place."
+    },
     "totalUsers": "Total Users",
     "monthlyTrend": "Monthly Donation Trend",
     "collected": "Collected",
@@ -91,6 +95,10 @@
   "activityLogs": {
     "title": "System Activity Logs",
     "description": "Monitor and audit all administrative actions, system updates, and security events. Data is retained for 90 days.",
+    "guide": {
+      "title": "Activity Logs",
+      "description": "View all system actions including logins, data changes, and exports. Filter by user, date, or action type. Export logs as CSV for auditing purposes."
+    },
     "exportCsv": "Export CSV",
     "refresh": "Refresh",
     "searchPlaceholder": "Search by user name...",
@@ -127,6 +135,10 @@
   "monthlyOverview": {
     "title": "Monthly Overview",
     "description": "Donation overview for {month} {year}",
+    "guide": {
+      "title": "Monthly Overview",
+      "description": "Create and manage monthly donation records. Add supporter donations, record distributions to places, and track the exchange rate. Use the month selector to navigate between months."
+    },
     "exchangeRate": "Exchange Rate",
     "jpyEquals": "1 JPY =",
     "mmk": "MMK",
@@ -156,6 +168,9 @@
       "dialogDescription": "Add a new donation entry from a supporter.",
       "kyatAmount": "Kyat Amount (MMK)",
       "addDonation": "Add Donation",
+      "selectName": "Select a supporter...",
+      "searchName": "Search supporters...",
+      "noUserFound": "No user found.",
       "editDialogTitle": "Edit Supporter Donation",
       "editDialogDescription": "Update the donation entry details.",
       "updateDonation": "Update Donation"
@@ -186,6 +201,10 @@
   "yearlyOverview": {
     "title": "Yearly Overview",
     "description": "Donation summary for fiscal year {year}",
+    "guide": {
+      "title": "Yearly Overview",
+      "description": "View aggregated donation data for the entire fiscal year. The monthly breakdown table shows collected and donated amounts per month. Export data as Excel, PDF, or JSON."
+    },
     "empty": "No yearly data available. Add monthly overview data to get started.",
     "fy": "FY {year}",
     "kpi": {
@@ -205,6 +224,10 @@
   "donationPlaces": {
     "title": "Donation Places",
     "description": "Manage donation places for distribution records.",
+    "guide": {
+      "title": "Donation Places",
+      "description": "Add, edit, or deactivate donation places. These places appear in the distribution record form when recording monthly fund distributions."
+    },
     "addPlace": "Add Place",
     "searchPlaceholder": "Search donation places...",
     "table": {
@@ -235,6 +258,10 @@
   "userManagement": {
     "title": "User Management",
     "description": "Manage user accounts, roles, and permissions.",
+    "guide": {
+      "title": "User Management",
+      "description": "Register new users, assign roles (User, Admin, System Admin), lock/unlock accounts, and manage passwords. Locked accounts cannot log in until unlocked."
+    },
     "registerUser": "Register User",
     "searchPlaceholder": "Search users...",
     "table": {
@@ -343,12 +370,24 @@
   "settings": {
     "title": "Application Settings",
     "description": "Configure application preferences.",
+    "guide": {
+      "title": "Settings",
+      "description": "Change your preferred language and view your recent login activity."
+    },
     "language": {
       "title": "Language",
       "description": "Select your preferred language for the interface.",
       "en": "English",
       "ja": "日本語",
       "mm": "မြန်မာ"
+    },
+    "loginHistory": {
+      "title": "Login History",
+      "description": "Your recent login activity.",
+      "empty": "No login history found.",
+      "loginSuccess": "Successful login",
+      "loginFailed": "Failed login attempt",
+      "unknownIp": "Unknown IP"
     }
   }
 }

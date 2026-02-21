@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { PageContent } from "@/components/layout/PageContent";
+import { PageGuide } from "@/components/layout/PageGuide";
 import { DonationBarChart } from "@/components/dashboard/DonationBarChart";
 import { DistributionPieChart } from "@/components/dashboard/DistributionPieChart";
 import { useDashboardData } from "@/features/dashboard/use-dashboard-data";
@@ -18,7 +19,7 @@ export default function DashboardPage() {
   const { data, isLoading } = useDashboardData();
 
   return (
-    <PageContent title={t("title")} description={t("description")}>
+    <PageContent title={t("title")} description={t("description")} guide={<PageGuide title={t("guide.title")} description={t("guide.description")} />}>
       {/* KPI Card */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card>

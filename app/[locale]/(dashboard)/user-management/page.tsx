@@ -19,6 +19,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { PageContent } from "@/components/layout/PageContent";
+import { PageGuide } from "@/components/layout/PageGuide";
 import { UserSearch } from "@/components/user/UserSearch";
 import { UserTable } from "@/components/user/UserTable";
 import { UserForm } from "@/components/user/UserForm";
@@ -157,6 +158,7 @@ export default function UserManagementPage() {
     <PageContent
       title={t("title")}
       description={t("description")}
+      guide={<PageGuide title={t("guide.title")} description={t("guide.description")} />}
       actions={
         <Button onClick={handleRegister} className="w-full sm:w-auto">
           <Plus />

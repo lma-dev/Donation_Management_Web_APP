@@ -5,6 +5,7 @@ import { Download, RefreshCw, ChevronLeft, ChevronRight, Loader2 } from "lucide-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageContent } from "@/components/layout/PageContent";
+import { PageGuide } from "@/components/layout/PageGuide";
 import { ActivityLogFilters } from "@/components/activity-log/ActivityLogFilters";
 import { ActivityLogTable } from "@/components/activity-log/ActivityLogTable";
 import { ActivityLogSummaryCards } from "@/components/activity-log/ActivityLogSummaryCards";
@@ -49,6 +50,7 @@ export default function ActivityLogsPage() {
     <PageContent
       title={t("title")}
       description={t("description")}
+      guide={<PageGuide title={t("guide.title")} description={t("guide.description")} />}
       actions={
         <div className="flex items-center gap-2">
           <Button

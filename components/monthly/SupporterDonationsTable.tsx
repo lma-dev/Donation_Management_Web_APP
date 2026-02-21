@@ -108,7 +108,7 @@ export function SupporterDonationsTable({
               {supporters.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={5}
+                    colSpan={canEdit ? 5 : 4}
                     className="text-muted-foreground px-6 py-3.5 text-center"
                   >
                     {t("empty")}
@@ -146,7 +146,7 @@ export function SupporterDonationsTable({
                   <TableCell className="px-6 py-3.5 text-right font-bold tabular-nums">
                     {formatAmount(totalCollected)}
                   </TableCell>
-                  <TableCell />
+                  {canEdit && <TableCell />}
                 </TableRow>
               </TableFooter>
             )}

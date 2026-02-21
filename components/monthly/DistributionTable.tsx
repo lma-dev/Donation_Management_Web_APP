@@ -103,7 +103,7 @@ export function DistributionTable({
               {distributions.length === 0 ? (
                 <TableRow>
                   <TableCell
-                    colSpan={4}
+                    colSpan={canEdit ? 4 : 3}
                     className="text-muted-foreground px-6 py-3.5 text-center"
                   >
                     {t("empty")}
@@ -142,7 +142,7 @@ export function DistributionTable({
                     {formatAmount(totalDonated)}
                   </TableCell>
                   <TableCell />
-                  <TableCell />
+                  {canEdit && <TableCell />}
                 </TableRow>
               </TableFooter>
             )}

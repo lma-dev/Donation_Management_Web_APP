@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useSession } from "next-auth/react";
 import { Loader2 } from "lucide-react";
 import { PageContent } from "@/components/layout/PageContent";
+import { PageGuide } from "@/components/layout/PageGuide";
 import { MonthSelector } from "@/components/monthly/MonthSelector";
 import { MonthlyKpiCards } from "@/components/monthly/MonthlyKpiCards";
 import { SupporterDonationsTable } from "@/components/monthly/SupporterDonationsTable";
@@ -77,6 +78,7 @@ export default function MonthlyOverviewPage() {
     <PageContent
       title={t("title")}
       description={t("description", { month: monthName, year: selectedYear })}
+      guide={<PageGuide title={t("guide.title")} description={t("guide.description")} />}
       actions={
         <div className="flex items-center gap-2">
           <MonthSelector

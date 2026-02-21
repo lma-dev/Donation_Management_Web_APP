@@ -8,6 +8,7 @@ import { Plus, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { PageContent } from "@/components/layout/PageContent";
+import { PageGuide } from "@/components/layout/PageGuide";
 import { DonationPlaceSearch } from "@/components/donation-place/DonationPlaceSearch";
 import { DonationPlaceTable } from "@/components/donation-place/DonationPlaceTable";
 import { DonationPlaceForm } from "@/components/donation-place/DonationPlaceForm";
@@ -113,6 +114,7 @@ export default function DonationPlaceManagementPage() {
     <PageContent
       title={t("title")}
       description={t("description")}
+      guide={<PageGuide title={t("guide.title")} description={t("guide.description")} />}
       actions={
         <Button onClick={handleAdd} className="w-full sm:w-auto">
           <Plus />
