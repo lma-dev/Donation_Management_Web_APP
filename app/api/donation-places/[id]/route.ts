@@ -49,8 +49,8 @@ export async function DELETE(
     await removeDonationPlace(id);
     await logAction({
       actionType: "Deleted",
-      actionLabel: "Donation Place Deleted",
-      details: `Deleted donation place with ID: ${id}`,
+      actionLabel: "Donation Place Soft Deleted",
+      details: `Soft deleted donation place with ID: ${id}`,
     });
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -6,6 +6,7 @@ import {
   MapPin,
   Settings,
   ScrollText,
+  Trash2,
   type LucideIcon,
 } from "lucide-react";
 import type { UserRole } from "@/types/user";
@@ -63,6 +64,12 @@ export const navigation: NavSection[] = [
   {
     titleKey: "sections.system",
     items: [
+      {
+        labelKey: "items.trash",
+        href: "/trash",
+        icon: Trash2,
+        minRole: "ADMIN",
+      },
       {
         labelKey: "items.activityLogs",
         href: "/activity-logs",

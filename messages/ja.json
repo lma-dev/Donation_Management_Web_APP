@@ -81,6 +81,7 @@
       "yearlyOverview": "年次概要",
       "userManagement": "ユーザー管理",
       "donationPlaces": "寄付先",
+      "trash": "ゴミ箱",
       "activityLogs": "アクティビティログ",
       "applicationSettings": "アプリ設定"
     },
@@ -385,6 +386,46 @@
     "wrongPassword": "現在のパスワードが正しくありません。",
     "passwordChangeError": "パスワードの変更に失敗しました。"
   },
+  "trash": {
+    "title": "ゴミ箱",
+    "description": "削除されたレコードの表示と管理。復元または完全削除が可能です。",
+    "guide": {
+      "title": "ゴミ箱",
+      "description": "すべての論理削除されたレコードを表示します。管理者はレコードを復元できます。システム管理者はレコードを完全に削除できます。"
+    },
+    "tabs": {
+      "users": "ユーザー",
+      "donation-places": "寄付先",
+      "supporter-donations": "支援者寄付",
+      "distribution-records": "配布記録"
+    },
+    "table": {
+      "name": "名前",
+      "email": "メール",
+      "role": "役割",
+      "note": "メモ",
+      "status": "ステータス",
+      "amount": "金額",
+      "kyatAmount": "チャット（MMK）",
+      "recipient": "受取人",
+      "amountMmk": "金額（MMK）",
+      "place": "場所",
+      "remarks": "備考",
+      "month": "月",
+      "deletedAt": "削除日時"
+    },
+    "empty": "削除されたレコードはありません",
+    "emptyDescription": "このカテゴリには論理削除されたアイテムがありません。",
+    "selected": "{count}件選択中",
+    "restore": "復元",
+    "restoreSelected": "選択を復元",
+    "purge": "完全に削除",
+    "purgeSelected": "選択を完全に削除",
+    "clearSelection": "選択解除",
+    "purgeConfirmTitle": "レコードを完全に削除しますか？",
+    "purgeConfirmDescription": "{count}件のレコードを完全に削除します。この操作は取り消せません。",
+    "searchPlaceholder": "削除されたレコードを検索..."
+  },
   "toast": {
     "settings": {
       "updateSuccess": "設定を更新しました",
@@ -422,6 +463,12 @@
       "updateError": "寄付先の更新に失敗しました",
       "deleteSuccess": "寄付先を削除しました",
       "deleteError": "寄付先の削除に失敗しました"
+    },
+    "trash": {
+      "restoreSuccess": "{count}件のレコードを復元しました",
+      "restoreError": "レコードの復元に失敗しました",
+      "purgeSuccess": "{count}件のレコードを完全に削除しました",
+      "purgeError": "レコードの完全削除に失敗しました"
     },
     "monthly": {
       "createSuccess": "月次概要を作成しました",

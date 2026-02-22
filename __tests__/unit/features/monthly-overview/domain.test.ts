@@ -10,9 +10,11 @@ vi.mock("@/features/monthly-overview/data", () => ({
   createDistributionRecord: vi.fn(),
   updateExchangeRate: vi.fn(),
   updateSupporterDonation: vi.fn(),
-  deleteSupporterDonation: vi.fn(),
+  softDeleteSupporterDonation: vi.fn(),
+  hardDeleteSupporterDonation: vi.fn(),
   updateDistributionRecord: vi.fn(),
-  deleteDistributionRecord: vi.fn(),
+  softDeleteDistributionRecord: vi.fn(),
+  hardDeleteDistributionRecord: vi.fn(),
 }));
 
 import {
@@ -35,9 +37,9 @@ import {
   createDistributionRecord as createDistributionRecordData,
   updateExchangeRate as updateExchangeRateData,
   updateSupporterDonation as updateSupporterDonationData,
-  deleteSupporterDonation as deleteSupporterDonationData,
+  softDeleteSupporterDonation as softDeleteSupporterDonationData,
   updateDistributionRecord as updateDistributionRecordData,
-  deleteDistributionRecord as deleteDistributionRecordData,
+  softDeleteDistributionRecord as softDeleteDistributionRecordData,
 } from "@/features/monthly-overview/data";
 
 const mockFindMonthlyOverview = vi.mocked(findMonthlyOverview);
@@ -47,9 +49,9 @@ const mockCreateSupporterDonation = vi.mocked(createSupporterDonationData);
 const mockCreateDistributionRecord = vi.mocked(createDistributionRecordData);
 const mockUpdateExchangeRate = vi.mocked(updateExchangeRateData);
 const mockUpdateSupporterDonation = vi.mocked(updateSupporterDonationData);
-const mockDeleteSupporterDonation = vi.mocked(deleteSupporterDonationData);
+const mockSoftDeleteSupporterDonation = vi.mocked(softDeleteSupporterDonationData);
 const mockUpdateDistributionRecord = vi.mocked(updateDistributionRecordData);
-const mockDeleteDistributionRecord = vi.mocked(deleteDistributionRecordData);
+const mockSoftDeleteDistributionRecord = vi.mocked(softDeleteDistributionRecordData);
 
 const now = new Date();
 
@@ -60,6 +62,7 @@ function makeOverview(overrides: Record<string, unknown> = {}) {
     month: 6,
     exchangeRate: 30.5,
     carryOver: BigInt(50000),
+    deletedAt: null,
     createdAt: now,
     updatedAt: now,
     supporterDonations: [
@@ -70,6 +73,7 @@ function makeOverview(overrides: Record<string, unknown> = {}) {
         amount: BigInt(10000),
         currency: "JPY",
         kyatAmount: BigInt(305000),
+        deletedAt: null,
         createdAt: now,
       },
       {
@@ -79,6 +83,7 @@ function makeOverview(overrides: Record<string, unknown> = {}) {
         amount: BigInt(200000),
         currency: "MMK",
         kyatAmount: BigInt(200000),
+        deletedAt: null,
         createdAt: now,
       },
     ],
@@ -90,6 +95,7 @@ function makeOverview(overrides: Record<string, unknown> = {}) {
         recipient: "Temple A",
         amountMMK: BigInt(100000),
         remarks: null,
+        deletedAt: null,
         createdAt: now,
       },
     ],
@@ -200,6 +206,7 @@ describe("createMonthlyOverview", () => {
       month: 7,
       exchangeRate: 30.5,
       carryOver: BigInt(100000),
+      deletedAt: null,
       createdAt: now,
       updatedAt: now,
       supporterDonations: [],
@@ -296,6 +303,7 @@ describe("addSupporterDonation", () => {
       amount: BigInt(5000),
       currency: "JPY",
       kyatAmount: BigInt(152500),
+      deletedAt: null,
       createdAt: now,
     });
 
@@ -339,6 +347,7 @@ describe("addDistributionRecord", () => {
       recipient: "Temple B",
       amountMMK: BigInt(75000),
       remarks: "Monthly donation",
+      deletedAt: null,
       createdAt: now,
     });
 
@@ -380,6 +389,7 @@ describe("updateSupporterDonation", () => {
       amount: BigInt(20000),
       currency: "JPY",
       kyatAmount: BigInt(610000),
+      deletedAt: null,
       createdAt: now,
     });
 
@@ -423,6 +433,7 @@ describe("updateDistributionRecord", () => {
       recipient: "Updated Temple",
       amountMMK: BigInt(150000),
       remarks: "Updated",
+      deletedAt: null,
       createdAt: now,
     });
 
@@ -458,10 +469,10 @@ describe("updateDistributionRecord", () => {
 
 describe("removeSupporterDonation", () => {
   it("deletes a donation successfully", async () => {
-    mockDeleteSupporterDonation.mockResolvedValue(undefined as never);
+    mockSoftDeleteSupporterDonation.mockResolvedValue(undefined as never);
 
     await expect(removeSupporterDonation("s1")).resolves.toBeUndefined();
-    expect(mockDeleteSupporterDonation).toHaveBeenCalledWith("s1");
+    expect(mockSoftDeleteSupporterDonation).toHaveBeenCalledWith("s1");
   });
 
   it("throws VALIDATION_ERROR for empty id", async () => {
@@ -475,7 +486,7 @@ describe("removeSupporterDonation", () => {
   });
 
   it("throws RECORD_NOT_FOUND when donation does not exist", async () => {
-    mockDeleteSupporterDonation.mockRejectedValue(new Error("Not found"));
+    mockSoftDeleteSupporterDonation.mockRejectedValue(new Error("Not found"));
 
     try {
       await removeSupporterDonation("missing");
@@ -489,10 +500,10 @@ describe("removeSupporterDonation", () => {
 
 describe("removeDistributionRecord", () => {
   it("deletes a record successfully", async () => {
-    mockDeleteDistributionRecord.mockResolvedValue(undefined as never);
+    mockSoftDeleteDistributionRecord.mockResolvedValue(undefined as never);
 
     await expect(removeDistributionRecord("d1")).resolves.toBeUndefined();
-    expect(mockDeleteDistributionRecord).toHaveBeenCalledWith("d1");
+    expect(mockSoftDeleteDistributionRecord).toHaveBeenCalledWith("d1");
   });
 
   it("throws VALIDATION_ERROR for empty id", async () => {
@@ -506,7 +517,7 @@ describe("removeDistributionRecord", () => {
   });
 
   it("throws RECORD_NOT_FOUND when record does not exist", async () => {
-    mockDeleteDistributionRecord.mockRejectedValue(new Error("Not found"));
+    mockSoftDeleteDistributionRecord.mockRejectedValue(new Error("Not found"));
 
     try {
       await removeDistributionRecord("missing");

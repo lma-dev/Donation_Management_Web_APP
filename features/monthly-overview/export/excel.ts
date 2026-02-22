@@ -63,17 +63,40 @@ export async function generateMonthlyExcel(
     cell.alignment = { horizontal: "center" };
   });
 
+  const carryOverVal = Number(data.carryOver);
+  const totalCollectedVal = Number(data.totalCollected);
+  const totalDonatedVal = Number(data.totalDonated);
+  const remainingBalanceVal = Number(data.remainingBalance);
+
   const kpiValueRow = sheet.addRow([
-    Number(data.carryOver),
-    Number(data.totalCollected),
-    Number(data.totalDonated),
-    Number(data.remainingBalance),
+    carryOverVal,
+    totalCollectedVal,
+    totalDonatedVal,
+    remainingBalanceVal,
   ]);
   kpiValueRow.eachCell((cell) => {
     cell.font = { size: 12, bold: true };
     cell.alignment = { horizontal: "center" };
     cell.numFmt = "#,##0";
   });
+
+  // Color KPI values: green for income, red for expense, conditional for balance
+  kpiValueRow.getCell(1).font = {
+    size: 12, bold: true,
+    color: { argb: carryOverVal >= 0 ? "FF16A34A" : "FFDC2626" },
+  };
+  kpiValueRow.getCell(2).font = {
+    size: 12, bold: true,
+    color: { argb: "FF16A34A" },
+  };
+  kpiValueRow.getCell(3).font = {
+    size: 12, bold: true,
+    color: { argb: "FFDC2626" },
+  };
+  kpiValueRow.getCell(4).font = {
+    size: 12, bold: true,
+    color: { argb: remainingBalanceVal >= 0 ? "FF16A34A" : "FFDC2626" },
+  };
 
   sheet.addRow([]);
   sheet.addRow([]);
@@ -86,7 +109,7 @@ export async function generateMonthlyExcel(
     { key: "A", width: 25 },
     { key: "B", width: 20 },
     { key: "C", width: 15 },
-    { key: "D", width: 22 },
+    { key: "D", width: 30 },
   ];
 
   const sHeaderRow = sheet.addRow(["Name", "Amount", "Currency", "Kyats (MMK)"]);
@@ -112,9 +135,11 @@ export async function generateMonthlyExcel(
     ]);
     row.getCell(2).numFmt = "#,##0";
     row.getCell(2).alignment = { horizontal: "right" };
+    row.getCell(2).font = { color: { argb: "FF16A34A" } };
     row.getCell(3).alignment = { horizontal: "center" };
     row.getCell(4).numFmt = "#,##0";
     row.getCell(4).alignment = { horizontal: "right" };
+    row.getCell(4).font = { color: { argb: "FF16A34A" } };
     row.eachCell((cell) => {
       cell.border = {
         bottom: { style: "thin", color: { argb: "FFE5E7EB" } },
@@ -142,6 +167,7 @@ export async function generateMonthlyExcel(
   });
   sTotalRow.getCell(4).numFmt = "#,##0";
   sTotalRow.getCell(4).alignment = { horizontal: "right" };
+  sTotalRow.getCell(4).font = { bold: true, color: { argb: "FF16A34A" } };
 
   sheet.addRow([]);
   sheet.addRow([]);
@@ -174,6 +200,9 @@ export async function generateMonthlyExcel(
     ]);
     row.getCell(2).numFmt = "#,##0";
     row.getCell(2).alignment = { horizontal: "right" };
+    row.getCell(2).font = { color: { argb: "FFDC2626" } };
+    row.getCell(3).alignment = { wrapText: true, vertical: "top" };
+    row.getCell(1).alignment = { wrapText: true, vertical: "top" };
     row.eachCell((cell) => {
       cell.border = {
         bottom: { style: "thin", color: { argb: "FFE5E7EB" } },
@@ -200,6 +229,7 @@ export async function generateMonthlyExcel(
   });
   dTotalRow.getCell(2).numFmt = "#,##0";
   dTotalRow.getCell(2).alignment = { horizontal: "right" };
+  dTotalRow.getCell(2).font = { bold: true, color: { argb: "FFDC2626" } };
 
   const arrayBuffer = await workbook.xlsx.writeBuffer();
   return Buffer.from(arrayBuffer);

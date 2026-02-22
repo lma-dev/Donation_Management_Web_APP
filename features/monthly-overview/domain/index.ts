@@ -15,9 +15,15 @@ import {
   createDistributionRecord as createDistributionRecordData,
   updateExchangeRate as updateExchangeRateData,
   updateSupporterDonation as updateSupporterDonationData,
-  deleteSupporterDonation as deleteSupporterDonationData,
+  softDeleteSupporterDonation as softDeleteSupporterDonationData,
+  hardDeleteSupporterDonation as hardDeleteSupporterDonationData,
+  findDeletedSupporterDonations,
+  restoreSupporterDonation as restoreSupporterDonationData,
   updateDistributionRecord as updateDistributionRecordData,
-  deleteDistributionRecord as deleteDistributionRecordData,
+  softDeleteDistributionRecord as softDeleteDistributionRecordData,
+  hardDeleteDistributionRecord as hardDeleteDistributionRecordData,
+  findDeletedDistributionRecords,
+  restoreDistributionRecord as restoreDistributionRecordData,
 } from "../data";
 import { MonthlyOverviewError } from "../error";
 import type { MonthlyOverviewResponse } from "../types";
@@ -298,7 +304,22 @@ export async function removeSupporterDonation(id: string) {
   }
 
   try {
-    await deleteSupporterDonationData(id);
+    await softDeleteSupporterDonationData(id);
+  } catch {
+    throw new MonthlyOverviewError(
+      "Supporter donation not found",
+      "RECORD_NOT_FOUND",
+    );
+  }
+}
+
+export async function purgeSupporterDonation(id: string) {
+  if (!id) {
+    throw new MonthlyOverviewError("ID is required", "VALIDATION_ERROR");
+  }
+
+  try {
+    await hardDeleteSupporterDonationData(id);
   } catch {
     throw new MonthlyOverviewError(
       "Supporter donation not found",
@@ -344,7 +365,64 @@ export async function removeDistributionRecord(id: string) {
   }
 
   try {
-    await deleteDistributionRecordData(id);
+    await softDeleteDistributionRecordData(id);
+  } catch {
+    throw new MonthlyOverviewError(
+      "Distribution record not found",
+      "RECORD_NOT_FOUND",
+    );
+  }
+}
+
+export async function listDeletedSupporterDonations() {
+  const donations = await findDeletedSupporterDonations();
+  return donations.map((d) => ({
+    id: d.id,
+    name: d.name,
+    amount: serializeBigInt(d.amount),
+    currency: d.currency,
+    kyatAmount: serializeBigInt(d.kyatAmount),
+    deletedAt: d.deletedAt!.toISOString(),
+    createdAt: d.createdAt.toISOString(),
+    monthlyOverview: d.monthlyOverview,
+  }));
+}
+
+export async function restoreSupporterDonation(id: string) {
+  if (!id) {
+    throw new MonthlyOverviewError("ID is required", "VALIDATION_ERROR");
+  }
+  await restoreSupporterDonationData(id);
+}
+
+export async function listDeletedDistributionRecords() {
+  const records = await findDeletedDistributionRecords();
+  return records.map((d) => ({
+    id: d.id,
+    recipient: d.recipient,
+    amountMMK: serializeBigInt(d.amountMMK),
+    remarks: d.remarks,
+    deletedAt: d.deletedAt!.toISOString(),
+    createdAt: d.createdAt.toISOString(),
+    monthlyOverview: d.monthlyOverview,
+    donationPlace: d.donationPlace,
+  }));
+}
+
+export async function restoreDistributionRecord(id: string) {
+  if (!id) {
+    throw new MonthlyOverviewError("ID is required", "VALIDATION_ERROR");
+  }
+  await restoreDistributionRecordData(id);
+}
+
+export async function purgeDistributionRecord(id: string) {
+  if (!id) {
+    throw new MonthlyOverviewError("ID is required", "VALIDATION_ERROR");
+  }
+
+  try {
+    await hardDeleteDistributionRecordData(id);
   } catch {
     throw new MonthlyOverviewError(
       "Distribution record not found",

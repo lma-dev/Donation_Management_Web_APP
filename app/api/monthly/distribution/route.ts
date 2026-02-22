@@ -79,8 +79,8 @@ export async function DELETE(request: NextRequest) {
     await removeDistributionRecord(id);
     await logAction({
       actionType: "Deleted",
-      actionLabel: "Distribution Record Deleted",
-      details: `Deleted distribution record: ${id}`,
+      actionLabel: "Distribution Record Soft Deleted",
+      details: `Soft deleted distribution record: ${id}`,
     });
     return NextResponse.json({ success: true });
   } catch (error) {

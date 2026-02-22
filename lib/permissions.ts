@@ -18,6 +18,7 @@ export function hasMinRole(
 
 export const ROUTE_PERMISSIONS: { path: string; minRole: UserRole }[] = [
   { path: "/activity-logs", minRole: "SYSTEM_ADMIN" },
+  { path: "/trash", minRole: "ADMIN" },
   { path: "/user-management", minRole: "ADMIN" },
   { path: "/donation-place-management", minRole: "ADMIN" },
 ];

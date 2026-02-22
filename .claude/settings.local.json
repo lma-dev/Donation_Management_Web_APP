@@ -21,7 +21,9 @@
       "Bash(pnpm test:*)",
       "Bash(git -C /Users/recycle/work/ProjectPlayGround/yone-kya-ml log --oneline -15)",
       "Bash(head:*)",
-      "Bash(node -e:*)"
+      "Bash(node -e:*)",
+      "Bash(npx vitest run:*)",
+      "Bash(cat:*)"
     ]
   }
 }

@@ -21,6 +21,9 @@ function formatNumber(value: string | number): string {
   return Number(value).toLocaleString("en-US");
 }
 
+const MIN_ROW_HEIGHT = 20;
+const ROW_PADDING = 10; // 5px top + 5px bottom
+
 export async function generateMonthlyPdf(
   data: MonthlyOverviewResponse,
 ): Promise<Buffer> {
@@ -37,6 +40,7 @@ export async function generateMonthlyPdf(
     doc.on("error", reject);
 
     const pageWidth = doc.page.width - 100;
+    const pageBottom = doc.page.height - 50; // bottom margin
     const monthName = MONTH_NAMES[data.month] ?? `Month ${data.month}`;
 
     // Title
@@ -114,6 +118,29 @@ export async function generateMonthlyPdf(
 
     doc.fillColor("#000000").moveDown(2.5);
 
+    // Helper: calculate row height based on text content
+    function calcRowHeight(texts: { text: string; width: number }[]): number {
+      let maxHeight = MIN_ROW_HEIGHT;
+      doc.fontSize(9).font("Helvetica");
+      for (const { text, width } of texts) {
+        if (!text) continue;
+        const textHeight = doc.heightOfString(text, {
+          width: width - 12,
+        });
+        maxHeight = Math.max(maxHeight, textHeight + ROW_PADDING);
+      }
+      return maxHeight;
+    }
+
+    // Helper: check if we need a page break, and if so add one and return new Y
+    function checkPageBreak(currentY: number, neededHeight: number): number {
+      if (currentY + neededHeight > pageBottom) {
+        doc.addPage();
+        return 50; // top margin
+      }
+      return currentY;
+    }
+
     // Supporters Table
     doc.fontSize(12).font("Helvetica-Bold").text("Donations from Supporters");
     doc.moveDown(0.5);
@@ -130,46 +157,56 @@ export async function generateMonthlyPdf(
       50 + sColWidths[0] + sColWidths[1],
       50 + sColWidths[0] + sColWidths[1] + sColWidths[2],
     ];
-    const rowHeight = 20;
 
-    // Supporters Header
-    let tableY = doc.y;
-    doc.rect(50, tableY, pageWidth, rowHeight).fill("#1F2937");
-    doc.fontSize(9).font("Helvetica-Bold").fillColor("#FFFFFF");
-    const sHeaderY = tableY + 5;
-    doc.text("Name", sColStarts[0] + 6, sHeaderY, {
-      width: sColWidths[0] - 12,
-    });
-    doc.text("Amount", sColStarts[1] + 6, sHeaderY, {
-      width: sColWidths[1] - 12,
-      align: "right",
-    });
-    doc.text("Currency", sColStarts[2] + 6, sHeaderY, {
-      width: sColWidths[2] - 12,
-      align: "center",
-    });
-    doc.text("Kyats (MMK)", sColStarts[3] + 6, sHeaderY, {
-      width: sColWidths[3] - 12,
-      align: "right",
-    });
+    // Helper: draw supporters header
+    function drawSupportersHeader(y: number): number {
+      doc.rect(50, y, pageWidth, MIN_ROW_HEIGHT).fill("#1F2937");
+      doc.fontSize(9).font("Helvetica-Bold").fillColor("#FFFFFF");
+      const headerY = y + 5;
+      doc.text("Name", sColStarts[0] + 6, headerY, {
+        width: sColWidths[0] - 12,
+      });
+      doc.text("Amount", sColStarts[1] + 6, headerY, {
+        width: sColWidths[1] - 12,
+        align: "right",
+      });
+      doc.text("Currency", sColStarts[2] + 6, headerY, {
+        width: sColWidths[2] - 12,
+        align: "center",
+      });
+      doc.text("Kyats (MMK)", sColStarts[3] + 6, headerY, {
+        width: sColWidths[3] - 12,
+        align: "right",
+      });
+      doc.fillColor("#000000");
+      return y + MIN_ROW_HEIGHT;
+    }
 
-    tableY += rowHeight;
-    doc.fillColor("#000000");
+    let tableY = drawSupportersHeader(doc.y);
 
     // Supporters Rows
     if (data.supporters.length === 0) {
-      doc.rect(50, tableY, pageWidth, rowHeight).fill("#F9FAFB");
+      doc.rect(50, tableY, pageWidth, MIN_ROW_HEIGHT).fill("#F9FAFB");
       doc.fillColor("#999999").fontSize(9).font("Helvetica");
       doc.text("No supporter donations", sColStarts[0] + 6, tableY + 5, {
         width: pageWidth - 12,
       });
       doc.fillColor("#000000");
-      tableY += rowHeight;
+      tableY += MIN_ROW_HEIGHT;
     } else {
       for (let i = 0; i < data.supporters.length; i++) {
         const s = data.supporters[i];
+        const rowH = calcRowHeight([
+          { text: s.name, width: sColWidths[0] },
+        ]);
+
+        tableY = checkPageBreak(tableY, rowH);
+        if (tableY === 50) {
+          tableY = drawSupportersHeader(tableY);
+        }
+
         if (i % 2 === 0) {
-          doc.rect(50, tableY, pageWidth, rowHeight).fill("#F9FAFB");
+          doc.rect(50, tableY, pageWidth, rowH).fill("#F9FAFB");
           doc.fillColor("#000000");
         }
         const cellY = tableY + 5;
@@ -189,12 +226,13 @@ export async function generateMonthlyPdf(
           width: sColWidths[3] - 12,
           align: "right",
         });
-        tableY += rowHeight;
+        tableY += rowH;
       }
     }
 
     // Supporters Total
-    doc.rect(50, tableY, pageWidth, rowHeight).fill("#E5E7EB");
+    tableY = checkPageBreak(tableY, MIN_ROW_HEIGHT);
+    doc.rect(50, tableY, pageWidth, MIN_ROW_HEIGHT).fill("#E5E7EB");
     doc.fillColor("#000000").fontSize(9).font("Helvetica-Bold");
     doc.text("Total", sColStarts[0] + 6, tableY + 5, {
       width: sColWidths[0] - 12,
@@ -204,7 +242,7 @@ export async function generateMonthlyPdf(
       align: "right",
     });
 
-    tableY += rowHeight;
+    tableY += MIN_ROW_HEIGHT;
     doc.y = tableY + 20;
 
     // Distribution Table
@@ -212,46 +250,61 @@ export async function generateMonthlyPdf(
     doc.text("Donation Distribution");
     doc.moveDown(0.5);
 
-    const dColWidths = [pageWidth * 0.35, pageWidth * 0.3, pageWidth * 0.35];
+    const dColWidths = [pageWidth * 0.3, pageWidth * 0.25, pageWidth * 0.45];
     const dColStarts = [
       50,
       50 + dColWidths[0],
       50 + dColWidths[0] + dColWidths[1],
     ];
 
-    // Distribution Header
-    tableY = doc.y;
-    doc.rect(50, tableY, pageWidth, rowHeight).fill("#1F2937");
-    doc.fontSize(9).font("Helvetica-Bold").fillColor("#FFFFFF");
-    const dHeaderY = tableY + 5;
-    doc.text("Place", dColStarts[0] + 6, dHeaderY, {
-      width: dColWidths[0] - 12,
-    });
-    doc.text("Amount (MMK)", dColStarts[1] + 6, dHeaderY, {
-      width: dColWidths[1] - 12,
-      align: "right",
-    });
-    doc.text("Remarks", dColStarts[2] + 6, dHeaderY, {
-      width: dColWidths[2] - 12,
-    });
+    // Helper: draw distribution header
+    function drawDistributionHeader(y: number): number {
+      doc.rect(50, y, pageWidth, MIN_ROW_HEIGHT).fill("#1F2937");
+      doc.fontSize(9).font("Helvetica-Bold").fillColor("#FFFFFF");
+      const headerY = y + 5;
+      doc.text("Place", dColStarts[0] + 6, headerY, {
+        width: dColWidths[0] - 12,
+      });
+      doc.text("Amount (MMK)", dColStarts[1] + 6, headerY, {
+        width: dColWidths[1] - 12,
+        align: "right",
+      });
+      doc.text("Remarks", dColStarts[2] + 6, headerY, {
+        width: dColWidths[2] - 12,
+      });
+      doc.fillColor("#000000");
+      return y + MIN_ROW_HEIGHT;
+    }
 
-    tableY += rowHeight;
-    doc.fillColor("#000000");
+    // Distribution Header
+    tableY = checkPageBreak(doc.y, MIN_ROW_HEIGHT * 2);
+    tableY = drawDistributionHeader(tableY);
 
     // Distribution Rows
     if (data.distributions.length === 0) {
-      doc.rect(50, tableY, pageWidth, rowHeight).fill("#F9FAFB");
+      doc.rect(50, tableY, pageWidth, MIN_ROW_HEIGHT).fill("#F9FAFB");
       doc.fillColor("#999999").fontSize(9).font("Helvetica");
       doc.text("No distribution records", dColStarts[0] + 6, tableY + 5, {
         width: pageWidth - 12,
       });
       doc.fillColor("#000000");
-      tableY += rowHeight;
+      tableY += MIN_ROW_HEIGHT;
     } else {
       for (let i = 0; i < data.distributions.length; i++) {
         const d = data.distributions[i];
+        const remarkText = d.remarks ?? "";
+        const rowH = calcRowHeight([
+          { text: d.recipient, width: dColWidths[0] },
+          { text: remarkText, width: dColWidths[2] },
+        ]);
+
+        tableY = checkPageBreak(tableY, rowH);
+        if (tableY === 50) {
+          tableY = drawDistributionHeader(tableY);
+        }
+
         if (i % 2 === 0) {
-          doc.rect(50, tableY, pageWidth, rowHeight).fill("#F9FAFB");
+          doc.rect(50, tableY, pageWidth, rowH).fill("#F9FAFB");
           doc.fillColor("#000000");
         }
         const cellY = tableY + 5;
@@ -263,15 +316,16 @@ export async function generateMonthlyPdf(
           width: dColWidths[1] - 12,
           align: "right",
         });
-        doc.text(d.remarks ?? "", dColStarts[2] + 6, cellY, {
+        doc.text(remarkText, dColStarts[2] + 6, cellY, {
           width: dColWidths[2] - 12,
         });
-        tableY += rowHeight;
+        tableY += rowH;
       }
     }
 
     // Distribution Total
-    doc.rect(50, tableY, pageWidth, rowHeight).fill("#E5E7EB");
+    tableY = checkPageBreak(tableY, MIN_ROW_HEIGHT);
+    doc.rect(50, tableY, pageWidth, MIN_ROW_HEIGHT).fill("#E5E7EB");
     doc.fillColor("#000000").fontSize(9).font("Helvetica-Bold");
     doc.text("Total", dColStarts[0] + 6, tableY + 5, {
       width: dColWidths[0] - 12,

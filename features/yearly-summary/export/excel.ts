@@ -79,6 +79,12 @@ export async function generateExcel(
     row.getCell("donated").alignment = { horizontal: "right" };
     row.getCell("balance").alignment = { horizontal: "right" };
 
+    row.getCell("collected").font = { color: { argb: "FF16A34A" } };
+    row.getCell("donated").font = { color: { argb: "FFDC2626" } };
+    row.getCell("balance").font = {
+      color: { argb: balance >= 0 ? "FF16A34A" : "FFDC2626" },
+    };
+
     row.eachCell((cell) => {
       cell.border = {
         bottom: { style: "thin", color: { argb: "FFE5E7EB" } },
@@ -118,6 +124,13 @@ export async function generateExcel(
   totalRow.getCell("collected").alignment = { horizontal: "right" };
   totalRow.getCell("donated").alignment = { horizontal: "right" };
   totalRow.getCell("balance").alignment = { horizontal: "right" };
+
+  totalRow.getCell("collected").font = { bold: true, color: { argb: "FF16A34A" } };
+  totalRow.getCell("donated").font = { bold: true, color: { argb: "FFDC2626" } };
+  totalRow.getCell("balance").font = {
+    bold: true,
+    color: { argb: remainingBalance >= 0 ? "FF16A34A" : "FFDC2626" },
+  };
 
   const arrayBuffer = await workbook.xlsx.writeBuffer();
   return Buffer.from(arrayBuffer);

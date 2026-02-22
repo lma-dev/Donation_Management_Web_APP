@@ -1,11 +1,17 @@
 import { prisma } from "@/lib/prisma";
 
 export async function findMonthlyOverview(year: number, month: number) {
-  return prisma.monthlyOverview.findUnique({
-    where: { year_month: { year, month } },
+  return prisma.monthlyOverview.findFirst({
+    where: { year, month, deletedAt: null },
     include: {
-      supporterDonations: { orderBy: { createdAt: "asc" } },
-      distributionRecords: { orderBy: { createdAt: "asc" } },
+      supporterDonations: {
+        where: { deletedAt: null },
+        orderBy: { createdAt: "asc" },
+      },
+      distributionRecords: {
+        where: { deletedAt: null },
+        orderBy: { createdAt: "asc" },
+      },
     },
   });
 }
@@ -18,11 +24,11 @@ export async function findPreviousMonthOverview(year: number, month: number) {
   const prevMonth = month === 1 ? 12 : month - 1;
   const prevYear = month === 1 ? year - 1 : year;
 
-  return prisma.monthlyOverview.findUnique({
-    where: { year_month: { year: prevYear, month: prevMonth } },
+  return prisma.monthlyOverview.findFirst({
+    where: { year: prevYear, month: prevMonth, deletedAt: null },
     include: {
-      supporterDonations: true,
-      distributionRecords: true,
+      supporterDonations: { where: { deletedAt: null } },
+      distributionRecords: { where: { deletedAt: null } },
     },
   });
 }
@@ -53,7 +59,7 @@ export async function updateExchangeRate(id: string, exchangeRate: number) {
       where: { id },
       data: { exchangeRate },
       include: {
-        supporterDonations: true,
+        supporterDonations: { where: { deletedAt: null } },
       },
     });
 
@@ -74,8 +80,14 @@ export async function updateExchangeRate(id: string, exchangeRate: number) {
     return tx.monthlyOverview.findUnique({
       where: { id },
       include: {
-        supporterDonations: { orderBy: { createdAt: "asc" } },
-        distributionRecords: { orderBy: { createdAt: "asc" } },
+        supporterDonations: {
+          where: { deletedAt: null },
+          orderBy: { createdAt: "asc" },
+        },
+        distributionRecords: {
+          where: { deletedAt: null },
+          orderBy: { createdAt: "asc" },
+        },
       },
     });
   });
@@ -132,7 +144,29 @@ export async function updateSupporterDonation(
   });
 }
 
-export async function deleteSupporterDonation(id: string) {
+export async function softDeleteSupporterDonation(id: string) {
+  return prisma.supporterDonation.update({
+    where: { id },
+    data: { deletedAt: new Date() },
+  });
+}
+
+export async function findDeletedSupporterDonations() {
+  return prisma.supporterDonation.findMany({
+    where: { deletedAt: { not: null } },
+    include: { monthlyOverview: { select: { year: true, month: true } } },
+    orderBy: { deletedAt: "desc" },
+  });
+}
+
+export async function restoreSupporterDonation(id: string) {
+  return prisma.supporterDonation.update({
+    where: { id },
+    data: { deletedAt: null },
+  });
+}
+
+export async function hardDeleteSupporterDonation(id: string) {
   return prisma.supporterDonation.delete({ where: { id } });
 }
 
@@ -156,6 +190,31 @@ export async function updateDistributionRecord(
   });
 }
 
-export async function deleteDistributionRecord(id: string) {
+export async function softDeleteDistributionRecord(id: string) {
+  return prisma.distributionRecord.update({
+    where: { id },
+    data: { deletedAt: new Date() },
+  });
+}
+
+export async function findDeletedDistributionRecords() {
+  return prisma.distributionRecord.findMany({
+    where: { deletedAt: { not: null } },
+    include: {
+      monthlyOverview: { select: { year: true, month: true } },
+      donationPlace: { select: { name: true } },
+    },
+    orderBy: { deletedAt: "desc" },
+  });
+}
+
+export async function restoreDistributionRecord(id: string) {
+  return prisma.distributionRecord.update({
+    where: { id },
+    data: { deletedAt: null },
+  });
+}
+
+export async function hardDeleteDistributionRecord(id: string) {
   return prisma.distributionRecord.delete({ where: { id } });
 }

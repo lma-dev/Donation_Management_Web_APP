@@ -46,6 +46,8 @@ const mockUser = {
   role: "USER" as const,
   isLocked: false,
   lockedAt: null,
+  lockedBy: null,
+  deletedAt: null,
   failedLoginAttempts: 0,
   createdAt: new Date(),
   updatedAt: new Date(),

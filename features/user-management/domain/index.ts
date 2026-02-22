@@ -2,11 +2,14 @@ import bcrypt from "bcryptjs";
 import { createUserSchema, updateUserSchema } from "../schema";
 import {
   findAllUsers,
+  findDeletedUsers,
   findUserByEmail,
   findUserById,
   createUser as createUserInDb,
   updateUser as updateUserInDb,
-  deleteUser as deleteUserInDb,
+  softDeleteUser as softDeleteUserInDb,
+  hardDeleteUser as hardDeleteUserInDb,
+  restoreUser as restoreUserInDb,
   lockUserInDb,
   unlockUserInDb,
 } from "../data";
@@ -106,7 +109,24 @@ export async function removeUser(userId: string) {
     throw new UserError("User not found", "USER_NOT_FOUND");
   }
 
-  await deleteUserInDb(userId);
+  await softDeleteUserInDb(userId);
+}
+
+export async function listDeletedUsers() {
+  return findDeletedUsers();
+}
+
+export async function restoreUser(userId: string) {
+  await restoreUserInDb(userId);
+}
+
+export async function purgeUser(userId: string) {
+  const user = await findUserById(userId);
+  if (!user) {
+    throw new UserError("User not found", "USER_NOT_FOUND");
+  }
+
+  await hardDeleteUserInDb(userId);
 }
 
 export async function lockUser(userId: string, lockedById: string) {

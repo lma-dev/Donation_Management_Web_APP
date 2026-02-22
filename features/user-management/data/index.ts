@@ -15,21 +15,22 @@ const userSelect = {
 
 export async function findAllUsers() {
   return prisma.user.findMany({
+    where: { deletedAt: null },
     select: userSelect,
     orderBy: { createdAt: "desc" },
   });
 }
 
 export async function findUserById(id: string) {
-  return prisma.user.findUnique({
-    where: { id },
+  return prisma.user.findFirst({
+    where: { id, deletedAt: null },
     select: userSelect,
   });
 }
 
 export async function findUserByEmail(email: string) {
-  return prisma.user.findUnique({
-    where: { email },
+  return prisma.user.findFirst({
+    where: { email, deletedAt: null },
   });
 }
 
@@ -56,7 +57,14 @@ export async function updateUser(
   });
 }
 
-export async function deleteUser(id: string) {
+export async function softDeleteUser(id: string) {
+  return prisma.user.update({
+    where: { id },
+    data: { deletedAt: new Date() },
+  });
+}
+
+export async function hardDeleteUser(id: string) {
   return prisma.user.delete({
     where: { id },
   });
@@ -70,6 +78,22 @@ export async function lockUserInDb(id: string, lockedById: string) {
       lockedAt: new Date(),
       lockedBy: lockedById,
     },
+    select: userSelect,
+  });
+}
+
+export async function findDeletedUsers() {
+  return prisma.user.findMany({
+    where: { deletedAt: { not: null } },
+    select: { ...userSelect, deletedAt: true },
+    orderBy: { deletedAt: "desc" },
+  });
+}
+
+export async function restoreUser(id: string) {
+  return prisma.user.update({
+    where: { id },
+    data: { deletedAt: null },
     select: userSelect,
   });
 }

@@ -29,6 +29,7 @@ model User {
   lockedAt            DateTime?
   failedLoginAttempts Int       @default(0)
   lockedBy            String?
+  deletedAt           DateTime?
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
 
@@ -152,6 +153,7 @@ model DonationPlace {
   name      String   @unique
   note      String?
   isActive  Boolean  @default(true)
+  deletedAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -167,6 +169,7 @@ model MonthlyOverview {
   month        Int // 1–12
   exchangeRate Float
   carryOver    BigInt   @default(0)
+  deletedAt    DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -184,6 +187,7 @@ model SupporterDonation {
   amount            BigInt
   currency          String // JPY | MMK
   kyatAmount        BigInt
+  deletedAt         DateTime?
 
   createdAt DateTime @default(now())
 
@@ -199,6 +203,7 @@ model DistributionRecord {
   recipient         String
   amountMMK         BigInt
   remarks           String?
+  deletedAt         DateTime?
 
   createdAt DateTime @default(now())
 
@@ -216,6 +221,7 @@ model YearlySummary {
   fiscalYear     Int      @unique
   totalCollected Decimal  @default(0)
   totalDonated   Decimal  @default(0)
+  deletedAt      DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -229,6 +235,7 @@ model MonthlyRecord {
   month           String
   collectedAmount Decimal @default(0)
   donatedAmount   Decimal @default(0)
+  deletedAt       DateTime?
 
   yearlySummary YearlySummary @relation(fields: [yearId], references: [id], onDelete: Cascade)
 

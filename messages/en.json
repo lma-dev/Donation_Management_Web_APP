@@ -81,6 +81,7 @@
       "yearlyOverview": "Yearly Overview",
       "userManagement": "User Management",
       "donationPlaces": "Donation Places",
+      "trash": "Trash",
       "activityLogs": "Activity Logs",
       "applicationSettings": "Application Settings"
     },
@@ -385,6 +386,46 @@
     "wrongPassword": "Current password is incorrect.",
     "passwordChangeError": "Failed to change password."
   },
+  "trash": {
+    "title": "Trash",
+    "description": "View and manage soft-deleted records. Restore or permanently delete items.",
+    "guide": {
+      "title": "Trash",
+      "description": "This page shows all soft-deleted records. Admins can restore records. System Admins can permanently delete records."
+    },
+    "tabs": {
+      "users": "Users",
+      "donation-places": "Donation Places",
+      "supporter-donations": "Supporter Donations",
+      "distribution-records": "Distribution Records"
+    },
+    "table": {
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "note": "Note",
+      "status": "Status",
+      "amount": "Amount",
+      "kyatAmount": "Kyats (MMK)",
+      "recipient": "Recipient",
+      "amountMmk": "Amount (MMK)",
+      "place": "Place",
+      "remarks": "Remarks",
+      "month": "Month",
+      "deletedAt": "Deleted At"
+    },
+    "empty": "No deleted records",
+    "emptyDescription": "There are no soft-deleted items in this category.",
+    "selected": "{count} selected",
+    "restore": "Restore",
+    "restoreSelected": "Restore Selected",
+    "purge": "Permanently Delete",
+    "purgeSelected": "Permanently Delete Selected",
+    "clearSelection": "Clear Selection",
+    "purgeConfirmTitle": "Permanently Delete Records?",
+    "purgeConfirmDescription": "This will permanently delete {count} record(s). This action cannot be undone.",
+    "searchPlaceholder": "Search deleted records..."
+  },
   "toast": {
     "settings": {
       "updateSuccess": "Settings updated successfully",
@@ -422,6 +463,12 @@
       "updateError": "Failed to update donation place",
       "deleteSuccess": "Donation place deleted successfully",
       "deleteError": "Failed to delete donation place"
+    },
+    "trash": {
+      "restoreSuccess": "{count} record(s) restored successfully",
+      "restoreError": "Failed to restore records",
+      "purgeSuccess": "{count} record(s) permanently deleted",
+      "purgeError": "Failed to permanently delete records"
     },
     "monthly": {
       "createSuccess": "Monthly overview created successfully",

@@ -79,8 +79,8 @@ export async function DELETE(request: NextRequest) {
     await removeSupporterDonation(id);
     await logAction({
       actionType: "Deleted",
-      actionLabel: "Supporter Donation Deleted",
-      details: `Deleted supporter donation: ${id}`,
+      actionLabel: "Supporter Donation Soft Deleted",
+      details: `Soft deleted supporter donation: ${id}`,
     });
     return NextResponse.json({ success: true });
   } catch (error) {

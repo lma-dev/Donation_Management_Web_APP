@@ -1,12 +1,15 @@
 import { createDonationPlaceSchema, updateDonationPlaceSchema } from "../schema";
 import {
   findAllDonationPlaces,
+  findDeletedDonationPlaces,
   findActiveDonationPlaces,
   findDonationPlaceById,
   findDonationPlaceByName,
   createDonationPlace as createInDb,
   updateDonationPlace as updateInDb,
-  deleteDonationPlace as deleteInDb,
+  softDeleteDonationPlace as softDeleteInDb,
+  hardDeleteDonationPlace as hardDeleteInDb,
+  restoreDonationPlace as restoreInDb,
 } from "../data";
 import { DonationPlaceError } from "../error";
 
@@ -67,5 +70,22 @@ export async function removeDonationPlace(id: string) {
     throw new DonationPlaceError("Donation place not found", "NOT_FOUND");
   }
 
-  await deleteInDb(id);
+  await softDeleteInDb(id);
+}
+
+export async function listDeletedDonationPlaces() {
+  return findDeletedDonationPlaces();
+}
+
+export async function restoreDonationPlace(id: string) {
+  await restoreInDb(id);
+}
+
+export async function purgeDonationPlace(id: string) {
+  const place = await findDonationPlaceById(id);
+  if (!place) {
+    throw new DonationPlaceError("Donation place not found", "NOT_FOUND");
+  }
+
+  await hardDeleteInDb(id);
 }

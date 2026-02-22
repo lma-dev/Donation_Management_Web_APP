@@ -9,6 +9,7 @@ const publicPages = ["/", "/auth/login", "/auth/register", "/auth/forgot-passwor
 
 const PROTECTED_ROUTES: { path: string; minRole: string }[] = [
   { path: "/activity-logs", minRole: "SYSTEM_ADMIN" },
+  { path: "/trash", minRole: "ADMIN" },
   { path: "/user-management", minRole: "ADMIN" },
   { path: "/donation-place-management", minRole: "ADMIN" },
 ];

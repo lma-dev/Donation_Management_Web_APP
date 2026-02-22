@@ -53,8 +53,8 @@ export async function DELETE(
     await removeUser(id);
     await logAction({
       actionType: "Deleted",
-      actionLabel: "User Deleted",
-      details: `Deleted user with ID: ${id}`,
+      actionLabel: "User Soft Deleted",
+      details: `Soft deleted user with ID: ${id}`,
     });
     return NextResponse.json({ success: true });
   } catch (error) {
