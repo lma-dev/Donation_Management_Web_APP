@@ -1,6 +1,22 @@
 {
   "home": {
-    "title": "Spring Liberation Rose"
+    "title": "Spring Liberation Rose",
+    "subtitle": "透明性のある寄付管理プラットフォーム。",
+    "cta": "ログイン",
+    "features": {
+      "tracking": {
+        "title": "寄付を記録",
+        "description": "支援者からの月次寄付を透明性を持って記録・管理します。"
+      },
+      "distribution": {
+        "title": "配布を管理",
+        "description": "登録された寄付先に資金を配布し、すべての取引の詳細を記録します。"
+      },
+      "reporting": {
+        "title": "年次レポート",
+        "description": "Excel、PDF、JSON形式でエクスポート可能な年次概要を生成します。"
+      }
+    }
   },
   "auth": {
     "login": {
@@ -370,6 +386,14 @@
     "passwordChangeError": "パスワードの変更に失敗しました。"
   },
   "toast": {
+    "settings": {
+      "updateSuccess": "設定を更新しました",
+      "updateError": "設定の更新に失敗しました",
+      "logoUploadSuccess": "ロゴを更新しました",
+      "logoUploadError": "ロゴのアップロードに失敗しました",
+      "invalidFileType": "PNG、JPG、またはWebP画像をアップロードしてください",
+      "fileTooLarge": "ファイルサイズは2MB以下にしてください"
+    },
     "auth": {
       "resetPasswordSuccess": "パスワードがリセットされました。新しいパスワードでログインしてください。"
     },
@@ -441,6 +465,17 @@
       "loginSuccess": "ログイン成功",
       "loginFailed": "ログイン失敗",
       "unknownIp": "不明なIP"
+    },
+    "appSettings": {
+      "title": "アプリケーション ブランディング",
+      "description": "アプリケーション名とロゴを管理します。",
+      "appName": "アプリケーション名",
+      "appNamePlaceholder": "アプリケーション名を入力",
+      "logo": "アプリケーション ロゴ",
+      "logoDescription": "ロゴ画像をアップロード（PNG、JPG、WebP、最大2MB）。",
+      "changeLogo": "ロゴを変更",
+      "save": "設定を保存",
+      "saving": "保存中..."
     }
   }
 }

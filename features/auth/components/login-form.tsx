@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { Eye, EyeOff, Loader2, Wallet } from "lucide-react";
+import Image from "next/image";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,10 +17,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginSchema } from "@/features/auth/schema";
+import { useAppSettings } from "@/features/settings/use-app-settings";
 
 export function LoginForm() {
   const t = useTranslations("auth.login");
   const router = useRouter();
+  const { appName, appLogo } = useAppSettings();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -72,12 +75,16 @@ export function LoginForm() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-muted px-4">
       {/* Header */}
       <div className="mb-8 flex flex-col items-center gap-2">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-          <Wallet className="h-6 w-6" />
-        </div>
-        <h1 className="text-xl font-semibold tracking-tight">
-          Spring Liberation Rose
-        </h1>
+        <Image
+          src={appLogo}
+          alt={appName}
+          width={56}
+          height={56}
+          className="rounded-full"
+          priority
+          unoptimized
+        />
+        <h1 className="text-xl font-semibold tracking-tight">{appName}</h1>
       </div>
 
       {/* Login Card */}

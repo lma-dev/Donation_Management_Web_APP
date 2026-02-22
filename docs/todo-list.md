@@ -9,6 +9,8 @@
 - [x] responsive design / mobile optimization
 - [x] deployment configuration and documentation
 - [x] send confirmation email when create user register . please note that this function is only after login . not login form
+- we need to change excel export design. we need to add color for amount to be readable and easy to understand by user 
+- when remark is long text , pdf and excel export design are broke especially in monthly overview export 
 
 
 ## Completed

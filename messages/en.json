@@ -1,6 +1,22 @@
 {
   "home": {
-    "title": "Spring Liberation Rose"
+    "title": "Spring Liberation Rose",
+    "subtitle": "Transparent donation management for communities that care.",
+    "cta": "Sign In",
+    "features": {
+      "tracking": {
+        "title": "Track Donations",
+        "description": "Record and manage monthly donations from supporters with full transparency."
+      },
+      "distribution": {
+        "title": "Manage Distribution",
+        "description": "Distribute funds to registered places and keep detailed records of every transaction."
+      },
+      "reporting": {
+        "title": "Yearly Reports",
+        "description": "Generate comprehensive yearly overviews with export options in Excel, PDF, and JSON."
+      }
+    }
   },
   "auth": {
     "login": {
@@ -370,6 +386,14 @@
     "passwordChangeError": "Failed to change password."
   },
   "toast": {
+    "settings": {
+      "updateSuccess": "Settings updated successfully",
+      "updateError": "Failed to update settings",
+      "logoUploadSuccess": "Logo updated successfully",
+      "logoUploadError": "Failed to upload logo",
+      "invalidFileType": "Please upload a PNG, JPG, or WebP image",
+      "fileTooLarge": "File size must be less than 2MB"
+    },
     "auth": {
       "resetPasswordSuccess": "Password has been reset successfully. Please sign in with your new password."
     },
@@ -441,6 +465,17 @@
       "loginSuccess": "Successful login",
       "loginFailed": "Failed login attempt",
       "unknownIp": "Unknown IP"
+    },
+    "appSettings": {
+      "title": "Application Branding",
+      "description": "Manage your application name and logo.",
+      "appName": "Application Name",
+      "appNamePlaceholder": "Enter application name",
+      "logo": "Application Logo",
+      "logoDescription": "Upload a logo image (PNG, JPG, or WebP, max 2MB).",
+      "changeLogo": "Change Logo",
+      "save": "Save Settings",
+      "saving": "Saving..."
     }
   }
 }

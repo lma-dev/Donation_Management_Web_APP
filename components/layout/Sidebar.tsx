@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { PanelLeftClose, PanelLeft, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
@@ -9,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { SidebarSection } from "./SidebarSection";
 import { navigation } from "./navigation";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useAppSettings } from "@/features/settings/use-app-settings";
 
 type SidebarProps = {
   collapsed: boolean;
@@ -25,6 +27,7 @@ function SidebarHeader({
   onToggle: () => void;
 }) {
   const t = useTranslations("navigation");
+  const { appName, appLogo } = useAppSettings();
 
   return (
     <div
@@ -33,10 +36,26 @@ function SidebarHeader({
         collapsed ? "justify-center" : "justify-between",
       )}
     >
-      {!collapsed && (
-        <span className="text-lg font-bold tracking-tight">
-          {t("appName")}
-        </span>
+      <div className={cn("flex items-center gap-2", collapsed && "hidden")}>
+        <Image
+          src={appLogo}
+          alt={appName}
+          width={32}
+          height={32}
+          className="shrink-0 rounded-full"
+          unoptimized
+        />
+        <span className="text-lg font-bold tracking-tight">{appName}</span>
+      </div>
+      {collapsed && (
+        <Image
+          src={appLogo}
+          alt={appName}
+          width={28}
+          height={28}
+          className="rounded-full"
+          unoptimized
+        />
       )}
       <Button
         variant="ghost"
@@ -89,15 +108,26 @@ function MobileSidebar({
   onMobileOpenChange,
 }: Pick<SidebarProps, "mobileOpen" | "onMobileOpenChange">) {
   const t = useTranslations("navigation");
+  const { appName, appLogo } = useAppSettings();
 
   return (
     <Sheet open={mobileOpen} onOpenChange={onMobileOpenChange}>
       <SheetContent side="left" className="w-60 p-0" showCloseButton={false}>
         <SheetTitle className="sr-only">{t("navigationMenu")}</SheetTitle>
         <div className="flex h-16 items-center justify-between border-b border-border px-4">
-          <span className="text-lg font-bold tracking-tight">
-            {t("appName")}
-          </span>
+          <div className="flex items-center gap-2">
+            <Image
+              src={appLogo}
+              alt={appName}
+              width={32}
+              height={32}
+              className="shrink-0 rounded-full"
+              unoptimized
+            />
+            <span className="text-lg font-bold tracking-tight">
+              {appName}
+            </span>
+          </div>
           <Button
             variant="ghost"
             size="icon"

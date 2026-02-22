@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Yone Kya ML",
+  title: "Spring Liberation Rose",
   description: "Spring Liberation Rose - Donation & Fund Management",
 };
 
