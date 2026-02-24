@@ -11,6 +11,11 @@ erDiagram
         string image
         string password
         Role role
+        boolean isLocked
+        datetime lockedAt
+        int failedLoginAttempts
+        string lockedBy
+        datetime deletedAt
         datetime createdAt
         datetime updatedAt
     }
@@ -43,57 +48,12 @@ erDiagram
         datetime expires
     }
 
-    Campaign {
-        string id PK
-        string name
-        string description
-        boolean isActive
-        datetime createdAt
-        datetime updatedAt
-    }
-
-    IncomingDonation {
-        string id PK
-        string campaignId FK
-        string userId FK
-        string donorName
-        decimal originalAmount
-        string originalCurrency
-        decimal exchangeRate
-        decimal convertedAmountMMK
-        string note
-        datetime donatedAt
-        datetime createdAt
-        datetime updatedAt
-    }
-
-    FundDistribution {
-        string id PK
-        string campaignId FK
-        string userId FK
-        string recipient
-        decimal amountMMK
-        string note
-        datetime distributedAt
-        datetime createdAt
-        datetime updatedAt
-    }
-
-    MonthlyExchangeRate {
-        string id PK
-        string campaignId FK
-        int month
-        int year
-        string fromCurrency
-        string toCurrency
-        decimal rate
-    }
-
     DonationPlace {
         string id PK
         string name UK
         string note
         boolean isActive
+        datetime deletedAt
         datetime createdAt
         datetime updatedAt
     }
@@ -103,6 +63,8 @@ erDiagram
         int year
         int month
         float exchangeRate
+        bigint carryOver
+        datetime deletedAt
         datetime createdAt
         datetime updatedAt
     }
@@ -114,6 +76,7 @@ erDiagram
         bigint amount
         string currency
         bigint kyatAmount
+        datetime deletedAt
         datetime createdAt
     }
 
@@ -124,6 +87,7 @@ erDiagram
         string recipient
         bigint amountMMK
         string remarks
+        datetime deletedAt
         datetime createdAt
     }
 
@@ -132,6 +96,7 @@ erDiagram
         int fiscalYear UK
         decimal totalCollected
         decimal totalDonated
+        datetime deletedAt
         datetime createdAt
         datetime updatedAt
     }
@@ -142,26 +107,17 @@ erDiagram
         string month
         decimal collectedAmount
         decimal donatedAmount
+        datetime deletedAt
     }
 
-    %% Auth Relationships
-    User ||--o{ Account : "has many"
-    User ||--o{ Session : "has many"
+    AppSetting {
+        string id PK
+        string key UK
+        string value
+        datetime createdAt
+        datetime updatedAt
+    }
 
-    %% Domain Relationships
-    User ||--o{ IncomingDonation : "records"
-    User ||--o{ FundDistribution : "records"
-
-    Campaign ||--o{ IncomingDonation : "receives"
-    Campaign ||--o{ FundDistribution : "distributes"
-    Campaign ||--o{ MonthlyExchangeRate : "has rates"
-
-    %% Monthly Overview Relationships
-    MonthlyOverview ||--o{ SupporterDonation : "has many"
-    MonthlyOverview ||--o{ DistributionRecord : "has many"
-    DonationPlace ||--o{ DistributionRecord : "distributes to"
-
-    %% Yearly Summary Relationships
     ActivityLog {
         string id PK
         datetime timestamp
@@ -177,8 +133,18 @@ erDiagram
         datetime updatedAt
     }
 
+    %% Auth Relationships
+    User ||--o{ Account : "has many"
+    User ||--o{ Session : "has many"
+
+    %% Monthly Overview Relationships
+    MonthlyOverview ||--o{ SupporterDonation : "has many"
+    MonthlyOverview ||--o{ DistributionRecord : "has many"
+    DonationPlace ||--o{ DistributionRecord : "distributes to"
+
+    %% Yearly Summary Relationships
+    YearlySummary ||--o{ MonthlyRecord : "has many"
+
     %% Activity Log Relationships
     User ||--o{ ActivityLog : "has many"
-
-    YearlySummary ||--o{ MonthlyRecord : "has many"
 ```

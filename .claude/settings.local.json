@@ -23,7 +23,16 @@
       "Bash(head:*)",
       "Bash(node -e:*)",
       "Bash(npx vitest run:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(pnpm prisma migrate dev:*)",
+      "Bash(pnpm prisma migrate reset:*)",
+      "Bash(PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=\"Yes, reset it\" pnpm prisma migrate reset:*)",
+      "Bash(pnpm prisma db seed:*)",
+      "Bash(pnpm tsx:*)",
+      "Bash(pnpm prisma migrate:*)",
+      "Bash(pnpm prisma validate:*)",
+      "Bash(pnpm prisma generate:*)",
+      "Bash(pnpm build:*)"
     ]
   }
 }

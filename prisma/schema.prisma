@@ -35,8 +35,6 @@ model User {
 
   accounts          Account[]
   sessions          Session[]
-  incomingDonations IncomingDonation[]
-  fundDistributions FundDistribution[]
   activityLogs      ActivityLog[]
 }
 
@@ -72,78 +70,6 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-// Domain models
-
-model Campaign {
-  id          String  @id @default(cuid())
-  name        String
-  description String?
-  isActive    Boolean @default(true)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  incomingDonations    IncomingDonation[]
-  fundDistributions    FundDistribution[]
-  monthlyExchangeRates MonthlyExchangeRate[]
-}
-
-model IncomingDonation {
-  id                 String   @id @default(cuid())
-  campaignId         String
-  userId             String
-  donorName          String
-  originalAmount     Decimal
-  originalCurrency   String
-  exchangeRate       Decimal
-  convertedAmountMMK Decimal
-  note               String?
-  donatedAt          DateTime
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  campaign Campaign @relation(fields: [campaignId], references: [id])
-  user     User     @relation(fields: [userId], references: [id])
-
-  @@index([campaignId])
-  @@index([userId])
-}
-
-model FundDistribution {
-  id            String   @id @default(cuid())
-  campaignId    String
-  userId        String
-  recipient     String
-  amountMMK     Decimal
-  note          String?
-  distributedAt DateTime
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  campaign Campaign @relation(fields: [campaignId], references: [id])
-  user     User     @relation(fields: [userId], references: [id])
-
-  @@index([campaignId])
-  @@index([userId])
-}
-
-model MonthlyExchangeRate {
-  id           String  @id @default(cuid())
-  campaignId   String
-  month        Int
-  year         Int
-  fromCurrency String
-  toCurrency   String
-  rate         Decimal
-
-  campaign Campaign @relation(fields: [campaignId], references: [id])
-
-  @@unique([campaignId, month, year, fromCurrency, toCurrency])
-  @@index([campaignId])
 }
 
 // Donation Places (master data)
