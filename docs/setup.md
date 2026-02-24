@@ -20,21 +20,7 @@ pnpm install
 cp .env.example .env
 ```
 
-Edit `.env` with your local database credentials:
-
-```
-DATABASE_URL="postgresql://<user>@localhost:5432/spring_liberation_rose"
-NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="your-secret-key-change-in-production"
-NODE_ENV="development"
-
-# Optional: SMTP for sending confirmation emails on user registration
-SMTP_HOST=""
-SMTP_PORT="587"
-SMTP_USER=""
-SMTP_PASS=""
-SMTP_FROM=""
-```
+Edit `.env` with your local database credentials. See `.env.example` for all available variables.
 
 ### 3. Set up the database
 
@@ -62,9 +48,15 @@ Seed the admin user:
 pnpm db:seed
 ```
 
-Default admin credentials:
-- Email: `admin@slr.org`
-- Password: `admin123`
+You can customize the admin credentials via environment variables before seeding:
+
+```bash
+ADMIN_EMAIL="your-email@example.com" ADMIN_PASSWORD="your-secure-password" pnpm db:seed
+```
+
+Default credentials (if env vars are not set): `admin@example.com` / `changeme123`
+
+> **Important:** Change the default password immediately after first login.
 
 ### 4. Start development server
 

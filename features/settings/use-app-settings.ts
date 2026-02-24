@@ -9,7 +9,7 @@ type AppSettings = {
 
 const DEFAULTS: AppSettings = {
   appName: "Spring Liberation Rose",
-  appLogo: "/logo.png",
+  appLogo: "/logo.svg",
 };
 
 export function useAppSettings() {

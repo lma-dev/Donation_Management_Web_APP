@@ -106,14 +106,18 @@ async function seedYearlySummaries() {
 }
 
 async function main() {
-  const hashedPassword = await bcrypt.hash("admin123", 12);
+  const adminEmail = process.env.ADMIN_EMAIL || "admin@example.com";
+  const adminPassword = process.env.ADMIN_PASSWORD || "changeme123";
+  const adminName = process.env.ADMIN_NAME || "Admin";
+
+  const hashedPassword = await bcrypt.hash(adminPassword, 12);
 
   const admin = await prisma.user.upsert({
-    where: { email: "admin@slr.org" },
+    where: { email: adminEmail },
     update: {},
     create: {
-      name: "Admin",
-      email: "admin@slr.org",
+      name: adminName,
+      email: adminEmail,
       password: hashedPassword,
       role: "ADMIN",
     },

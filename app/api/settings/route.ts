@@ -5,7 +5,7 @@ import { logAction } from "@/lib/activity-log";
 
 const DEFAULTS: Record<string, string> = {
   appName: "Spring Liberation Rose",
-  appLogo: "/logo.png",
+  appLogo: "/logo.svg",
 };
 
 async function getSettings() {

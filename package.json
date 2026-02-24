@@ -1,6 +1,8 @@
 {
-  "name": "yone-kya-ml",
-  "version": "0.1.0",
+  "name": "spring-liberation-rose",
+  "version": "1.0.0",
+  "description": "Donation tracking and fund distribution management system for nonprofits. Multi-currency, multi-language, with reporting and audit logs.",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "next dev",
