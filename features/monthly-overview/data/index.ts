@@ -1,0 +1,220 @@
+import { prisma } from "@/lib/prisma";
+
+export async function findMonthlyOverview(year: number, month: number) {
+  return prisma.monthlyOverview.findFirst({
+    where: { year, month, deletedAt: null },
+    include: {
+      supporterDonations: {
+        where: { deletedAt: null },
+        orderBy: { createdAt: "asc" },
+      },
+      distributionRecords: {
+        where: { deletedAt: null },
+        orderBy: { createdAt: "asc" },
+      },
+    },
+  });
+}
+
+/**
+ * Find the previous month's overview (the month immediately before year/month).
+ * For January of year Y, looks up December of year Y-1.
+ */
+export async function findPreviousMonthOverview(year: number, month: number) {
+  const prevMonth = month === 1 ? 12 : month - 1;
+  const prevYear = month === 1 ? year - 1 : year;
+
+  return prisma.monthlyOverview.findFirst({
+    where: { year: prevYear, month: prevMonth, deletedAt: null },
+    include: {
+      supporterDonations: { where: { deletedAt: null } },
+      distributionRecords: { where: { deletedAt: null } },
+    },
+  });
+}
+
+export async function createMonthlyOverview(data: {
+  year: number;
+  month: number;
+  exchangeRate: number;
+  carryOver: bigint;
+}) {
+  return prisma.monthlyOverview.create({
+    data: {
+      year: data.year,
+      month: data.month,
+      exchangeRate: data.exchangeRate,
+      carryOver: data.carryOver,
+    },
+    include: {
+      supporterDonations: true,
+      distributionRecords: true,
+    },
+  });
+}
+
+export async function updateExchangeRate(id: string, exchangeRate: number) {
+  return prisma.$transaction(async (tx) => {
+    const overview = await tx.monthlyOverview.update({
+      where: { id },
+      data: { exchangeRate },
+      include: {
+        supporterDonations: { where: { deletedAt: null } },
+      },
+    });
+
+    const jpyDonations = overview.supporterDonations.filter(
+      (d) => d.currency === "JPY",
+    );
+
+    for (const donation of jpyDonations) {
+      const newKyatAmount = BigInt(
+        Math.round(Number(donation.amount) * exchangeRate),
+      );
+      await tx.supporterDonation.update({
+        where: { id: donation.id },
+        data: { kyatAmount: newKyatAmount },
+      });
+    }
+
+    return tx.monthlyOverview.findUnique({
+      where: { id },
+      include: {
+        supporterDonations: {
+          where: { deletedAt: null },
+          orderBy: { createdAt: "asc" },
+        },
+        distributionRecords: {
+          where: { deletedAt: null },
+          orderBy: { createdAt: "asc" },
+        },
+      },
+    });
+  });
+}
+
+export async function createSupporterDonation(data: {
+  monthlyOverviewId: string;
+  name: string;
+  amount: bigint;
+  currency: string;
+  kyatAmount: bigint;
+}) {
+  return prisma.supporterDonation.create({
+    data: {
+      monthlyOverviewId: data.monthlyOverviewId,
+      name: data.name,
+      amount: data.amount,
+      currency: data.currency,
+      kyatAmount: data.kyatAmount,
+    },
+  });
+}
+
+export async function createDistributionRecord(data: {
+  monthlyOverviewId: string;
+  donationPlaceId?: string;
+  recipient: string;
+  amountMMK: bigint;
+  remarks?: string;
+}) {
+  return prisma.distributionRecord.create({
+    data: {
+      monthlyOverviewId: data.monthlyOverviewId,
+      donationPlaceId: data.donationPlaceId,
+      recipient: data.recipient,
+      amountMMK: data.amountMMK,
+      remarks: data.remarks,
+    },
+  });
+}
+
+export async function updateSupporterDonation(
+  id: string,
+  data: { name: string; amount: bigint; currency: string; kyatAmount: bigint },
+) {
+  return prisma.supporterDonation.update({
+    where: { id },
+    data: {
+      name: data.name,
+      amount: data.amount,
+      currency: data.currency,
+      kyatAmount: data.kyatAmount,
+    },
+  });
+}
+
+export async function softDeleteSupporterDonation(id: string) {
+  return prisma.supporterDonation.update({
+    where: { id },
+    data: { deletedAt: new Date() },
+  });
+}
+
+export async function findDeletedSupporterDonations() {
+  return prisma.supporterDonation.findMany({
+    where: { deletedAt: { not: null } },
+    include: { monthlyOverview: { select: { year: true, month: true } } },
+    orderBy: { deletedAt: "desc" },
+  });
+}
+
+export async function restoreSupporterDonation(id: string) {
+  return prisma.supporterDonation.update({
+    where: { id },
+    data: { deletedAt: null },
+  });
+}
+
+export async function hardDeleteSupporterDonation(id: string) {
+  return prisma.supporterDonation.delete({ where: { id } });
+}
+
+export async function updateDistributionRecord(
+  id: string,
+  data: {
+    donationPlaceId?: string;
+    recipient: string;
+    amountMMK: bigint;
+    remarks?: string;
+  },
+) {
+  return prisma.distributionRecord.update({
+    where: { id },
+    data: {
+      donationPlaceId: data.donationPlaceId,
+      recipient: data.recipient,
+      amountMMK: data.amountMMK,
+      remarks: data.remarks,
+    },
+  });
+}
+
+export async function softDeleteDistributionRecord(id: string) {
+  return prisma.distributionRecord.update({
+    where: { id },
+    data: { deletedAt: new Date() },
+  });
+}
+
+export async function findDeletedDistributionRecords() {
+  return prisma.distributionRecord.findMany({
+    where: { deletedAt: { not: null } },
+    include: {
+      monthlyOverview: { select: { year: true, month: true } },
+      donationPlace: { select: { name: true } },
+    },
+    orderBy: { deletedAt: "desc" },
+  });
+}
+
+export async function restoreDistributionRecord(id: string) {
+  return prisma.distributionRecord.update({
+    where: { id },
+    data: { deletedAt: null },
+  });
+}
+
+export async function hardDeleteDistributionRecord(id: string) {
+  return prisma.distributionRecord.delete({ where: { id } });
+}

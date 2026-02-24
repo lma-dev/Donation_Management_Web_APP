@@ -20,14 +20,7 @@ pnpm install
 cp .env.example .env
 ```
 
-Edit `.env` with your local database credentials:
-
-```
-DATABASE_URL="postgresql://<user>@localhost:5432/spring_liberation_rose"
-NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="your-secret-key-change-in-production"
-NODE_ENV="development"
-```
+Edit `.env` with your local database credentials. See `.env.example` for all available variables.
 
 ### 3. Set up the database
 
@@ -55,9 +48,15 @@ Seed the admin user:
 pnpm db:seed
 ```
 
-Default admin credentials:
-- Email: `admin@slr.org`
-- Password: `admin123`
+You can customize the admin credentials via environment variables before seeding:
+
+```bash
+ADMIN_EMAIL="your-email@example.com" ADMIN_PASSWORD="your-secure-password" pnpm db:seed
+```
+
+Default credentials (if env vars are not set): `admin@example.com` / `changeme123`
+
+> **Important:** Change the default password immediately after first login.
 
 ### 4. Start development server
 
@@ -82,8 +81,13 @@ This starts PostgreSQL and the app together.
 | `pnpm dev` | Start development server |
 | `pnpm build` | Production build |
 | `pnpm start` | Start production server |
+| `pnpm test` | run test |
 | `pnpm lint` | Run ESLint |
 | `pnpm db:seed` | Seed admin user |
 | `pnpm prisma migrate dev` | Run database migrations |
 | `pnpm prisma generate` | Regenerate Prisma client |
 | `pnpm prisma studio` | Open Prisma Studio (DB GUI) |
+
+## Production Deployment
+
+See [deployment.md](./deployment.md) for Vercel and Docker deployment guides.

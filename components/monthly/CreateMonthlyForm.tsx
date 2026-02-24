@@ -1,0 +1,112 @@
+"use client";
+
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Loader2, Plus } from "lucide-react";
+import { getMonthKey } from "@/lib/constants";
+
+type CreateMonthlyFormProps = {
+  year: number;
+  month: number;
+  previousBalance: string;
+  onSubmit: (data: { exchangeRate: number; carryOver: number }) => Promise<void>;
+};
+
+export function CreateMonthlyForm({
+  year,
+  month,
+  previousBalance,
+  onSubmit,
+}: CreateMonthlyFormProps) {
+  const t = useTranslations("monthlyOverview");
+  const tc = useTranslations("common");
+  const tm = useTranslations("months");
+  const [exchangeRate, setExchangeRate] = useState("");
+  const [carryOver, setCarryOver] = useState(previousBalance !== "0" ? previousBalance : "");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const rate = Number(exchangeRate);
+    const carry = Number(carryOver) || 0;
+    if (rate <= 0) return;
+
+    setError("");
+    setIsSubmitting(true);
+    try {
+      await onSubmit({ exchangeRate: rate, carryOver: carry });
+    } catch (err) {
+      setError((err as Error).message || tc("somethingWentWrong"));
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  const prevBalanceNum = Number(previousBalance);
+
+  return (
+    <div className="flex items-center justify-center py-10">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle>
+            {t("createTitle", { month: tm(getMonthKey(month)), year })}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <div className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                {error}
+              </div>
+            )}
+            <div className="space-y-2">
+              <Label htmlFor="exchange-rate">{t("exchangeRateLabel")}</Label>
+              <Input
+                id="exchange-rate"
+                type="number"
+                step="0.01"
+                value={exchangeRate}
+                onChange={(e) => setExchangeRate(e.target.value)}
+                placeholder={t("exchangeRatePlaceholder")}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="carry-over">{t("carryOverLabel")}</Label>
+              <Input
+                id="carry-over"
+                type="number"
+                step="1"
+                value={carryOver}
+                onChange={(e) => setCarryOver(e.target.value)}
+                placeholder="0"
+              />
+              {prevBalanceNum > 0 && (
+                <p className="text-muted-foreground text-xs">
+                  {t("previousBalance", { amount: prevBalanceNum.toLocaleString() })}
+                </p>
+              )}
+            </div>
+            <Button
+              type="submit"
+              className="w-full gap-2"
+              disabled={isSubmitting || Number(exchangeRate) <= 0}
+            >
+              {isSubmitting ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <Plus className="size-4" />
+              )}
+              {t("createOverview")}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm dlx:*)",
+      "Bash(find:*)",
+      "Bash(npx prisma migrate dev:*)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(npx prisma generate:*)",
+      "Bash(npm run build:*)",
+      "Bash(curl:*)",
+      "Bash(python3:*)",
+      "Bash(npx next build:*)",
+      "Bash(npx tsc:*)",
+      "Bash(ls:*)",
+      "Bash(npm install:*)",
+      "Bash(pnpm add:*)",
+      "Bash(npm ls:*)",
+      "Bash(pnpm ls:*)",
+      "Bash(pnpm config set:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm test:*)",
+      "Bash(git -C /Users/recycle/work/ProjectPlayGround/yone-kya-ml log --oneline -15)",
+      "Bash(head:*)",
+      "Bash(node -e:*)",
+      "Bash(npx vitest run:*)",
+      "Bash(cat:*)",
+      "Bash(pnpm prisma migrate dev:*)",
+      "Bash(pnpm prisma migrate reset:*)",
+      "Bash(PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION=\"Yes, reset it\" pnpm prisma migrate reset:*)",
+      "Bash(pnpm prisma db seed:*)",
+      "Bash(pnpm tsx:*)",
+      "Bash(pnpm prisma migrate:*)",
+      "Bash(pnpm prisma validate:*)",
+      "Bash(pnpm prisma generate:*)",
+      "Bash(pnpm build:*)"
+    ]
+  }
+}

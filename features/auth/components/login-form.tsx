@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { Eye, EyeOff, Loader2, Wallet } from "lucide-react";
-import { useRouter } from "@/i18n/navigation";
+import Image from "next/image";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Link, useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,10 +17,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginSchema } from "@/features/auth/schema";
+import { useAppSettings } from "@/features/settings/use-app-settings";
 
 export function LoginForm() {
   const t = useTranslations("auth.login");
   const router = useRouter();
+  const { appName, appLogo } = useAppSettings();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,12 +49,25 @@ export function LoginForm() {
     });
 
     if (!result?.ok) {
+      try {
+        const lockRes = await fetch(
+          `/api/auth/check-lock?email=${encodeURIComponent(parsed.data.email)}`,
+        );
+        const lockData = await lockRes.json();
+        if (lockData.isLocked) {
+          setError(t("accountLocked"));
+          setIsLoading(false);
+          return;
+        }
+      } catch {
+        // ignore check-lock errors, fall through to generic error
+      }
       setError(t("error"));
       setIsLoading(false);
       return;
     }
 
-    router.push("/");
+    router.push("/dashboard");
     router.refresh();
   }
 
@@ -59,19 +75,20 @@ export function LoginForm() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-muted px-4">
       {/* Header */}
       <div className="mb-8 flex flex-col items-center gap-2">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-          <Wallet className="h-6 w-6" />
-        </div>
-        <h1 className="text-xl font-semibold tracking-tight">
-          Donation Tracker
-        </h1>
-        <p className="text-sm text-muted-foreground">
-          Monthly Balance Management
-        </p>
+        <Image
+          src={appLogo}
+          alt={appName}
+          width={56}
+          height={56}
+          className="rounded-full"
+          priority
+          unoptimized
+        />
+        <h1 className="text-xl font-semibold tracking-tight">{appName}</h1>
       </div>
 
       {/* Login Card */}
-      <Card className="w-full max-w-[420px] shadow-sm">
+      <Card className="w-full max-w-105 shadow-sm">
         <CardHeader className="text-center">
           <CardTitle className="text-lg">{t("title")}</CardTitle>
           <CardDescription>{t("description")}</CardDescription>
@@ -127,11 +144,7 @@ export function LoginForm() {
               </div>
             </div>
 
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isLoading}
-            >
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -143,12 +156,12 @@ export function LoginForm() {
             </Button>
 
             <p className="text-center text-sm text-muted-foreground">
-              <button
-                type="button"
+              <Link
+                href="/auth/forgot-password"
                 className="underline underline-offset-4 hover:text-foreground"
               >
                 {t("forgotPassword")}
-              </button>
+              </Link>
             </p>
           </form>
         </CardContent>

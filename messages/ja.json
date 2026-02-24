@@ -1,6 +1,22 @@
 {
   "home": {
-    "title": "Spring Liberation Rose"
+    "title": "Spring Liberation Rose",
+    "subtitle": "透明性のある寄付管理プラットフォーム。",
+    "cta": "ログイン",
+    "features": {
+      "tracking": {
+        "title": "寄付を記録",
+        "description": "支援者からの月次寄付を透明性を持って記録・管理します。"
+      },
+      "distribution": {
+        "title": "配布を管理",
+        "description": "登録された寄付先に資金を配布し、すべての取引の詳細を記録します。"
+      },
+      "reporting": {
+        "title": "年次レポート",
+        "description": "Excel、PDF、JSON形式でエクスポート可能な年次概要を生成します。"
+      }
+    }
   },
   "auth": {
     "login": {
@@ -13,7 +29,500 @@
       "submit": "ログイン",
       "submitting": "ログイン中...",
       "forgotPassword": "パスワードをお忘れですか？",
-      "error": "メールアドレスまたはパスワードが正しくありません。"
+      "error": "メールアドレスまたはパスワードが正しくありません。",
+      "accountLocked": "このアカウントはロックされています。管理者にお問い合わせください。"
+    },
+    "forgotPassword": {
+      "title": "パスワードをお忘れの方",
+      "description": "メールアドレスを入力してください。リセットリンクをお送りします。",
+      "email": "メールアドレス",
+      "emailPlaceholder": "admin@example.com",
+      "submit": "リセットリンクを送信",
+      "submitting": "送信中...",
+      "invalidEmail": "有効なメールアドレスを入力してください。",
+      "error": "エラーが発生しました。もう一度お試しください。",
+      "successMessage": "該当するアカウントが存在する場合、パスワードリセットリンクを送信しました。受信トレイをご確認ください。",
+      "backToLogin": "ログインに戻る"
+    },
+    "resetPassword": {
+      "title": "パスワードリセット",
+      "description": "新しいパスワードを入力してください。",
+      "newPassword": "新しいパスワード",
+      "newPasswordPlaceholder": "新しいパスワードを入力",
+      "confirmPassword": "パスワードの確認",
+      "confirmPasswordPlaceholder": "新しいパスワードを再入力",
+      "submit": "パスワードをリセット",
+      "submitting": "リセット中...",
+      "passwordsMatch": "パスワードが一致しています",
+      "passwordsMismatch": "パスワードが一致しません",
+      "invalidToken": "このリセットリンクは無効です。新しいリンクをリクエストしてください。",
+      "tokenExpired": "このリセットリンクは期限切れです。新しいリンクをリクエストしてください。",
+      "validationError": "パスワードの要件を確認してください。",
+      "error": "エラーが発生しました。もう一度お試しください。",
+      "backToLogin": "ログインに戻る"
+    }
+  },
+  "navigation": {
+    "appName": "Spring Liberation Rose",
+    "expandSidebar": "サイドバーを展開",
+    "collapseSidebar": "サイドバーを折りたたむ",
+    "openMenu": "メニューを開く",
+    "closeSidebar": "サイドバーを閉じる",
+    "navigationMenu": "ナビゲーションメニュー",
+    "toggleTheme": "テーマ切替",
+    "sections": {
+      "dashboard": "ダッシュボード",
+      "management": "管理",
+      "system": "システム"
+    },
+    "items": {
+      "dashboard": "ダッシュボード",
+      "monthlyOverview": "月次概要",
+      "yearlyOverview": "年次概要",
+      "userManagement": "ユーザー管理",
+      "donationPlaces": "寄付先",
+      "trash": "ゴミ箱",
+      "activityLogs": "アクティビティログ",
+      "applicationSettings": "アプリ設定"
+    },
+    "userMenu": {
+      "profile": "プロフィール",
+      "logout": "ログアウト"
+    }
+  },
+  "common": {
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "edit": "編集",
+    "saveChanges": "変更を保存",
+    "create": "作成",
+    "export": "エクスポート",
+    "add": "追加",
+    "total": "合計",
+    "previousPage": "前のページ",
+    "nextPage": "次のページ",
+    "showing": "{from} ～ {to} / {total} 件の{item}",
+    "somethingWentWrong": "エラーが発生しました",
+    "exportExcel": "Excelでエクスポート",
+    "exportPdf": "PDFでエクスポート",
+    "exportJson": "JSONでエクスポート",
+    "days": "日",
+    "lock": "ロック",
+    "unlock": "ロック解除",
+    "tryAgain": "もう一度試す"
+  },
+  "months": {
+    "january": "1月",
+    "february": "2月",
+    "march": "3月",
+    "april": "4月",
+    "may": "5月",
+    "june": "6月",
+    "july": "7月",
+    "august": "8月",
+    "september": "9月",
+    "october": "10月",
+    "november": "11月",
+    "december": "12月"
+  },
+  "dashboard": {
+    "title": "ダッシュボード",
+    "description": "寄付、キャンペーン、配布の概要。",
+    "guide": {
+      "title": "ダッシュボード",
+      "description": "総ユーザー数、月別寄付推移、配布先別内訳の概要を確認できます。"
+    },
+    "totalUsers": "総ユーザー数",
+    "monthlyTrend": "月別寄付推移",
+    "collected": "収集額",
+    "donated": "寄付額",
+    "distributionByPlace": "配布先別内訳",
+    "noChartData": "データがまだありません。"
+  },
+  "activityLogs": {
+    "title": "システムアクティビティログ",
+    "description": "すべての管理操作、システム更新、セキュリティイベントを監視・監査します。データは90日間保持されます。",
+    "guide": {
+      "title": "アクティビティログ",
+      "description": "ログイン、データ変更、エクスポートなどすべてのシステム操作を確認できます。ユーザー、日付、アクションタイプでフィルターできます。監査用にCSVでログをエクスポートできます。"
+    },
+    "exportCsv": "CSVエクスポート",
+    "refresh": "更新",
+    "searchPlaceholder": "ユーザー名で検索...",
+    "allUsers": "全ユーザー",
+    "allActions": "全アクション",
+    "clearAll": "すべてクリア",
+    "actionTypes": {
+      "added": "追加",
+      "updated": "更新",
+      "deleted": "削除",
+      "login": "ログイン",
+      "loginFailed": "ログイン失敗",
+      "changedPassword": "パスワード変更",
+      "export": "エクスポート",
+      "system": "システム"
+    },
+    "table": {
+      "timestamp": "日時",
+      "user": "ユーザー",
+      "action": "アクション",
+      "details": "詳細",
+      "ipAddress": "IPアドレス",
+      "status": "ステータス"
+    },
+    "empty": "アクティビティログが見つかりません",
+    "emptyDescription": "フィルターを調整するか、後ほど再確認してください。",
+    "summary": {
+      "totalLogs": "総ログ数（30日間）",
+      "criticalEvents": "重要イベント",
+      "activeUsersToday": "本日のアクティブユーザー",
+      "retentionLeft": "保持残日数"
+    }
+  },
+  "monthlyOverview": {
+    "title": "月次概要",
+    "description": "{year}年{month}の寄付概要",
+    "guide": {
+      "title": "月次概要",
+      "description": "月次の寄付記録を作成・管理します。支援者の寄付を追加、配布先への配布を記録し、為替レートを管理します。月セレクターで月を切り替えられます。"
+    },
+    "exchangeRate": "為替レート",
+    "jpyEquals": "1 JPY =",
+    "mmk": "MMK",
+    "createTitle": "月次概要の作成 — {year}年{month}",
+    "exchangeRateLabel": "為替レート（JPY → MMK）",
+    "exchangeRatePlaceholder": "例: 32.5",
+    "carryOverLabel": "繰越金（MMK）",
+    "previousBalance": "前月の残高: {amount} MMK",
+    "createOverview": "概要を作成",
+    "confirm": "確認",
+    "noData": "この月のデータはまだありません。",
+    "kpi": {
+      "carryOver": "繰越金",
+      "totalCollected": "総集金額",
+      "totalDonated": "総寄付額",
+      "remainingBalance": "残高"
+    },
+    "supporters": {
+      "title": "支援者からの寄付",
+      "addEntry": "エントリー追加",
+      "name": "名前",
+      "amount": "金額",
+      "currency": "通貨",
+      "kyats": "チャット（MMK）",
+      "empty": "支援者の寄付はまだありません",
+      "dialogTitle": "支援者寄付の追加",
+      "dialogDescription": "支援者からの新しい寄付エントリーを追加します。",
+      "kyatAmount": "チャット金額（MMK）",
+      "addDonation": "寄付を追加",
+      "selectName": "支援者を選択...",
+      "searchName": "支援者を検索...",
+      "noUserFound": "ユーザーが見つかりません。",
+      "editDialogTitle": "支援者寄付の編集",
+      "editDialogDescription": "寄付エントリーの詳細を更新します。",
+      "updateDonation": "寄付を更新"
+    },
+    "distribution": {
+      "title": "寄付配布",
+      "addEntry": "エントリー追加",
+      "place": "配布先",
+      "amountMmk": "金額（MMK）",
+      "remarks": "備考",
+      "empty": "配布記録はまだありません",
+      "dialogTitle": "配布記録の追加",
+      "dialogDescription": "受取先への寄付配布を記録します。",
+      "donationPlace": "寄付先",
+      "selectPlace": "寄付先を選択...",
+      "searchPlaces": "寄付先を検索...",
+      "noPlaceFound": "寄付先が見つかりません。",
+      "remarksOptional": "備考（任意）",
+      "remarksPlaceholder": "任意のメモ",
+      "addDistribution": "配布を追加",
+      "editDialogTitle": "配布記録の編集",
+      "editDialogDescription": "配布記録の詳細を更新します。",
+      "updateDistribution": "配布を更新"
+    },
+    "deleteTitle": "記録を削除",
+    "deleteDescription": "この記録を削除してもよろしいですか？この操作は取り消せません。"
+  },
+  "yearlyOverview": {
+    "title": "年次概要",
+    "description": "{year}年度の寄付サマリー",
+    "guide": {
+      "title": "年次概要",
+      "description": "年度全体の寄付データを集計して表示します。月別内訳テーブルで各月の集金額と寄付額を確認できます。Excel、PDF、JSONでデータをエクスポートできます。"
+    },
+    "empty": "年次データがありません。まず月次概要データを追加してください。",
+    "fy": "FY {year}",
+    "kpi": {
+      "totalCollected": "総集金額",
+      "totalDonated": "総寄付額",
+      "remainingBalance": "残高"
+    },
+    "breakdown": {
+      "title": "月別内訳",
+      "month": "月",
+      "collected": "集金額",
+      "donated": "寄付額",
+      "balance": "残高",
+      "annualTotal": "年間合計"
+    }
+  },
+  "donationPlaces": {
+    "title": "寄付先",
+    "description": "配布記録用の寄付先を管理します。",
+    "guide": {
+      "title": "寄付先",
+      "description": "寄付先の追加、編集、無効化ができます。これらの寄付先は月次の配布記録フォームに表示されます。"
+    },
+    "addPlace": "寄付先を追加",
+    "searchPlaceholder": "寄付先を検索...",
+    "table": {
+      "name": "名前",
+      "note": "メモ",
+      "status": "ステータス",
+      "updated": "更新日",
+      "actions": "操作"
+    },
+    "active": "有効",
+    "inactive": "無効",
+    "empty": "寄付先が見つかりません",
+    "emptyDescription": "新しい寄付先を追加して始めましょう。",
+    "form": {
+      "addTitle": "寄付先の追加",
+      "editTitle": "寄付先の編集",
+      "addDescription": "新しい寄付先の詳細を入力してください。",
+      "editDescription": "寄付先の詳細を更新してください。",
+      "nameLabel": "名前",
+      "namePlaceholder": "場所名を入力",
+      "noteLabel": "メモ",
+      "notePlaceholder": "任意のメモ",
+      "activeLabel": "有効"
+    },
+    "deleteTitle": "寄付先を削除しますか？",
+    "deleteDescription": "{name} を完全に削除します。この操作は取り消せません。"
+  },
+  "userManagement": {
+    "title": "ユーザー管理",
+    "description": "ユーザーアカウント、役割、権限を管理します。",
+    "guide": {
+      "title": "ユーザー管理",
+      "description": "新規ユーザー登録、役割（ユーザー、管理者、システム管理者）の割り当て、アカウントのロック/ロック解除、パスワード管理ができます。ロックされたアカウントはロック解除されるまでログインできません。"
+    },
+    "registerUser": "ユーザー登録",
+    "searchPlaceholder": "ユーザーを検索...",
+    "table": {
+      "name": "名前",
+      "email": "メール",
+      "role": "役割",
+      "status": "ステータス",
+      "locked": "ロック中",
+      "active": "アクティブ",
+      "memberSince": "登録日",
+      "actions": "操作"
+    },
+    "empty": "ユーザーが見つかりません",
+    "emptyDescription": "新しいユーザーを登録して始めましょう。",
+    "form": {
+      "registerTitle": "ユーザー登録",
+      "updateTitle": "ユーザー更新",
+      "registerDescription": "新しいユーザーの詳細を入力してください。",
+      "updateDescription": "ユーザーの詳細を更新してください。",
+      "nameLabel": "名前",
+      "namePlaceholder": "フルネームを入力",
+      "emailLabel": "メールアドレス",
+      "emailPlaceholder": "user@gmail.com",
+      "memberSinceLabel": "登録日",
+      "passwordLabel": "パスワード",
+      "passwordPlaceholderNew": "パスワードを入力",
+      "passwordPlaceholderEdit": "変更しない場合は空白",
+      "showPassword": "パスワードを表示",
+      "hidePassword": "パスワードを非表示",
+      "confirmPasswordLabel": "パスワード確認",
+      "confirmPasswordPlaceholder": "パスワードを再入力",
+      "passwordsMatch": "パスワードが一致しています",
+      "passwordsMismatch": "パスワードが一致しません",
+      "roleLabel": "役割",
+      "rolePlaceholder": "役割を選択",
+      "roles": {
+        "user": "ユーザー",
+        "admin": "管理者",
+        "systemAdmin": "システム管理者"
+      }
+    },
+    "deleteTitle": "ユーザーを削除しますか？",
+    "deleteDescription": "{name} を完全に削除します。この操作は取り消せません。",
+    "lockTitle": "ユーザーをロックしますか？",
+    "lockDescription": "{name} のログインを禁止します。後でロック解除できます。",
+    "unlockTitle": "ユーザーのロックを解除しますか？",
+    "unlockDescription": "{name} が再びログインできるようになります。",
+    "passwordRules": {
+      "minLength": "8文字以上",
+      "hasUppercase": "大文字1つ以上",
+      "hasLowercase": "小文字1つ以上",
+      "hasNumber": "数字1つ以上",
+      "hasSpecialChar": "特殊文字1つ以上"
+    }
+  },
+  "profile": {
+    "title": "プロフィール",
+    "description": "あなたのアカウント情報。",
+    "unnamedUser": "名前未設定",
+    "email": "メールアドレス",
+    "role": "役割",
+    "memberSince": "登録日",
+    "changePassword": "パスワード変更",
+    "changePasswordDescription": "アカウントのパスワードを更新します。",
+    "currentPassword": "現在のパスワード",
+    "currentPasswordPlaceholder": "現在のパスワードを入力",
+    "newPassword": "新しいパスワード",
+    "newPasswordPlaceholder": "新しいパスワードを入力",
+    "confirmNewPassword": "新しいパスワードの確認",
+    "confirmNewPasswordPlaceholder": "新しいパスワードを再入力",
+    "changePasswordButton": "パスワードを変更",
+    "changingPassword": "変更中...",
+    "passwordsMatch": "パスワードが一致しています",
+    "passwordsMismatch": "パスワードが一致しません",
+    "wrongPassword": "現在のパスワードが正しくありません。",
+    "passwordChangeError": "パスワードの変更に失敗しました。"
+  },
+  "trash": {
+    "title": "ゴミ箱",
+    "description": "削除されたレコードの表示と管理。復元または完全削除が可能です。",
+    "guide": {
+      "title": "ゴミ箱",
+      "description": "すべての論理削除されたレコードを表示します。管理者はレコードを復元できます。システム管理者はレコードを完全に削除できます。"
+    },
+    "tabs": {
+      "users": "ユーザー",
+      "donation-places": "寄付先",
+      "supporter-donations": "支援者寄付",
+      "distribution-records": "配布記録"
+    },
+    "table": {
+      "name": "名前",
+      "email": "メール",
+      "role": "役割",
+      "note": "メモ",
+      "status": "ステータス",
+      "amount": "金額",
+      "kyatAmount": "チャット（MMK）",
+      "recipient": "受取人",
+      "amountMmk": "金額（MMK）",
+      "place": "場所",
+      "remarks": "備考",
+      "month": "月",
+      "deletedAt": "削除日時"
+    },
+    "empty": "削除されたレコードはありません",
+    "emptyDescription": "このカテゴリには論理削除されたアイテムがありません。",
+    "selected": "{count}件選択中",
+    "restore": "復元",
+    "restoreSelected": "選択を復元",
+    "purge": "完全に削除",
+    "purgeSelected": "選択を完全に削除",
+    "clearSelection": "選択解除",
+    "purgeConfirmTitle": "レコードを完全に削除しますか？",
+    "purgeConfirmDescription": "{count}件のレコードを完全に削除します。この操作は取り消せません。",
+    "searchPlaceholder": "削除されたレコードを検索..."
+  },
+  "toast": {
+    "settings": {
+      "updateSuccess": "設定を更新しました",
+      "updateError": "設定の更新に失敗しました",
+      "logoUploadSuccess": "ロゴを更新しました",
+      "logoUploadError": "ロゴのアップロードに失敗しました",
+      "invalidFileType": "PNG、JPG、またはWebP画像をアップロードしてください",
+      "fileTooLarge": "ファイルサイズは2MB以下にしてください"
+    },
+    "auth": {
+      "resetPasswordSuccess": "パスワードがリセットされました。新しいパスワードでログインしてください。"
+    },
+    "profile": {
+      "changePasswordSuccess": "パスワードを変更しました",
+      "changePasswordError": "パスワードの変更に失敗しました"
+    },
+    "users": {
+      "addSuccess": "ユーザーを追加しました",
+      "addError": "ユーザーの追加に失敗しました",
+      "updateSuccess": "ユーザーを更新しました",
+      "updateError": "ユーザーの更新に失敗しました",
+      "deleteSuccess": "ユーザーを削除しました",
+      "deleteError": "ユーザーの削除に失敗しました",
+      "lockSuccess": "ユーザーアカウントをロックしました",
+      "lockError": "ユーザーアカウントのロックに失敗しました",
+      "unlockSuccess": "ユーザーアカウントのロックを解除しました",
+      "unlockError": "ユーザーアカウントのロック解除に失敗しました",
+      "emailSent": "確認メールをユーザーに送信しました",
+      "emailFailed": "ユーザーは作成されましたが、確認メールを送信できませんでした"
+    },
+    "donationPlaces": {
+      "addSuccess": "寄付先を追加しました",
+      "addError": "寄付先の追加に失敗しました",
+      "updateSuccess": "寄付先を更新しました",
+      "updateError": "寄付先の更新に失敗しました",
+      "deleteSuccess": "寄付先を削除しました",
+      "deleteError": "寄付先の削除に失敗しました"
+    },
+    "trash": {
+      "restoreSuccess": "{count}件のレコードを復元しました",
+      "restoreError": "レコードの復元に失敗しました",
+      "purgeSuccess": "{count}件のレコードを完全に削除しました",
+      "purgeError": "レコードの完全削除に失敗しました"
+    },
+    "monthly": {
+      "createSuccess": "月次概要を作成しました",
+      "createError": "月次概要の作成に失敗しました",
+      "updateRateSuccess": "為替レートを更新しました",
+      "updateRateError": "為替レートの更新に失敗しました",
+      "addSupporterSuccess": "支援者の寄付を追加しました",
+      "addSupporterError": "支援者の寄付の追加に失敗しました",
+      "addDistributionSuccess": "配布記録を追加しました",
+      "addDistributionError": "配布記録の追加に失敗しました",
+      "updateSupporterSuccess": "支援者の寄付を更新しました",
+      "updateSupporterError": "支援者の寄付の更新に失敗しました",
+      "deleteSupporterSuccess": "支援者の寄付を削除しました",
+      "deleteSupporterError": "支援者の寄付の削除に失敗しました",
+      "updateDistributionSuccess": "配布記録を更新しました",
+      "updateDistributionError": "配布記録の更新に失敗しました",
+      "deleteDistributionSuccess": "配布記録を削除しました",
+      "deleteDistributionError": "配布記録の削除に失敗しました",
+      "exportSuccess": "エクスポートをダウンロードしました",
+      "exportError": "エクスポートに失敗しました"
+    }
+  },
+  "settings": {
+    "title": "アプリ設定",
+    "description": "アプリケーションの設定を変更します。",
+    "guide": {
+      "title": "設定",
+      "description": "表示言語を変更し、最近のログインアクティビティを確認できます。"
+    },
+    "language": {
+      "title": "言語",
+      "description": "インターフェースの表示言語を選択してください。",
+      "en": "English",
+      "ja": "日本語",
+      "mm": "မြန်မာ"
+    },
+    "loginHistory": {
+      "title": "ログイン履歴",
+      "description": "最近のログインアクティビティ。",
+      "empty": "ログイン履歴が見つかりません。",
+      "loginSuccess": "ログイン成功",
+      "loginFailed": "ログイン失敗",
+      "unknownIp": "不明なIP"
+    },
+    "appSettings": {
+      "title": "アプリケーション ブランディング",
+      "description": "アプリケーション名とロゴを管理します。",
+      "appName": "アプリケーション名",
+      "appNamePlaceholder": "アプリケーション名を入力",
+      "logo": "アプリケーション ロゴ",
+      "logoDescription": "ロゴ画像をアップロード（PNG、JPG、WebP、最大2MB）。",
+      "changeLogo": "ロゴを変更",
+      "save": "設定を保存",
+      "saving": "保存中..."
     }
   }
 }

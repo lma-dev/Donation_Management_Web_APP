@@ -1,0 +1,111 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import { useQuery } from "@tanstack/react-query";
+import { Loader2, Mail, Shield, CalendarDays } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { PageContent } from "@/components/layout/PageContent";
+import { ChangePasswordForm } from "@/components/profile/ChangePasswordForm";
+
+type Profile = {
+  id: string;
+  name: string | null;
+  email: string;
+  role: "ADMIN" | "USER" | "SYSTEM_ADMIN";
+  createdAt: string;
+};
+
+export default function ProfilePage() {
+  const t = useTranslations("profile");
+  const { data: profile, isLoading } = useQuery<Profile>({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      const res = await fetch("/api/profile");
+      if (!res.ok) throw new Error("Failed to fetch profile");
+      return res.json();
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="text-muted-foreground size-6 animate-spin" />
+      </div>
+    );
+  }
+
+  if (!profile) return null;
+
+  const initials = profile.name
+    ? profile.name
+        .split(" ")
+        .map((n) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : "U";
+
+  const memberSince = new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(new Date(profile.createdAt));
+
+  return (
+    <PageContent title={t("title")} description={t("description")}>
+      <Card className="max-w-2xl">
+        <CardHeader>
+          <div className="flex items-center gap-4">
+            <Avatar className="h-16 w-16">
+              <AvatarFallback className="bg-primary/10 text-lg font-medium text-primary">
+                {initials}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <CardTitle className="text-xl">
+                {profile.name ?? t("unnamedUser")}
+              </CardTitle>
+              <Badge variant="secondary" className="mt-1">
+                {profile.role}
+              </Badge>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <dl className="grid gap-4 sm:grid-cols-2">
+            <div className="flex items-start gap-3">
+              <Mail className="text-muted-foreground mt-0.5 size-4 shrink-0" />
+              <div>
+                <dt className="text-muted-foreground text-sm">{t("email")}</dt>
+                <dd className="text-sm font-medium">{profile.email}</dd>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <Shield className="text-muted-foreground mt-0.5 size-4 shrink-0" />
+              <div>
+                <dt className="text-muted-foreground text-sm">{t("role")}</dt>
+                <dd className="text-sm font-medium">{profile.role}</dd>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <CalendarDays className="text-muted-foreground mt-0.5 size-4 shrink-0" />
+              <div>
+                <dt className="text-muted-foreground text-sm">{t("memberSince")}</dt>
+                <dd className="text-sm font-medium">{memberSince}</dd>
+              </div>
+            </div>
+          </dl>
+        </CardContent>
+      </Card>
+
+      <ChangePasswordForm />
+    </PageContent>
+  );
+}

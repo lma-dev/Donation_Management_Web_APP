@@ -11,6 +11,11 @@ erDiagram
         string image
         string password
         Role role
+        boolean isLocked
+        datetime lockedAt
+        int failedLoginAttempts
+        string lockedBy
+        datetime deletedAt
         datetime createdAt
         datetime updatedAt
     }
@@ -43,61 +48,103 @@ erDiagram
         datetime expires
     }
 
-    Campaign {
+    DonationPlace {
         string id PK
-        string name
-        string description
+        string name UK
+        string note
         boolean isActive
+        datetime deletedAt
         datetime createdAt
         datetime updatedAt
     }
 
-    IncomingDonation {
+    MonthlyOverview {
         string id PK
-        string campaignId FK
-        string userId FK
-        string donorName
-        decimal originalAmount
-        string originalCurrency
-        decimal exchangeRate
-        decimal convertedAmountMMK
-        string note
-        datetime donatedAt
-        datetime createdAt
-        datetime updatedAt
-    }
-
-    FundDistribution {
-        string id PK
-        string campaignId FK
-        string userId FK
-        string recipient
-        decimal amountMMK
-        string note
-        datetime distributedAt
-        datetime createdAt
-        datetime updatedAt
-    }
-
-    MonthlyExchangeRate {
-        string id PK
-        string campaignId FK
-        int month
         int year
-        string fromCurrency
-        string toCurrency
-        decimal rate
+        int month
+        float exchangeRate
+        bigint carryOver
+        datetime deletedAt
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    SupporterDonation {
+        string id PK
+        string monthlyOverviewId FK
+        string name
+        bigint amount
+        string currency
+        bigint kyatAmount
+        datetime deletedAt
+        datetime createdAt
+    }
+
+    DistributionRecord {
+        string id PK
+        string monthlyOverviewId FK
+        string donationPlaceId FK
+        string recipient
+        bigint amountMMK
+        string remarks
+        datetime deletedAt
+        datetime createdAt
+    }
+
+    YearlySummary {
+        string id PK
+        int fiscalYear UK
+        decimal totalCollected
+        decimal totalDonated
+        datetime deletedAt
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    MonthlyRecord {
+        string id PK
+        string yearId FK
+        string month
+        decimal collectedAmount
+        decimal donatedAmount
+        datetime deletedAt
+    }
+
+    AppSetting {
+        string id PK
+        string key UK
+        string value
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    ActivityLog {
+        string id PK
+        datetime timestamp
+        string userId FK
+        string userName
+        string userRole
+        string actionType
+        string actionLabel
+        string details
+        string ipAddress
+        string status
+        datetime createdAt
+        datetime updatedAt
     }
 
     %% Auth Relationships
     User ||--o{ Account : "has many"
     User ||--o{ Session : "has many"
 
-    %% Domain Relationships
-    User ||--o{ IncomingDonation : "records"
-    User ||--o{ FundDistribution : "records"
+    %% Monthly Overview Relationships
+    MonthlyOverview ||--o{ SupporterDonation : "has many"
+    MonthlyOverview ||--o{ DistributionRecord : "has many"
+    DonationPlace ||--o{ DistributionRecord : "distributes to"
 
-    Campaign ||--o{ IncomingDonation : "receives"
-    Campaign ||--o{ FundDistribution : "distributes"
-    Campaign ||--o{ MonthlyExchangeRate : "has rates"
+    %% Yearly Summary Relationships
+    YearlySummary ||--o{ MonthlyRecord : "has many"
+
+    %% Activity Log Relationships
+    User ||--o{ ActivityLog : "has many"
 ```
