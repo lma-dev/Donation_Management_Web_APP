@@ -32,7 +32,9 @@ export async function sendWelcomeEmail(
   }
 
   const loginUrl = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
-  const from = process.env.SMTP_FROM ?? process.env.SMTP_USER;
+  const fromAddress = process.env.SMTP_FROM ?? process.env.SMTP_USER;
+  const fromName = process.env.SMTP_FROM_NAME;
+  const from = fromName ? `"${fromName}" <${fromAddress}>` : fromAddress;
 
   const html = `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
@@ -78,7 +80,9 @@ export async function sendPasswordResetEmail(
     return false;
   }
 
-  const from = process.env.SMTP_FROM ?? process.env.SMTP_USER;
+  const fromAddress = process.env.SMTP_FROM ?? process.env.SMTP_USER;
+  const fromName = process.env.SMTP_FROM_NAME;
+  const from = fromName ? `"${fromName}" <${fromAddress}>` : fromAddress;
 
   const html = `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
