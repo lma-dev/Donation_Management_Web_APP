@@ -68,11 +68,16 @@ Visit [http://localhost:3000](http://localhost:3000)
 
 ## Docker (alternative)
 
+If you prefer not to install PostgreSQL locally, use Docker Compose:
+
 ```bash
-docker compose up
+cp .env.example .env
+docker compose up -d --build
+docker compose exec app npx prisma migrate deploy
+docker compose exec app npx tsx prisma/seed.ts
 ```
 
-This starts PostgreSQL and the app together.
+See [Docker Workflow](./docker-workflow.md) for full details and common commands.
 
 ## Available Scripts
 
@@ -90,4 +95,4 @@ This starts PostgreSQL and the app together.
 
 ## Production Deployment
 
-See [deployment.md](./deployment.md) for Vercel and Docker deployment guides.
+See [deployment.md](./deployment.md) for the Vercel deployment guide.

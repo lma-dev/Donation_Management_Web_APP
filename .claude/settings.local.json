@@ -19,7 +19,7 @@
       "Bash(pnpm config set:*)",
       "Bash(pnpm install:*)",
       "Bash(pnpm test:*)",
-      "Bash(git -C /Users/recycle/work/ProjectPlayGround/yone-kya-ml log --oneline -15)",
+      "Bash(git -C /Users/recycle/work/ProjectPlayGround/spring_liberation_rose log --oneline -15)",
       "Bash(head:*)",
       "Bash(node -e:*)",
       "Bash(npx vitest run:*)",
@@ -32,7 +32,13 @@
       "Bash(pnpm prisma migrate:*)",
       "Bash(pnpm prisma validate:*)",
       "Bash(pnpm prisma generate:*)",
-      "Bash(pnpm build:*)"
+      "Bash(pnpm build:*)",
+      "Bash(chmod +x /Users/recycle/work/ProjectPlayGround/yone-kya-ml/docker-entrypoint.sh)",
+      "Bash(docker compose up --build -d)",
+      "Bash(docker compose exec db psql -U postgres -d spring_liberation_rose -c \"SELECT 1 AS ok;\")",
+      "Bash(lsof -i :5432)",
+      "Bash(docker compose up -d)",
+      "Bash(DATABASE_URL=\"postgresql://postgres:postgres@localhost:5433/spring_liberation_rose\" pnpm db:seed)"
     ]
   }
 }

@@ -67,14 +67,16 @@ Visit [http://localhost:3000](http://localhost:3000)
 
 > You can customize the seed admin credentials via `ADMIN_EMAIL` and `ADMIN_PASSWORD` environment variables. See `.env.example` for details.
 
-### Docker
+### Docker (local development)
 
 ```bash
 cp .env.example .env
 docker compose up -d --build
-docker compose exec app pnpm prisma migrate deploy
-docker compose exec app pnpm db:seed
+docker compose exec app npx prisma migrate deploy
+docker compose exec app npx tsx prisma/seed.ts
 ```
+
+See [Docker Workflow](docs/docker-workflow.md) for details.
 
 ## Project Structure
 
@@ -101,17 +103,11 @@ docs/                 # Documentation
 - [Architecture](docs/architecture.md) — Tech stack, directory structure, patterns
 - [Database Schema](docs/database.md) — ER diagram and model relationships
 - [Business Flows](docs/business-flows.md) — Feature flow diagrams
-- [Deployment](docs/deployment.md) — Vercel and Docker deployment guides
+- [Deployment](docs/deployment.md) — Vercel deployment guide
 
 ## Deployment
 
-Supports deployment to:
-
-- **Vercel** (recommended) — Auto-detects Next.js, connect a hosted PostgreSQL (Neon, Supabase)
-- **Docker** — Self-hosted with the included Dockerfile and docker-compose.yml
-- **Any Node.js host** — Standard `pnpm build && pnpm start`
-
-See the [Deployment Guide](docs/deployment.md) for step-by-step instructions.
+Production is deployed to **Vercel**. See the [Deployment Guide](docs/deployment.md) for step-by-step instructions.
 
 ## Scripts
 
