@@ -1,8 +1,8 @@
 import { prisma } from "@/lib/prisma";
 
 export async function findUserByEmail(email: string) {
-  return prisma.user.findUnique({
-    where: { email },
+  return prisma.user.findFirst({
+    where: { email, deletedAt: null },
   });
 }
 

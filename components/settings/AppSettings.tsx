@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useQueryClient } from "@tanstack/react-query";
@@ -23,60 +23,16 @@ export function AppSettings() {
   const tt = useTranslations("toast.settings");
   const { appName, appLogo } = useAppSettings();
   const queryClient = useQueryClient();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [name, setName] = useState<string | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isSaving, setIsSaving] = useState(false);
 
   const currentName = name ?? appName;
-  const currentLogo = preview ?? appLogo;
-
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const allowedTypes = ["image/png", "image/jpeg", "image/webp"];
-    if (!allowedTypes.includes(file.type)) {
-      toast.error(tt("invalidFileType"));
-      return;
-    }
-
-    if (file.size > 2 * 1024 * 1024) {
-      toast.error(tt("fileTooLarge"));
-      return;
-    }
-
-    setSelectedFile(file);
-    setPreview(URL.createObjectURL(file));
-  }
 
   async function handleSave() {
     setIsSaving(true);
 
     try {
-      // Upload logo if changed
-      if (selectedFile) {
-        const formData = new FormData();
-        formData.append("logo", selectedFile);
-
-        const logoRes = await fetch("/api/settings/logo", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!logoRes.ok) {
-          const err = await logoRes.json();
-          toast.error(err.error ?? tt("logoUploadError"));
-          setIsSaving(false);
-          return;
-        }
-
-        toast.success(tt("logoUploadSuccess"));
-      }
-
-      // Update name if changed
       if (name !== null && name !== appName) {
         const res = await fetch("/api/settings", {
           method: "PUT",
@@ -91,17 +47,13 @@ export function AppSettings() {
         }
       }
 
-      // Invalidate cache so all components pick up new values
       await queryClient.invalidateQueries({ queryKey: ["app-settings"] });
 
       if (name !== null && name !== appName) {
         toast.success(tt("updateSuccess"));
       }
 
-      // Reset local state
       setName(null);
-      setSelectedFile(null);
-      setPreview(null);
     } catch {
       toast.error(tt("updateError"));
     } finally {
@@ -109,8 +61,7 @@ export function AppSettings() {
     }
   }
 
-  const hasChanges =
-    (name !== null && name !== appName) || selectedFile !== null;
+  const hasChanges = name !== null && name !== appName;
 
   return (
     <Card>
@@ -128,29 +79,21 @@ export function AppSettings() {
           <p className="text-muted-foreground text-sm">{t("logoDescription")}</p>
           <div className="flex items-center gap-4">
             <Image
-              src={currentLogo}
+              src={appLogo}
               alt={currentName}
               width={64}
               height={64}
               className="rounded-full"
               unoptimized
             />
-            <div>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/png,image/jpeg,image/webp"
-                onChange={handleFileChange}
-                className="hidden"
-              />
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => fileInputRef.current?.click()}
-              >
+            <div className="space-y-1">
+              <Button variant="outline" size="sm" disabled>
                 <Upload className="mr-1 size-4" />
                 {t("changeLogo")}
               </Button>
+              <p className="text-muted-foreground text-xs">
+                {t("logoComingSoon")}
+              </p>
             </div>
           </div>
         </div>

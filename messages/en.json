@@ -522,7 +522,8 @@
       "logoDescription": "Upload a logo image (PNG, JPG, or WebP, max 2MB).",
       "changeLogo": "Change Logo",
       "save": "Save Settings",
-      "saving": "Saving..."
+      "saving": "Saving...",
+      "logoComingSoon": "Custom logo upload coming soon."
     }
   }
 }

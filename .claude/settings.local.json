@@ -38,7 +38,13 @@
       "Bash(docker compose exec db psql -U postgres -d spring_liberation_rose -c \"SELECT 1 AS ok;\")",
       "Bash(lsof -i :5432)",
       "Bash(docker compose up -d)",
-      "Bash(DATABASE_URL=\"postgresql://postgres:postgres@localhost:5433/spring_liberation_rose\" pnpm db:seed)"
+      "Bash(DATABASE_URL=\"postgresql://postgres:postgres@localhost:5433/spring_liberation_rose\" pnpm db:seed)",
+      "Bash(docker-compose ps)",
+      "Bash(curl -s http://localhost:3000/api/trash/users)",
+      "Bash(curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt http://localhost:3000/api/auth/csrf)",
+      "Bash(curl -s -b /tmp/cookies.txt http://localhost:3000/api/trash/users)",
+      "Bash(curl -s -b /tmp/cookies.txt -X DELETE http://localhost:3000/api/trash/users -H \"Content-Type: application/json\" -d '{\"\"ids\"\":[\"\"cmm64ow2s00013kngg3g0ekmp\"\"]}')",
+      "Bash(docker compose up -d --build app)"
     ]
   }
 }

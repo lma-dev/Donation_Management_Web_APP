@@ -82,6 +82,13 @@ export async function lockUserInDb(id: string, lockedById: string) {
   });
 }
 
+export async function findDeletedUserById(id: string) {
+  return prisma.user.findFirst({
+    where: { id, deletedAt: { not: null } },
+    select: userSelect,
+  });
+}
+
 export async function findDeletedUsers() {
   return prisma.user.findMany({
     where: { deletedAt: { not: null } },

@@ -3,6 +3,7 @@ import { createUserSchema, updateUserSchema } from "../schema";
 import {
   findAllUsers,
   findDeletedUsers,
+  findDeletedUserById,
   findUserByEmail,
   findUserById,
   createUser as createUserInDb,
@@ -121,7 +122,7 @@ export async function restoreUser(userId: string) {
 }
 
 export async function purgeUser(userId: string) {
-  const user = await findUserById(userId);
+  const user = await findDeletedUserById(userId);
   if (!user) {
     throw new UserError("User not found", "USER_NOT_FOUND");
   }

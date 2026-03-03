@@ -522,7 +522,8 @@
       "logoDescription": "ロゴ画像をアップロード（PNG、JPG、WebP、最大2MB）。",
       "changeLogo": "ロゴを変更",
       "save": "設定を保存",
-      "saving": "保存中..."
+      "saving": "保存中...",
+      "logoComingSoon": "カスタムロゴのアップロードは近日公開予定です。"
     }
   }
 }
