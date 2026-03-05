@@ -83,7 +83,8 @@
       "donationPlaces": "Donation Places",
       "trash": "Trash",
       "activityLogs": "Activity Logs",
-      "applicationSettings": "Application Settings"
+      "applicationSettings": "Application Settings",
+      "contact": "Contact"
     },
     "userMenu": {
       "profile": "Profile",
@@ -527,5 +528,12 @@
       "saving": "Saving...",
       "logoComingSoon": "Custom logo upload coming soon."
     }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "description": "Feel free to reach out to us through any of the following channels.",
+    "email": "contact@example.com",
+    "phone": "+81-00-0000-0000",
+    "address": "Tokyo, Japan"
   }
 }

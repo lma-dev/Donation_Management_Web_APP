@@ -12,9 +12,10 @@ type SidebarSectionProps = {
   section: NavSection;
   collapsed: boolean;
   showSeparator?: boolean;
+  onAction?: (action: string) => void;
 };
 
-export function SidebarSection({ section, collapsed, showSeparator }: SidebarSectionProps) {
+export function SidebarSection({ section, collapsed, showSeparator, onAction }: SidebarSectionProps) {
   const t = useTranslations("navigation");
   const { data: session } = useSession();
   const userRole = session?.user?.role ?? "USER";
@@ -38,7 +39,7 @@ export function SidebarSection({ section, collapsed, showSeparator }: SidebarSec
       </p>
       <div className="space-y-0.5">
         {visibleItems.map((item) => (
-          <SidebarItem key={item.href} item={item} collapsed={collapsed} />
+          <SidebarItem key={item.href ?? item.action} item={item} collapsed={collapsed} onAction={onAction} />
         ))}
       </div>
     </div>

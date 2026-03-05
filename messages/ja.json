@@ -83,7 +83,8 @@
       "donationPlaces": "寄付先",
       "trash": "ゴミ箱",
       "activityLogs": "アクティビティログ",
-      "applicationSettings": "アプリ設定"
+      "applicationSettings": "アプリ設定",
+      "contact": "お問い合わせ"
     },
     "userMenu": {
       "profile": "プロフィール",
@@ -527,5 +528,12 @@
       "saving": "保存中...",
       "logoComingSoon": "カスタムロゴのアップロードは近日公開予定です。"
     }
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "description": "以下の方法でお気軽にお問い合わせください。",
+    "email": "contact@example.com",
+    "phone": "+81-00-0000-0000",
+    "address": "東京都、日本"
   }
 }

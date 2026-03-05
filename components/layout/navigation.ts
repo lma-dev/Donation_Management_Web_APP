@@ -7,15 +7,17 @@ import {
   Settings,
   ScrollText,
   Trash2,
+  MessageCircle,
   type LucideIcon,
 } from "lucide-react";
 import type { UserRole } from "@/types/user";
 
 export type NavItem = {
   labelKey: string;
-  href: string;
+  href?: string;
   icon: LucideIcon;
   minRole?: UserRole;
+  action?: "contact-dialog";
 };
 
 export type NavSection = {
@@ -80,6 +82,11 @@ export const navigation: NavSection[] = [
         labelKey: "items.applicationSettings",
         href: "/dashboard/settings",
         icon: Settings,
+      },
+      {
+        labelKey: "items.contact",
+        icon: MessageCircle,
+        action: "contact-dialog",
       },
     ],
   },

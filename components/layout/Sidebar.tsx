@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { PanelLeftClose, PanelLeft, X } from "lucide-react";
@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SidebarSection } from "./SidebarSection";
+import { ContactDialog } from "./ContactDialog";
 import { navigation } from "./navigation";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useAppSettings } from "@/features/settings/use-app-settings";
@@ -74,7 +75,7 @@ function SidebarHeader({
   );
 }
 
-function SidebarNav({ collapsed }: { collapsed: boolean }) {
+function SidebarNav({ collapsed, onAction }: { collapsed: boolean; onAction: (action: string) => void }) {
   return (
     <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-4">
       {navigation.map((section, index) => (
@@ -83,13 +84,14 @@ function SidebarNav({ collapsed }: { collapsed: boolean }) {
           section={section}
           collapsed={collapsed}
           showSeparator={index > 0}
+          onAction={onAction}
         />
       ))}
     </nav>
   );
 }
 
-function DesktopSidebar({ collapsed, onToggle }: SidebarProps) {
+function DesktopSidebar({ collapsed, onToggle, onAction }: SidebarProps & { onAction: (action: string) => void }) {
   return (
     <aside
       className={cn(
@@ -98,7 +100,7 @@ function DesktopSidebar({ collapsed, onToggle }: SidebarProps) {
       )}
     >
       <SidebarHeader collapsed={collapsed} onToggle={onToggle} />
-      <SidebarNav collapsed={collapsed} />
+      <SidebarNav collapsed={collapsed} onAction={onAction} />
     </aside>
   );
 }
@@ -106,7 +108,8 @@ function DesktopSidebar({ collapsed, onToggle }: SidebarProps) {
 function MobileSidebar({
   mobileOpen,
   onMobileOpenChange,
-}: Pick<SidebarProps, "mobileOpen" | "onMobileOpenChange">) {
+  onAction,
+}: Pick<SidebarProps, "mobileOpen" | "onMobileOpenChange"> & { onAction: (action: string) => void }) {
   const t = useTranslations("navigation");
   const { appName, appLogo } = useAppSettings();
 
@@ -138,7 +141,7 @@ function MobileSidebar({
             <X className="h-4 w-4" />
           </Button>
         </div>
-        <SidebarNav collapsed={false} />
+        <SidebarNav collapsed={false} onAction={onAction} />
       </SheetContent>
     </Sheet>
   );
@@ -151,6 +154,13 @@ export function Sidebar({
   onMobileOpenChange,
 }: SidebarProps) {
   const isDesktop = useMediaQuery("(min-width: 1024px)");
+  const [contactOpen, setContactOpen] = useState(false);
+
+  const handleAction = useCallback((action: string) => {
+    if (action === "contact-dialog") {
+      setContactOpen(true);
+    }
+  }, []);
 
   // Close mobile drawer when switching to desktop
   useEffect(() => {
@@ -166,11 +176,14 @@ export function Sidebar({
         onToggle={onToggle}
         mobileOpen={mobileOpen}
         onMobileOpenChange={onMobileOpenChange}
+        onAction={handleAction}
       />
       <MobileSidebar
         mobileOpen={mobileOpen}
         onMobileOpenChange={onMobileOpenChange}
+        onAction={handleAction}
       />
+      <ContactDialog open={contactOpen} onOpenChange={setContactOpen} />
     </>
   );
 }
