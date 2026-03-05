@@ -43,6 +43,11 @@ export const updateExchangeRateSchema = z.object({
   exchangeRate: z.number().positive("Exchange rate must be positive"),
 });
 
+export const updateCarryOverSchema = z.object({
+  id: z.string().min(1, "Monthly overview ID is required"),
+  carryOver: z.number().int().min(0, "Carry over must be non-negative"),
+});
+
 export const monthlyExportSchema = z.object({
   year: z.coerce.number().int().min(2000).max(2100),
   month: z.coerce.number().int().min(1).max(12),
@@ -74,6 +79,7 @@ export type CreateMonthly = z.infer<typeof createMonthlySchema>;
 export type CreateSupporter = z.infer<typeof createSupporterSchema>;
 export type CreateDistribution = z.infer<typeof createDistributionSchema>;
 export type UpdateExchangeRate = z.infer<typeof updateExchangeRateSchema>;
+export type UpdateCarryOver = z.infer<typeof updateCarryOverSchema>;
 export type UpdateSupporter = z.infer<typeof updateSupporterSchema>;
 export type UpdateDistribution = z.infer<typeof updateDistributionSchema>;
 export type MonthlyExportQuery = z.infer<typeof monthlyExportSchema>;

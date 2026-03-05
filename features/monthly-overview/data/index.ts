@@ -93,6 +93,23 @@ export async function updateExchangeRate(id: string, exchangeRate: number) {
   });
 }
 
+export async function updateCarryOver(id: string, carryOver: bigint) {
+  return prisma.monthlyOverview.update({
+    where: { id },
+    data: { carryOver },
+    include: {
+      supporterDonations: {
+        where: { deletedAt: null },
+        orderBy: { createdAt: "asc" },
+      },
+      distributionRecords: {
+        where: { deletedAt: null },
+        orderBy: { createdAt: "asc" },
+      },
+    },
+  });
+}
+
 export async function createSupporterDonation(data: {
   monthlyOverviewId: string;
   name: string;

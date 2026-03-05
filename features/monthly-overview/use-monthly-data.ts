@@ -11,6 +11,7 @@ import {
   fetchPreviousMonthBalance,
   createMonthlyOverview,
   updateExchangeRate,
+  updateCarryOver,
   createSupporterDonation,
   createDistributionRecord,
   updateSupporterDonation,
@@ -84,6 +85,21 @@ export function useMonthlyData() {
       toast.success(t("updateRateSuccess"));
     } catch (error) {
       toast.error(error instanceof Error ? error.message : t("updateRateError"));
+      throw error;
+    }
+  }
+
+  async function handleUpdateCarryOver(carryOver: number) {
+    if (!overviewQuery.data) return;
+    try {
+      await updateCarryOver({
+        id: overviewQuery.data.id,
+        carryOver,
+      });
+      invalidate();
+      toast.success(t("updateCarryOverSuccess"));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : t("updateCarryOverError"));
       throw error;
     }
   }
@@ -209,6 +225,7 @@ export function useMonthlyData() {
     previousBalance: previousBalanceQuery.data ?? "0",
     handleCreateOverview,
     handleUpdateExchangeRate,
+    handleUpdateCarryOver,
     handleAddSupporter,
     handleAddDistribution,
     handleUpdateSupporter,

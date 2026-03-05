@@ -38,6 +38,7 @@ export default function MonthlyOverviewPage() {
     previousBalance,
     handleCreateOverview,
     handleUpdateExchangeRate,
+    handleUpdateCarryOver,
     handleAddSupporter,
     handleAddDistribution,
     handleUpdateSupporter,
@@ -52,6 +53,8 @@ export default function MonthlyOverviewPage() {
   const [distributionDialogOpen, setDistributionDialogOpen] = useState(false);
   const [editingRate, setEditingRate] = useState<string | null>(null);
   const [isSavingRate, setIsSavingRate] = useState(false);
+  const [editingCarryOver, setEditingCarryOver] = useState<string | null>(null);
+  const [isSavingCarryOver, setIsSavingCarryOver] = useState(false);
 
   const rateValue = editingRate ?? String(overview?.exchangeRate ?? "");
   const rateChanged =
@@ -59,6 +62,13 @@ export default function MonthlyOverviewPage() {
     overview &&
     Number(editingRate) !== overview.exchangeRate &&
     Number(editingRate) > 0;
+
+  const carryOverValue = editingCarryOver ?? (overview?.carryOver ?? "");
+  const carryOverChanged =
+    editingCarryOver !== null &&
+    overview &&
+    editingCarryOver !== overview.carryOver &&
+    Number(editingCarryOver) >= 0;
 
   async function handleSaveRate() {
     if (!rateChanged) return;
@@ -68,6 +78,17 @@ export default function MonthlyOverviewPage() {
       setEditingRate(null);
     } finally {
       setIsSavingRate(false);
+    }
+  }
+
+  async function handleSaveCarryOver() {
+    if (!carryOverChanged) return;
+    setIsSavingCarryOver(true);
+    try {
+      await handleUpdateCarryOver(Number(editingCarryOver));
+      setEditingCarryOver(null);
+    } finally {
+      setIsSavingCarryOver(false);
     }
   }
 
@@ -119,44 +140,82 @@ export default function MonthlyOverviewPage() {
         </div>
       ) : overview ? (
         <div className="space-y-6">
-          {/* Exchange Rate Info */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium">
-                {t("exchangeRate")}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                <Label className="text-muted-foreground shrink-0 text-sm">
-                  {t("jpyEquals")}
-                </Label>
-                <Input
-                  type="number"
-                  value={rateValue}
-                  onChange={(e) => setEditingRate(e.target.value)}
-                  className="w-full sm:w-32"
-                />
-                <span className="text-muted-foreground text-sm">
-                  {t("mmk")}
-                </span>
-                {rateChanged && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleSaveRate}
-                    disabled={isSavingRate}
-                  >
-                    {isSavingRate ? (
-                      <Loader2 className="size-4 animate-spin" />
-                    ) : (
-                      <span> {t("confirm")}</span>
-                    )}
-                  </Button>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+          {/* Exchange Rate & Carry Over */}
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium">
+                  {t("exchangeRate")}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                  <Label className="text-muted-foreground shrink-0 text-sm">
+                    {t("jpyEquals")}
+                  </Label>
+                  <Input
+                    type="number"
+                    value={rateValue}
+                    onChange={(e) => setEditingRate(e.target.value)}
+                    className="w-full sm:w-32"
+                  />
+                  <span className="text-muted-foreground text-sm">
+                    {t("mmk")}
+                  </span>
+                  {rateChanged && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleSaveRate}
+                      disabled={isSavingRate}
+                    >
+                      {isSavingRate ? (
+                        <Loader2 className="size-4 animate-spin" />
+                      ) : (
+                        <span> {t("confirm")}</span>
+                      )}
+                    </Button>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm font-medium">
+                  {t("carryOverLabel")}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                  <Input
+                    type="number"
+                    step="1"
+                    value={carryOverValue}
+                    onChange={(e) => setEditingCarryOver(e.target.value)}
+                    className="w-full sm:w-40"
+                  />
+                  <span className="text-muted-foreground text-sm">
+                    {t("mmk")}
+                  </span>
+                  {carryOverChanged && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleSaveCarryOver}
+                      disabled={isSavingCarryOver}
+                    >
+                      {isSavingCarryOver ? (
+                        <Loader2 className="size-4 animate-spin" />
+                      ) : (
+                        <span> {t("confirm")}</span>
+                      )}
+                    </Button>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
           {/* KPI Cards */}
           <MonthlyKpiCards

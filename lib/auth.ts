@@ -15,7 +15,10 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
+        const ipAddress =
+          (req?.headers?.["x-forwarded-for"] as string)?.split(",")[0]?.trim() ?? null;
+
         if (!credentials?.email || !credentials?.password) {
           await prisma.activityLog.create({
             data: {
@@ -24,6 +27,7 @@ export const authOptions: NextAuthOptions = {
               actionType: "Login Failed",
               actionLabel: "Login Failed",
               details: `Failed login attempt: missing credentials`,
+              ipAddress,
               status: "Alert",
             },
           });
@@ -43,6 +47,7 @@ export const authOptions: NextAuthOptions = {
               actionType: "Login",
               actionLabel: "User Logged In",
               details: `User logged in: ${user.email}`,
+              ipAddress,
               status: "Success",
             },
           });
@@ -59,6 +64,7 @@ export const authOptions: NextAuthOptions = {
               details: isLocked
                 ? `Account locked for: ${credentials.email}`
                 : `Failed login attempt for: ${credentials.email}`,
+              ipAddress,
               status: "Alert",
             },
           });
@@ -76,9 +82,28 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id;
         token.role = (user as unknown as { role: "ADMIN" | "USER" | "SYSTEM_ADMIN" }).role;
       }
+
+      // Re-validate user is still active (not deleted or locked) every 5 minutes
+      const now = Date.now();
+      const lastChecked = (token.lastChecked as number) ?? 0;
+      if (now - lastChecked > 5 * 60 * 1000) {
+        const dbUser = await prisma.user.findFirst({
+          where: { id: token.id as string, deletedAt: null, isLocked: false },
+          select: { role: true },
+        });
+        if (!dbUser) {
+          return { ...token, expired: true };
+        }
+        token.role = dbUser.role;
+        token.lastChecked = now;
+      }
+
       return token;
     },
     async session({ session, token }) {
+      if (token.expired) {
+        return { ...session, expired: true };
+      }
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as "ADMIN" | "USER" | "SYSTEM_ADMIN";

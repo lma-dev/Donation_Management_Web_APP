@@ -6,7 +6,7 @@ import { hasMinRole } from "@/lib/permissions";
 export async function requireRole(minRole: UserRole) {
   const session = await auth();
 
-  if (!session?.user?.id) {
+  if (!session?.user?.id || (session as unknown as { expired?: boolean }).expired) {
     return {
       error: NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
       session: null,

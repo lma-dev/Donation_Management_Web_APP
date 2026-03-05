@@ -76,7 +76,9 @@ export function AppSettings() {
         {/* Logo */}
         <div className="space-y-2">
           <Label>{t("logo")}</Label>
-          <p className="text-muted-foreground text-sm">{t("logoDescription")}</p>
+          <p className="text-muted-foreground text-sm">
+            {t("logoDescription")}
+          </p>
           <div className="flex items-center gap-4">
             <Image
               src={appLogo}
@@ -91,9 +93,7 @@ export function AppSettings() {
                 <Upload className="mr-1 size-4" />
                 {t("changeLogo")}
               </Button>
-              <p className="text-muted-foreground text-xs">
-                {t("logoComingSoon")}
-              </p>
+              <p className="text-xs text-red-400">{t("logoComingSoon")}</p>
             </div>
           </div>
         </div>

@@ -475,6 +475,8 @@
       "createError": "月次概要の作成に失敗しました",
       "updateRateSuccess": "為替レートを更新しました",
       "updateRateError": "為替レートの更新に失敗しました",
+      "updateCarryOverSuccess": "繰越金額を更新しました",
+      "updateCarryOverError": "繰越金額の更新に失敗しました",
       "addSupporterSuccess": "支援者の寄付を追加しました",
       "addSupporterError": "支援者の寄付の追加に失敗しました",
       "addDistributionSuccess": "配布記録を追加しました",

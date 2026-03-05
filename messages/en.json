@@ -475,6 +475,8 @@
       "createError": "Failed to create monthly overview",
       "updateRateSuccess": "Exchange rate updated successfully",
       "updateRateError": "Failed to update exchange rate",
+      "updateCarryOverSuccess": "Carry over updated successfully",
+      "updateCarryOverError": "Failed to update carry over",
       "addSupporterSuccess": "Supporter donation added successfully",
       "addSupporterError": "Failed to add supporter donation",
       "addDistributionSuccess": "Distribution record added successfully",

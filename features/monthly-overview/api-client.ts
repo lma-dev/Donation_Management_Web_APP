@@ -58,6 +58,22 @@ export async function updateExchangeRate(data: {
   return res.json();
 }
 
+export async function updateCarryOver(data: {
+  id: string;
+  carryOver: number;
+}) {
+  const res = await fetch("/api/monthly/carry-over", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.error ?? "Failed to update carry over");
+  }
+  return res.json();
+}
+
 export async function createSupporterDonation(data: {
   monthlyOverviewId: string;
   name: string;
