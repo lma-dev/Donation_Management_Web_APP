@@ -88,7 +88,7 @@ export async function changePassword(
     throw new AuthError("Current password is incorrect", "WRONG_PASSWORD");
   }
 
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  const hashedPassword = await bcrypt.hash(newPassword, 12);
   await updateUserPassword(userId, hashedPassword);
 }
 
@@ -141,7 +141,7 @@ export async function resetPasswordWithToken(
     throw new AuthError("User not found", "USER_NOT_FOUND");
   }
 
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  const hashedPassword = await bcrypt.hash(newPassword, 12);
   await updateUserPassword(user.id, hashedPassword);
   await deletePasswordResetToken(record.identifier, record.token);
 

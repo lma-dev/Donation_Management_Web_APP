@@ -18,6 +18,9 @@ async function getSettings() {
 }
 
 export async function GET() {
+  const { error: authError } = await requireRole("USER");
+  if (authError) return authError;
+
   try {
     const settings = await getSettings();
     return NextResponse.json(settings);

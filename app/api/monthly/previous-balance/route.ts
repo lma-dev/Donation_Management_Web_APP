@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPreviousMonthBalance } from "@/features/monthly-overview/domain";
+import { requireRole } from "@/lib/api-auth";
 
 export async function GET(request: NextRequest) {
+  const { error: authError } = await requireRole("USER");
+  if (authError) return authError;
+
   try {
     const { searchParams } = new URL(request.url);
     const year = searchParams.get("year");

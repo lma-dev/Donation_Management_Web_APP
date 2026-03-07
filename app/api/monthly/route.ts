@@ -6,8 +6,12 @@ import {
 } from "@/features/monthly-overview/domain";
 import { MonthlyOverviewError } from "@/features/monthly-overview/error";
 import { logAction } from "@/lib/activity-log";
+import { requireRole } from "@/lib/api-auth";
 
 export async function GET(request: NextRequest) {
+  const { error: authError } = await requireRole("USER");
+  if (authError) return authError;
+
   try {
     const { searchParams } = new URL(request.url);
     const year = searchParams.get("year");
@@ -38,6 +42,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const { error: authError } = await requireRole("ADMIN");
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const data = await createMonthlyOverview(body);
@@ -63,6 +70,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function PATCH(request: NextRequest) {
+  const { error: authError } = await requireRole("ADMIN");
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const data = await updateMonthlyExchangeRate(body);

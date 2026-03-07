@@ -5,11 +5,15 @@ import {
 } from "@/features/donation-place/domain";
 import { DonationPlaceError } from "@/features/donation-place/error";
 import { logAction } from "@/lib/activity-log";
+import { requireRole } from "@/lib/api-auth";
 
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const { error: authError } = await requireRole("ADMIN");
+  if (authError) return authError;
+
   try {
     const { id } = await params;
     const body = await request.json();
@@ -44,6 +48,9 @@ export async function DELETE(
   _request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  const { error: authError } = await requireRole("ADMIN");
+  if (authError) return authError;
+
   try {
     const { id } = await params;
     await removeDonationPlace(id);

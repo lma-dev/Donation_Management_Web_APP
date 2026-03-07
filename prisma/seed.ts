@@ -18,7 +18,13 @@ const SEED_USERS = [
 ];
 
 async function main() {
-  const hashedPassword = await bcrypt.hash("Admin123$", 12);
+  if (process.env.NODE_ENV === "production") {
+    console.error("Seed script must not run in production.");
+    process.exit(1);
+  }
+
+  const seedPassword = process.env.SEED_PASSWORD ?? "Admin123$";
+  const hashedPassword = await bcrypt.hash(seedPassword, 12);
 
   for (const user of SEED_USERS) {
     const result = await prisma.user.upsert({

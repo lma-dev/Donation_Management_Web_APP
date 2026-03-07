@@ -27,6 +27,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: Request) {
+  const { error: authError } = await requireRole("SYSTEM_ADMIN");
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const log = await logActivity(body);

@@ -3,8 +3,12 @@ import type { NextRequest } from "next/server";
 import { getAllActivityLogs } from "@/features/activity-log/domain";
 import { ActivityLogError } from "@/features/activity-log/error";
 import { logAction } from "@/lib/activity-log";
+import { requireRole } from "@/lib/api-auth";
 
 export async function GET(request: NextRequest) {
+  const { error: authError } = await requireRole("SYSTEM_ADMIN");
+  if (authError) return authError;
+
   try {
     const params = Object.fromEntries(request.nextUrl.searchParams.entries());
     const logs = await getAllActivityLogs(params);

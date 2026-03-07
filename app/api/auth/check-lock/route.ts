@@ -10,9 +10,11 @@ export async function GET(request: Request) {
   }
 
   const user = await prisma.user.findUnique({
-    where: { email },
+    where: { email, deletedAt: null },
     select: { isLocked: true },
   });
 
-  return NextResponse.json({ isLocked: user?.isLocked ?? false });
+  // Return isLocked only if the user actually exists and is locked.
+  // For non-existent users, return false (same as unlocked) to prevent email enumeration.
+  return NextResponse.json({ isLocked: user?.isLocked === true });
 }

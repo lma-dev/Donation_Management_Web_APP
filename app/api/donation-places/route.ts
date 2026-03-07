@@ -6,8 +6,12 @@ import {
 } from "@/features/donation-place/domain";
 import { DonationPlaceError } from "@/features/donation-place/error";
 import { logAction } from "@/lib/activity-log";
+import { requireRole } from "@/lib/api-auth";
 
 export async function GET(request: NextRequest) {
+  const { error: authError } = await requireRole("USER");
+  if (authError) return authError;
+
   try {
     const activeOnly =
       request.nextUrl.searchParams.get("active") === "true";
@@ -24,6 +28,9 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: Request) {
+  const { error: authError } = await requireRole("ADMIN");
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const place = await createDonationPlace(body);

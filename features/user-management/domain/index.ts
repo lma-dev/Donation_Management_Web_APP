@@ -71,7 +71,7 @@ export async function registerUser(input: {
   }
 
   const plainPassword = generateRandomPassword();
-  const hashedPassword = await bcrypt.hash(plainPassword, 10);
+  const hashedPassword = await bcrypt.hash(plainPassword, 12);
 
   const user = await createUserInDb({
     name: parsed.data.name,
@@ -129,7 +129,7 @@ export async function editUser(
   }
 
   if (parsed.data.password && parsed.data.password.length > 0) {
-    updateData.password = await bcrypt.hash(parsed.data.password, 10);
+    updateData.password = await bcrypt.hash(parsed.data.password, 12);
   }
 
   return updateUserInDb(userId, updateData);

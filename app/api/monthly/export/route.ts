@@ -2,8 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateMonthlyExportFile } from "@/features/monthly-overview/export";
 import { MonthlyOverviewError } from "@/features/monthly-overview/error";
 import { logAction } from "@/lib/activity-log";
+import { requireRole } from "@/lib/api-auth";
 
 export async function GET(request: NextRequest) {
+  const { error: authError } = await requireRole("USER");
+  if (authError) return authError;
+
   try {
     const { searchParams } = new URL(request.url);
     const year = searchParams.get("year");

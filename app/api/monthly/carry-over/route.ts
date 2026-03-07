@@ -2,8 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { updateMonthlyCarryOver } from "@/features/monthly-overview/domain";
 import { MonthlyOverviewError } from "@/features/monthly-overview/error";
 import { logAction } from "@/lib/activity-log";
+import { requireRole } from "@/lib/api-auth";
 
 export async function PATCH(request: NextRequest) {
+  const { error: authError } = await requireRole("ADMIN");
+  if (authError) return authError;
+
   try {
     const body = await request.json();
     const data = await updateMonthlyCarryOver(body);
