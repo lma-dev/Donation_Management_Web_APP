@@ -8,13 +8,24 @@ const DEFAULTS: Record<string, string> = {
   appLogo: "/logo_slr.png",
 };
 
+let settingsCache: { data: Record<string, string>; expiry: number } | null = null;
+const CACHE_TTL_MS = 60_000; // 1 minute
+
 async function getSettings() {
+  if (settingsCache && Date.now() < settingsCache.expiry) {
+    return settingsCache.data;
+  }
   const rows = await prisma.appSetting.findMany();
   const settings: Record<string, string> = { ...DEFAULTS };
   for (const row of rows) {
     settings[row.key] = row.value;
   }
+  settingsCache = { data: settings, expiry: Date.now() + CACHE_TTL_MS };
   return settings;
+}
+
+function invalidateSettingsCache() {
+  settingsCache = null;
 }
 
 export async function GET() {
@@ -51,13 +62,17 @@ export async function PUT(request: Request) {
       );
     }
 
-    for (const { key, value } of updates) {
-      await prisma.appSetting.upsert({
-        where: { key },
-        update: { value },
-        create: { key, value },
-      });
-    }
+    await prisma.$transaction(
+      updates.map(({ key, value }) =>
+        prisma.appSetting.upsert({
+          where: { key },
+          update: { value },
+          create: { key, value },
+        })
+      )
+    );
+
+    invalidateSettingsCache();
 
     await logAction({
       actionType: "Updated",

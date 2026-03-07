@@ -107,6 +107,7 @@ export async function findAllActivityLogs(filters: Omit<ActivityLogFiltersInput,
   return prisma.activityLog.findMany({
     where,
     orderBy: { timestamp: "desc" },
+    take: 10000, // Safety cap to prevent OOM on large exports
   });
 }
 

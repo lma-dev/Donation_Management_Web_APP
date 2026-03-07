@@ -1,14 +1,21 @@
 import { prisma } from "@/lib/prisma";
 
 export async function countUsers() {
-  return prisma.user.count();
+  return prisma.user.count({ where: { deletedAt: null } });
 }
 
 export async function findRecentMonthlyOverviews(limit: number) {
   return prisma.monthlyOverview.findMany({
+    where: { deletedAt: null },
     include: {
-      supporterDonations: true,
-      distributionRecords: true,
+      supporterDonations: {
+        where: { deletedAt: null },
+        select: { kyatAmount: true },
+      },
+      distributionRecords: {
+        where: { deletedAt: null },
+        select: { amountMMK: true },
+      },
     },
     orderBy: [{ year: "desc" }, { month: "desc" }],
     take: limit,
@@ -18,6 +25,7 @@ export async function findRecentMonthlyOverviews(limit: number) {
 export async function findDistributionsByPlace() {
   const records = await prisma.distributionRecord.groupBy({
     by: ["donationPlaceId"],
+    where: { deletedAt: null },
     _sum: { amountMMK: true },
     orderBy: { _sum: { amountMMK: "desc" } },
     take: 5,

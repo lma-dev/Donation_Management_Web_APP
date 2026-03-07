@@ -33,6 +33,14 @@ export async function findPreviousMonthOverview(year: number, month: number) {
   });
 }
 
+export async function monthlyOverviewExists(year: number, month: number) {
+  const result = await prisma.monthlyOverview.findFirst({
+    where: { year, month, deletedAt: null },
+    select: { id: true },
+  });
+  return result !== null;
+}
+
 export async function createMonthlyOverview(data: {
   year: number;
   month: number;
@@ -55,27 +63,19 @@ export async function createMonthlyOverview(data: {
 
 export async function updateExchangeRate(id: string, exchangeRate: number) {
   return prisma.$transaction(async (tx) => {
-    const overview = await tx.monthlyOverview.update({
+    await tx.monthlyOverview.update({
       where: { id },
       data: { exchangeRate },
-      include: {
-        supporterDonations: { where: { deletedAt: null } },
-      },
     });
 
-    const jpyDonations = overview.supporterDonations.filter(
-      (d) => d.currency === "JPY",
-    );
-
-    for (const donation of jpyDonations) {
-      const newKyatAmount = BigInt(
-        Math.round(Number(donation.amount) * exchangeRate),
-      );
-      await tx.supporterDonation.update({
-        where: { id: donation.id },
-        data: { kyatAmount: newKyatAmount },
-      });
-    }
+    // Bulk update all JPY donations in a single query instead of N+1 loop
+    await tx.$executeRaw`
+      UPDATE "SupporterDonation"
+      SET "kyatAmount" = ROUND("amount" * ${exchangeRate})
+      WHERE "monthlyOverviewId" = ${id}
+        AND "currency" = 'JPY'
+        AND "deletedAt" IS NULL
+    `;
 
     return tx.monthlyOverview.findUnique({
       where: { id },

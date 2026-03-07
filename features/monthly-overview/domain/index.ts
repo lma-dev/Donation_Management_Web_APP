@@ -11,6 +11,7 @@ import {
 import {
   findMonthlyOverview,
   findPreviousMonthOverview,
+  monthlyOverviewExists,
   createMonthlyOverview as createMonthlyOverviewData,
   createSupporterDonation as createSupporterDonationData,
   createDistributionRecord as createDistributionRecordData,
@@ -133,8 +134,8 @@ export async function createMonthlyOverview(input: unknown) {
     throw new MonthlyOverviewError(firstError, "VALIDATION_ERROR");
   }
 
-  const existing = await findMonthlyOverview(parsed.data.year, parsed.data.month);
-  if (existing) {
+  const exists = await monthlyOverviewExists(parsed.data.year, parsed.data.month);
+  if (exists) {
     throw new MonthlyOverviewError(
       `Monthly overview for ${parsed.data.year}-${String(parsed.data.month).padStart(2, "0")} already exists`,
       "DUPLICATE_MONTH",

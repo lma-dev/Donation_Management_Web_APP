@@ -36,6 +36,9 @@ model User {
   accounts          Account[]
   sessions          Session[]
   activityLogs      ActivityLog[]
+
+  @@index([deletedAt])
+  @@index([email, deletedAt])
 }
 
 model Account {
@@ -85,6 +88,8 @@ model DonationPlace {
   updatedAt DateTime @updatedAt
 
   distributionRecords DistributionRecord[]
+
+  @@index([deletedAt])
 }
 
 // Monthly Donation Overview
@@ -104,6 +109,8 @@ model MonthlyOverview {
   distributionRecords DistributionRecord[]
 
   @@unique([year, month])
+  @@index([year, deletedAt])
+  @@index([deletedAt])
 }
 
 model SupporterDonation {
@@ -119,7 +126,7 @@ model SupporterDonation {
 
   monthlyOverview MonthlyOverview @relation(fields: [monthlyOverviewId], references: [id], onDelete: Cascade)
 
-  @@index([monthlyOverviewId])
+  @@index([monthlyOverviewId, deletedAt])
 }
 
 model DistributionRecord {
@@ -136,7 +143,7 @@ model DistributionRecord {
   monthlyOverview MonthlyOverview @relation(fields: [monthlyOverviewId], references: [id], onDelete: Cascade)
   donationPlace   DonationPlace?  @relation(fields: [donationPlaceId], references: [id])
 
-  @@index([monthlyOverviewId])
+  @@index([monthlyOverviewId, deletedAt])
   @@index([donationPlaceId])
 }
 

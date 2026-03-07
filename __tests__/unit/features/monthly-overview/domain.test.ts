@@ -5,6 +5,7 @@ import { MonthlyOverviewError } from "@/features/monthly-overview/error";
 vi.mock("@/features/monthly-overview/data", () => ({
   findMonthlyOverview: vi.fn(),
   findPreviousMonthOverview: vi.fn(),
+  monthlyOverviewExists: vi.fn(),
   createMonthlyOverview: vi.fn(),
   createSupporterDonation: vi.fn(),
   createDistributionRecord: vi.fn(),
@@ -32,6 +33,7 @@ import {
 import {
   findMonthlyOverview,
   findPreviousMonthOverview,
+  monthlyOverviewExists,
   createMonthlyOverview as createMonthlyOverviewData,
   createSupporterDonation as createSupporterDonationData,
   createDistributionRecord as createDistributionRecordData,
@@ -44,6 +46,7 @@ import {
 
 const mockFindMonthlyOverview = vi.mocked(findMonthlyOverview);
 const mockFindPreviousMonthOverview = vi.mocked(findPreviousMonthOverview);
+const mockMonthlyOverviewExists = vi.mocked(monthlyOverviewExists);
 const mockCreateMonthlyOverview = vi.mocked(createMonthlyOverviewData);
 const mockCreateSupporterDonation = vi.mocked(createSupporterDonationData);
 const mockCreateDistributionRecord = vi.mocked(createDistributionRecordData);
@@ -199,7 +202,7 @@ describe("getPreviousMonthBalance", () => {
 
 describe("createMonthlyOverview", () => {
   it("creates a new overview successfully", async () => {
-    mockFindMonthlyOverview.mockResolvedValue(null);
+    mockMonthlyOverviewExists.mockResolvedValue(false);
     mockCreateMonthlyOverview.mockResolvedValue({
       id: "new-overview",
       year: 2025,
@@ -226,7 +229,7 @@ describe("createMonthlyOverview", () => {
   });
 
   it("throws DUPLICATE_MONTH if overview already exists", async () => {
-    mockFindMonthlyOverview.mockResolvedValue(makeOverview());
+    mockMonthlyOverviewExists.mockResolvedValue(true);
 
     try {
       await createMonthlyOverview({

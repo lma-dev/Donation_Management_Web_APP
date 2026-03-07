@@ -190,7 +190,7 @@ describe("changePassword", () => {
 
     await changePassword("user-1", "OldPass123!", "NewPass123!", "NewPass123!");
 
-    expect(mockBcryptHash).toHaveBeenCalledWith("NewPass123!", 10);
+    expect(mockBcryptHash).toHaveBeenCalledWith("NewPass123!", 12);
     expect(mockUpdateUserPassword).toHaveBeenCalledWith(
       "user-1",
       "$2a$10$newhash",
