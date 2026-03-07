@@ -30,7 +30,7 @@ import {
   PAGE_SIZE,
 } from "@/features/user-management/atoms";
 import { useUserActions } from "@/features/user-management/use-user-actions";
-import type { User, UserFormData } from "@/types/user";
+import type { User, CreateUserFormData, UpdateUserFormData } from "@/types/user";
 
 export default function UserManagementPage() {
   const t = useTranslations("userManagement");
@@ -113,11 +113,11 @@ export default function UserManagementPage() {
     setUnlockOpen(true);
   }
 
-  async function handleFormSubmit(data: UserFormData) {
+  async function handleFormSubmit(data: CreateUserFormData | UpdateUserFormData) {
     if (editingUser) {
-      await updateUser(editingUser.id, data);
+      await updateUser(editingUser.id, data as UpdateUserFormData);
     } else {
-      await addUser(data);
+      await addUser(data as CreateUserFormData);
     }
     setFormOpen(false);
   }

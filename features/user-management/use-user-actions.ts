@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
-import type { UserFormData } from "@/types/user";
+import type { CreateUserFormData, UpdateUserFormData } from "@/types/user";
 
 async function apiRequest(url: string, options?: RequestInit) {
   const res = await fetch(url, options);
@@ -17,7 +17,7 @@ export function useUserActions() {
   const t = useTranslations("toast.users");
 
   const addUserMutation = useMutation({
-    mutationFn: (data: UserFormData) =>
+    mutationFn: (data: CreateUserFormData) =>
       apiRequest("/api/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -38,7 +38,7 @@ export function useUserActions() {
   });
 
   const updateUserMutation = useMutation({
-    mutationFn: ({ userId, data }: { userId: string; data: UserFormData }) =>
+    mutationFn: ({ userId, data }: { userId: string; data: UpdateUserFormData }) =>
       apiRequest(`/api/users/${userId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -91,7 +91,7 @@ export function useUserActions() {
 
   return {
     addUser: addUserMutation.mutateAsync,
-    updateUser: (userId: string, data: UserFormData) =>
+    updateUser: (userId: string, data: UpdateUserFormData) =>
       updateUserMutation.mutateAsync({ userId, data }),
     deleteUser: deleteUserMutation.mutateAsync,
     lockUser: lockUserMutation.mutateAsync,

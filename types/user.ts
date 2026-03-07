@@ -12,10 +12,18 @@ export type User = {
   updatedAt: Date;
 };
 
-export type UserFormData = {
+export type CreateUserFormData = {
   name: string;
   email: string;
-  password: string;
-  confirmPassword: string;
   role: UserRole;
 };
+
+export type UpdateUserFormData = {
+  name: string;
+  email: string;
+  password?: string;
+  confirmPassword?: string;
+  role: UserRole;
+};
+
+export type UserFormData = CreateUserFormData | UpdateUserFormData;

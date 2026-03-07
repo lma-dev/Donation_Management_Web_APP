@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import { createUserSchema, updateUserSchema } from "../schema";
 import {
@@ -21,11 +22,38 @@ export async function listUsers() {
   return findAllUsers();
 }
 
+function generateRandomPassword(length = 16): string {
+  const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const lower = "abcdefghijklmnopqrstuvwxyz";
+  const digits = "0123456789";
+  const special = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+  const all = upper + lower + digits + special;
+
+  // Ensure at least one of each required character type
+  const required = [
+    upper[crypto.randomInt(upper.length)],
+    lower[crypto.randomInt(lower.length)],
+    digits[crypto.randomInt(digits.length)],
+    special[crypto.randomInt(special.length)],
+  ];
+
+  const remaining = Array.from({ length: length - required.length }, () =>
+    all[crypto.randomInt(all.length)]
+  );
+
+  // Shuffle all characters together
+  const chars = [...required, ...remaining];
+  for (let i = chars.length - 1; i > 0; i--) {
+    const j = crypto.randomInt(i + 1);
+    [chars[i], chars[j]] = [chars[j], chars[i]];
+  }
+
+  return chars.join("");
+}
+
 export async function registerUser(input: {
   name: string;
   email: string;
-  password: string;
-  confirmPassword: string;
   role?: string;
 }) {
   const parsed = createUserSchema.safeParse(input);
@@ -42,14 +70,17 @@ export async function registerUser(input: {
     );
   }
 
-  const hashedPassword = await bcrypt.hash(parsed.data.password, 10);
+  const plainPassword = generateRandomPassword();
+  const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
-  return createUserInDb({
+  const user = await createUserInDb({
     name: parsed.data.name,
     email: parsed.data.email,
     password: hashedPassword,
     role: (parsed.data.role as Role) ?? "USER",
   });
+
+  return { ...user, generatedPassword: plainPassword };
 }
 
 export async function editUser(
