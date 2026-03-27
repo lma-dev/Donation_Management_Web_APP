@@ -122,6 +122,22 @@ Production is deployed to **Vercel**. See the [Deployment Guide](docs/deployment
 | `pnpm prisma migrate dev` | Run database migrations |
 | `pnpm prisma studio` | Open database GUI |
 
+## Observations / Things to Consider
+
+1. **No GitHub Repository Description** — Adding a short description on the GitHub repository page would help visitors quickly understand the project's purpose at a glance.
+
+2. **No GitHub Topics** — Adding tags such as `nextjs`, `donation-management`, `prisma`, `typescript`, `nextauth`, `tailwindcss`, `postgresql` would improve discoverability on GitHub search.
+
+3. **Test Coverage Could Be Expanded** — Unit tests currently exist for authentication and monthly overview features, but coverage for other modules (distributions, user management, exports, donation places) appears limited. Expanding test coverage would improve confidence in the codebase.
+
+4. **Myanmar Language Support** — The inclusion of Myanmar (Burmese) localization (`mm`) is a thoughtful touch, strongly suggesting this app serves a Myanmar-based organization. This is a great localization effort worth highlighting.
+
+5. **Rapid Development Pace** — The project reached a fully deployed, feature-rich state within ~38 days of creation, which reflects strong engineering momentum. Consider adding a changelog or release notes to track progress over time.
+
+6. **Currency Support Note** — The app currently supports JPY and MMK currencies. If the user base grows, consider making the currency list configurable via the settings panel rather than hardcoded.
+
+7. **Export Functionality** — The multi-format export (Excel, PDF, CSV, JSON) is a strong feature for a financial management tool. Consider adding date-range filtering options to exports for more flexible reporting.
+
 ## License
 
 [MIT](LICENSE)
